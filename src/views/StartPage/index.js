@@ -6,7 +6,7 @@ import RecipeLister from '../../components/RecipeLister'
 class StartPage extends React.Component {
   render() {
     return (
-      <div>
+      <div className="bg-primary">
         <RecipeLister />
       </div>
     )
