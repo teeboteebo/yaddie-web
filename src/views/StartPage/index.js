@@ -1,13 +1,14 @@
 import React from 'react'
-import './index.scss'
+import './styles.scss'
 
 import RecipeLister from '../../components/RecipeLister'
 
 class StartPage extends React.Component {
   render() {
     return (
-      <div className="bg-primary">
-        <RecipeLister />
+      <div className="start-page">
+        Main
+        <div style={{height: 1000}}>hej</div>
       </div>
     )
   }

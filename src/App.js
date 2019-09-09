@@ -1,18 +1,24 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
+import Header from './components/Header'
 import StartPage from './views/StartPage'
+import Footer from './components/Footer'
 
 class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <Router>
-          <Switch>
-            <Route exact path="/" component={StartPage} />
-          </Switch>
-        </Router>
-      </div>
+      <Router>
+        <div className="App">
+          <Header />
+          <main>
+            <Switch>
+              <Route exact path="/" component={StartPage} />
+            </Switch>
+          </main>
+          <Footer />
+        </div>
+      </Router>
     )
   }
 }

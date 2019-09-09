@@ -1,5 +1,36 @@
-div {
-  h1 {
-    color: $danger;
+@import './variables.scss';
+
+html {
+  body {
+    font-family: $small-text;
+    background-color: $background;
   }
+  body .App {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    header {
+      min-height: 100vh;
+      @include media-breakpoint-up(sm){
+        min-height: 400px;
+      }
+    }
+    main {
+      margin: 0 auto;
+      width: 1000px;
+      background-color: #fff;
+      box-shadow: 0 0 4px 1px rgba(0,0,0,0.1);
+      color: $text;
+      flex: 1;
+    }
+  }
+  // ::selection {
+  //   background: $primary;
+  //   color: #fff;
+  // }
+  // ::-moz-selection {
+  //   background: $primary;
+  //   color: #fff;
+  // }
 }
