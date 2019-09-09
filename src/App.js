@@ -1,10 +1,11 @@
 import React from 'react';
-import './App.scss'
+import { Input } from 'reactstrap'
 
 function App() {
   return (
     <div className="App">
       <h1>Yaddie!!!</h1>
+      <Input />
     </div>
   );
 }
