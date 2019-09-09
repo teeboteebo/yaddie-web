@@ -1,13 +1,20 @@
-import React from 'react';
-import { Input } from 'reactstrap'
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Yaddie!!!</h1>
-      <Input />
-    </div>
-  );
+import StartPage from './views/StartPage'
+
+class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <Router>
+          <Switch>
+            <Route exact path="/" component={StartPage} />
+          </Switch>
+        </Router>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
