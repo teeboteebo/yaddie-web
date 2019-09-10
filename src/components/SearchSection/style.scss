@@ -1,6 +1,12 @@
-@import '../../sass/variables';
+@import "../../sass/variables";
 
-.search-bar {
-  color:white;
-  
+.search-section {
+  color: white;
+  .search-bar {
+    border-radius: 60px;
+    height: 68px;
+    font-family: $big-text;
+    font-size: 34px;
+    padding: 30px;
+  }
 }
