@@ -1,4 +1,4 @@
-@import "../../sass/variables";
+@import '../../sass/variables';
 
 .search-section {
   color: white;
@@ -8,5 +8,11 @@
     font-family: $big-text;
     font-size: 34px;
     padding: 30px;
+  }
+  .add-recipes {
+    border-radius: 30px;
+    font-family: $big-text;
+    font-size: 24px;
+    padding: 5px 20px;
   }
 }
