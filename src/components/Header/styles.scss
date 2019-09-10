@@ -5,4 +5,13 @@ header {
   background-size: contain;
   background-position: center top;
   background-attachment: fixed;
+  
+}
+
+.logo{
+  border: 2px solid black;
+  position: absolute;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto !important;
 }
