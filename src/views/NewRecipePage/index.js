@@ -132,8 +132,8 @@ class NewRecipePage extends React.Component {
         </FormGroup>
         <Button color="success">Lägg till steg...</Button>
         <Row>
-          <Col>
-            <Button color="danger">Avbryt</Button> <Button color="success">Publicera</Button>
+          <Col className="submit-section">
+            <Button color="danger">Avbryt</Button><Button color="success">Publicera</Button>
           </Col>
         </Row>
       </Form>
