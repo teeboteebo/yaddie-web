@@ -1,0 +1,28 @@
+@import "../../sass/variables.scss";
+
+.recipe-page {
+  .recipe-header {
+    .recipe-title {
+      font-family: $big-text;
+      font-weight: 700;
+    }
+    .cooking-time {
+      font-style: italic;
+    }
+  }
+  h5 {
+    font-family: $big-text;
+    font-weight: 700;
+  }
+  .nutrients-mobile {
+    @include media-breakpoint-up(md){
+      display: none;
+    }
+  }
+  .nutrients-desktop {
+    display: none;
+    @include media-breakpoint-up(md){
+      display: block;
+    }
+  }   
+}

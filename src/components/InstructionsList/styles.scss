@@ -1,0 +1,18 @@
+@import "../../sass/variables.scss";
+
+.instructions-list {
+  ol {
+    
+    li {
+      font-family: $big-text;
+      font-size: 22px;
+      margin-bottom: 20px;
+      margin-left: 30px;
+    }
+
+    li span {
+      font-family: $small-text;
+      font-size: 18px;
+    }
+  }
+}
