@@ -1,14 +1,17 @@
-import React from 'react'
-import './styles.scss'
+import React from "react"
+import "./styles.scss"
 
-import RecipeLister from '../../components/RecipeLister'
+import ImageSlider from "../../components/ImageSlider"
+
+import RecipeLister from "../../components/RecipeLister"
 
 class StartPage extends React.Component {
   render() {
     return (
       <div className="start-page">
         Main
-        <div style={{height: 1000}}>hej</div>
+        <div style={{ height: 1000 }}>hej</div>
+        <ImageSlider />
       </div>
     )
   }
