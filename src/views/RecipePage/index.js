@@ -139,7 +139,7 @@ class RecipePage extends React.Component {
         <Container fluid className="recipe-summary">
           <Row className="">
             <Col md="6" className="recipe-image">
-              <img src="/images/food/pasta-bolog.jpg" className="img-fluid border-light border" alt="Receptbild" />
+              <img src="/images/food/pasta-bolog.jpg" className="img-fluid w-100 border-light border" alt="Receptbild" />
             </Col>
             <Col md="6" className="summary-text">
               <Row>
