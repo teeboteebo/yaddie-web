@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Header from './components/Header'
 import StartPage from './views/StartPage'
+import NewRecipePage from './views/NewRecipePage'
 import Footer from './components/Footer'
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
           <main>
             <Switch>
               <Route exact path="/" component={StartPage} />
+              <Route path="/lagg-till-recept" component={NewRecipePage} />
             </Switch>
           </main>
           <Footer />
