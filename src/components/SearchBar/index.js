@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'reactstrap'
 import './style.scss'
 
 class SearchBar extends React.Component {
