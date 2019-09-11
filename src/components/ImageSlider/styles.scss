@@ -6,6 +6,25 @@
 }
 
 .slider-container {
+  position: relative;
   width: 900px;
   margin: auto;
+  margin-bottom: 30px;
+  .button-left {
+    position: absolute;
+    left: -40px;
+    top: 35%;
+  }
+
+  .button-right {
+    position: absolute;
+    left: calc(100% + 15px);
+    top: 35%;
+  }
+
+  .img-label {
+    width: 100%;
+    text-align: center;
+    margin-top: 3px;
+  }
 }

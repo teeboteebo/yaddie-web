@@ -10,8 +10,8 @@ class StartPage extends React.Component {
     return (
       <div className="start-page">
         Main
-        <div style={{ height: 1000 }}>hej</div>
         <ImageSlider />
+        <div style={{ height: 1000 }}>hej</div>
       </div>
     )
   }
