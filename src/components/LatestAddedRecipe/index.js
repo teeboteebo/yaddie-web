@@ -3,12 +3,12 @@ import {
   Container,
   Row,
   Col,
-  Card,
   CardImg,
   CardText,
   CardBody,
   CardSubtitle
 } from 'reactstrap';
+import Rating from '../Rating';
 
 import './styles.scss';
 
@@ -38,6 +38,7 @@ class LatestAddedRecipe extends React.Component {
               <CardText className='recipe-card-time float-right'>
                 30 min
               </CardText>
+              <Rating rating={2} />
             </Col>
           </Row>
         </Container>
