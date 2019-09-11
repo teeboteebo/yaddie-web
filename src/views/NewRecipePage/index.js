@@ -8,13 +8,13 @@ class NewRecipePage extends React.Component {
       <Form className="new-recipe-page">
         <h2>Lägg till nytt recept</h2>
         <Row>
-          <Col>
+          <Col sm={6}>
             <FormGroup>
               <Label for="heading">Rubrik</Label>
               <Input type="heading" name="heading" id="heading" />
             </FormGroup>
           </Col>
-          <Col>
+          <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
               <Input type="file" name="picture" id="picture" />
@@ -25,14 +25,14 @@ class NewRecipePage extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col sm={6}>
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
               <Input type="number" name="cookingTime" id="cooking-time" />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
-          <Col>
+          <Col sm={6}>
             <FormGroup>
               <Label for="portions">Antal portioner</Label>
               <Input type="number" name="portions" id="portions" />
@@ -45,7 +45,7 @@ class NewRecipePage extends React.Component {
           <Input type="textarea" name="summary" id="summary" />
         </FormGroup>
         <Row>
-          <Col>
+          <Col sm={6}>
             <FormGroup>
               <Label for="tags1">Taggar</Label>
               <Input type="select" name="tags1" id="tags1">
@@ -76,7 +76,7 @@ class NewRecipePage extends React.Component {
             </FormGroup>
             <Button color="success">Ny tagg...</Button>
           </Col>
-          <Col>
+          <Col sm={6}>
             <FormGroup>
               <Label for="ingredients1">Ingredienser</Label>
               <Input type="select" name="ingredients1" id="ingredients1">
@@ -118,18 +118,36 @@ class NewRecipePage extends React.Component {
           <Label for="step1">Steg 1</Label>
           <Input type="textarea" name="step1" id="step1" />
         </FormGroup>
-        <FormGroup check>
-          <Input type="checkbox" name="timer" id="timer" />
-          <Label for="timer" check>Timer?</Label>
-        </FormGroup>
+        <Row className="align-items-center">
+          <Col xs="auto">
+            <FormGroup check>
+              <Input type="checkbox" name="timer1" id="timer1" />
+              <Label for="timer1" check>Timer?</Label>
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup>
+              <Input type="time" name="time1" id="time1" step="1" disabled />
+            </FormGroup>
+          </Col>
+        </Row>
         <FormGroup>
           <Label for="step1">Steg 2</Label>
           <Input type="textarea" name="step2" id="step2" />
         </FormGroup>
-        <FormGroup check>
-          <Input type="checkbox" name="timer2" id="timer2" />
-          <Label for="timer2" check>Timer?</Label>
-        </FormGroup>
+        <Row className="align-items-center">
+          <Col xs="auto">
+            <FormGroup check>
+              <Input type="checkbox" name="timer2" id="timer2" />
+              <Label for="timer2" check>Timer?</Label>
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup>
+              <Input type="time" name="time2" id="time2" step="1" disabled />
+            </FormGroup>
+          </Col>
+        </Row>
         <Button color="success">Lägg till steg...</Button>
         <Row>
           <Col className="submit-section">
