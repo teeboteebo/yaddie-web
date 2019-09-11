@@ -7,6 +7,7 @@ import Tags from '../../components/Tags'
 import Ingredients from '../../components/Ingredients'
 import Nutrients from '../../components/Nutrients'
 import InstructionsList from '../../components/InstructionsList'
+import ScreenToggle from '../../components/ScreenToggle'
 
 class RecipePage extends React.Component {
   constructor() {
@@ -15,7 +16,7 @@ class RecipePage extends React.Component {
       loaded: false
     }
     this.title = "Spaghetti Bolognese"
-    this.rating = 3.5
+    this.rating = 4.2
     this.tags = [
       "Middag",
       "Spaghetti",
@@ -112,7 +113,7 @@ class RecipePage extends React.Component {
       },
       {
         "text": "Pudra över mjölet och rör om. Spä med buljongen och de krossade tomaterna. Krydda såsen med örtkryddorna. Pressa i vitlöken. Sjud på svag värme under lock i 15 minuter. Krydda med salt och peppar.",
-        "timer": 15
+        "timer": 85
       },
       {
         "text": "Koka pastan i rikligt med saltat vatten enligt anvisning på paketet. Häll av vattnet. Servera med såsen och parmesanost.",
@@ -143,7 +144,7 @@ class RecipePage extends React.Component {
             </Col>
             <Col md="6" className="summary-text">
               <Row>
-                <Col xs="12" className="mt-xs-3 my-md-0">
+                <Col xs="12" className="mt-4 my-md-0">
                   <Tags tags={this.tags} />
                 </Col>
                 <Col xs="12" className="mt-3">
@@ -155,12 +156,12 @@ class RecipePage extends React.Component {
             </Col>
           </Row>
         </Container>
-        <Container fluid className="mt-5">
+        <Container fluid className="mt-md-5 pt-md-3">
           <Row>
             <Col xs="12" md="5" className="">
               <Row>
                 <Col xs="12">
-                  <h5>Detta behöver du</h5>
+                  <h5 className="mt-5 mt-md-0 mb-3 mb-md-4">Detta behöver du</h5>
                   <Ingredients props={this.ingredients} />
                 </Col>
                 <Col xs="12" className="nutrients-desktop">
@@ -168,8 +169,9 @@ class RecipePage extends React.Component {
                 </Col>
               </Row>
             </Col>
-            <Col xs="12" md="7" className="border-left border-light min-h-100">
-              <h5>Gör så här</h5>
+            <Col xs="12" md="7" className="recipe-instructions">
+              <h5 className="mt-5 mt-md-0 mb-3 mb-md-4">Gör så här</h5>
+              <ScreenToggle />
               <InstructionsList props={this.instructions} />
             </Col>
             <Col xs="12" className="nutrients-mobile">

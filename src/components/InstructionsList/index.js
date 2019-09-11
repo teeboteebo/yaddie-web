@@ -4,7 +4,7 @@ import Timer from '../Timer'
 
 const InstructionsList = (props) => {
   return (
-    <section className="instructions-list mt-5">
+    <section className="instructions-list">
       <ol>
         {props.props.map((instruction, i) => {
           return (

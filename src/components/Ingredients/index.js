@@ -28,7 +28,7 @@ class Ingredients extends React.Component {
 
   render() {
     return (
-      <section className="ingredients mt-3">
+      <section className="ingredients mt-4">
         <div className="amount-selector">
           <button disabled={this.state.amount === 2 ? true : false} className="btn btn-success amount-button" onClick={this.decreaseAmount}>-</button>
           <span className="amount-selected">{this.state.amount} portioner</span>
