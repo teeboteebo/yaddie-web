@@ -2,6 +2,7 @@ import React from 'react';
 import './styles.scss';
 
 import RecipeLister from '../../components/RecipeLister';
+import LatestAddedRecipe from '../../components/LatestAddedRecipe';
 
 class StartPage extends React.Component {
   render() {
@@ -9,6 +10,7 @@ class StartPage extends React.Component {
       <div className='start-page'>
         Main
         <div style={{ height: 1000 }}>hej</div>
+        <LatestAddedRecipe />
       </div>
     );
   }
