@@ -9,7 +9,18 @@ header {
 }
 
 .logo{
-  margin: 0 auto;
   max-width: 100%;
   height: auto !important;
+}
+
+// Mobile breakpoints..
+
+
+@media only screen and (max-width: 600px){
+  .logo{
+    margin-bottom: 2rem;
+  }
+  header{
+    padding: 1rem;
+  }
 }

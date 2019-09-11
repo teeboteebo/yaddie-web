@@ -9,8 +9,8 @@ class Header extends React.Component {
     return(
       <header>
           <Row className="justify-content-md-center">
-            <Col md="2"><img className="logo" src={logo} alt={"logo"}/> </Col>
-          <Col md="8"> <SearchSection /></Col>
+            <Col xs={12} md={3} ><img className="mx-auto d-block logo" src={logo} alt={"logo"}/> </Col>
+          <Col xs={12} md={9}> <SearchSection /></Col>
         </Row>
         
       </header>
