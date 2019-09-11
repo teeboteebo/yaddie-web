@@ -19,22 +19,20 @@ class SearchSection extends React.Component {
           </FormGroup>
         </Form>
           
-         <Col xs={12} >
+         <Col xs={12}>
           <a
           href='/till-receptvyn'
           type='btn'
           className='btn btn-success search-by-category text-white'>
           Sök efter kategori!
         </a>
-        </Col>
-       <Col xs={12}>
-       <a
+        <a
           href='/nytt-recept'
           type='btn'
           className='btn btn-primary add-recipes text-white'>
           Lägg till recept!
         </a>
-       </Col>
+        </Col>
       </section>
     );
   }
