@@ -10,7 +10,7 @@ class Header extends React.Component {
       <header>
           <Row className="justify-content-md-center">
             <Col xs={12} md={3} ><img className="mx-auto d-block logo" src={logo} alt={"logo"}/> </Col>
-          <Col xs={12} md={9}> <SearchSection /></Col>
+          <Col xs={12} md={9} className="test"> <SearchSection /></Col>
         </Row>
         
       </header>

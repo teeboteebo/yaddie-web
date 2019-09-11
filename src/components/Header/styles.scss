@@ -13,13 +13,14 @@ header {
   height: auto !important;
 }
 
+.test{
+  padding-top: 2rem;
+}
+
 // Mobile breakpoints..
 
 
 @media only screen and (max-width: 600px){
-  .logo{
-    margin-bottom: 2rem;
-  }
   header{
     padding: 1rem;
   }
