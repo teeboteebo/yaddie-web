@@ -8,7 +8,7 @@ class SearchSection extends React.Component {
       <section className='search-section'>
         <Form>
           <FormGroup>
-            <Col sm={12}>
+            <Col lg={9} md={10} sm={12}>
               <Input
                 className='search-bar'
                 type='text'

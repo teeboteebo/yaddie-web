@@ -11,9 +11,9 @@ html {
     flex-direction: column;
     margin: 0;
     header {
-      min-height: 100vh;
+      //min-height: 100vh;
       @include media-breakpoint-up(sm){
-        min-height: 400px;
+        //min-height: 400px;
       }
     }
     main {
