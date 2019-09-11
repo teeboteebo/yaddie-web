@@ -17,18 +17,15 @@ html {
         min-height: 400px;
       }
     }
-    main {
-      margin: 0 auto;
-      padding: 30px 15px;
-      @include media-breakpoint-up(md){
-        padding: 80px;
-      }
-      width: 100%;
-      max-width: 1000px;
-      background-color: #fff;
-      box-shadow: 0 0 4px 1px rgba(0,0,0,0.1);
-      color: $text;
-      flex: 1;
+ .main{
+	background-color: #fff8fe;
+	color: $text;
+	flex: 1;
+}
+    .main-content{
+      background-color: #ffffff;
+      border: #000000;
+      box-shadow: 0 0 4px 2px rgba(0,0,0,0.1);
     }
     .col* {
       padding: 0;

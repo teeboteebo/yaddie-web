@@ -1,5 +1,6 @@
 import React from 'react'
 import './styles.scss'
+import { Container } from 'reactstrap';
 
 import RecipeLister from '../../components/RecipeLister'
 
@@ -7,8 +8,9 @@ class StartPage extends React.Component {
   render() {
     return (
       <div className="start-page">
-        Main
-        <div style={{height: 1000}}>hej</div>
+        <Container className="main-content">
+          main content on startpage insert here -->
+        </Container>
       </div>
     )
   }
