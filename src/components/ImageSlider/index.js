@@ -20,8 +20,9 @@ class ImageSlider extends React.Component {
 
   state = {
     currentIndex: 0,
-    responsive: { 1000: { items: 3 }, 800: { items: 2 } },
-    galleryItems: this.galleryItems()
+    galleryItems: this.galleryItems(),
+    itemsInSlide: 0,
+    responsive: { 0: { items: 1 }, 600: { items: 2 }, 900: { items: 3 } }
   }
 
   thumbItem = (item, i) => <span onClick={() => this.slideTo(i)}>* </span>
@@ -45,19 +46,26 @@ class ImageSlider extends React.Component {
   slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 })
 */
 
+  handleOnSlideChange = event => {
+    console.log(event)
+    const { itemsInSlide, item } = event
+    this.setState({ itemsInSlide, currentIndex: item })
+    console.log(this.state.itemsInSlide, item)
+  }
+
   render() {
-    const { galleryItems, responsive, currentIndex } = this.state
+    const { galleryItems, responsive } = this.state
     return (
       <div className="slider-container">
         <AliceCarousel
           autoPlay={true}
           buttonsDisabled={true}
           autoPlayInterval={5000}
-          slideToIndex={4}
           items={galleryItems}
           responsive={responsive}
-          slideToIndex={currentIndex}
-          onSlideChanged={this.onSlideChanged}
+          onInitialized={this.handleOnSlideChange}
+          onSlideChanged={this.handleOnSlideChange}
+          onResized={this.handleOnSlideChange}
         />
       </div>
     )
