@@ -2,6 +2,7 @@ import React from 'react'
 import './styles.scss'
 import { Row, Col, } from 'reactstrap';
 import SearchSection from '../SearchSection';
+import logo from '../../img/yaddie-logo-orange.png'
 
 class Header extends React.Component {
   render(){
@@ -13,6 +14,8 @@ class Header extends React.Component {
 
         
 
+        Header
+        <img class="logo" src={logo} alt={"logo"}/> 
       </header>
     )
   }
