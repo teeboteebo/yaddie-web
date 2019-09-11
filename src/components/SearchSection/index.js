@@ -6,7 +6,7 @@ class SearchSection extends React.Component {
   render() {
     return (
       <section className="search-section">
-        <Col sm={12} className="button-inside">
+        <Col lg={9} md={10} sm={12} className="button-inside">
           <Input
             className="search-bar"
             type="text"
@@ -17,6 +17,7 @@ class SearchSection extends React.Component {
             Sök
           </Button>
         </Col>
+        <Col sm={12}>
         <a
           href="/till-receptvyn"
           type="btn"
@@ -24,6 +25,9 @@ class SearchSection extends React.Component {
         >
           Sök efter kategori!
         </a>
+       
+        </Col>
+        <Col sm={12}>
         <a
           href='/nytt-recept'
           type='btn'
