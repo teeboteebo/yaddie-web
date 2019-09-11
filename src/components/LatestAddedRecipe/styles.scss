@@ -1,1 +1,19 @@
 @import '../../sass/variables';
+
+.latest-added-recipe {
+  color: $text;
+  .recipe-title {
+    font-family: $big-text;
+    padding: 10px 0;
+    h4 {
+      font-weight: 700;
+    }
+  }
+  .recipe-card-resume {
+    font-family: $small-text;
+  }
+  .recipe-card-time {
+    font-family: $small-text;
+    font-weight: 700;
+  }
+}
