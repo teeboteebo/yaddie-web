@@ -8,8 +8,9 @@ class SearchSection extends React.Component {
       <section className='search-section'>
         <Form>
           <FormGroup>
-            <Col sm={10}>
+            <Col sm={12}>
               <Input
+                className='search-bar'
                 type='text'
                 name='search-bar'
                 placeholder='Sök efter recept..'
@@ -18,9 +19,12 @@ class SearchSection extends React.Component {
           </FormGroup>
         </Form>
         <div>
-          <Button color='primary' className='text-white'>
+          <a
+            href='/nytt-recept'
+            type='btn'
+            className='btn btn-primary add-recipes text-white'>
             Lägg till recept!
-          </Button>
+          </a>
         </div>
       </section>
     );
