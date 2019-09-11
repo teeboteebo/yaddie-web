@@ -3,6 +3,7 @@ import { Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'react
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
+import IngredientSelector from '../../components/Form/IngredientSelector'
 
 class NewRecipePage extends React.Component {
   // This method needs to be before the state declaration
@@ -74,21 +75,8 @@ class NewRecipePage extends React.Component {
             </div>
           </Col>
           <Col sm={6}>
-            <FormGroup>
-              <Label for="ingredients1">Ingredienser</Label>
-              <Input type="select" name="ingredients1" id="ingredients1">
-                <option>Välj ingrediens...</option>
-                <option>Gurka</option>
-                <option>Ägg</option>
-                <option>Lök</option>
-                <option>Kyckling</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="quantity">Mängd</Label>
-              <Input type="number" name="quantity" id="quantity" />
-              <FormText color="muted">gram*</FormText>
-            </FormGroup>
+            <Label>Ingredienser</Label>
+            <IngredientSelector />
             <FormGroup>
               <Input type="select" name="ingredients2" id="ingredients2">
                 <option>Välj ingrediens...</option>
@@ -107,7 +95,9 @@ class NewRecipePage extends React.Component {
                 <option>Kyckling</option>
               </Input>
             </FormGroup>
-            <Button color="success">Ny ingrediens...</Button>
+            <div>
+              <Button color="success">Ny ingrediens...</Button>
+            </div>
           </Col>
         </Row>
         <h4>Tillvägagångssätt</h4>
