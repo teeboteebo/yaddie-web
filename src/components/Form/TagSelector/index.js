@@ -20,7 +20,7 @@ class TagSelector extends React.Component {
             </Input>
           </Col>
           <Col xs="auto" className="pl-0">
-            <i className="fas fa-times" id={this.props.id} onClick={this.deleteTag} />
+            <i className="fas fa-times" id={this.props.id} onClick={this.deleteTag} title="Ta bort tagg" />
           </Col>
         </Row>
       </FormGroup>
