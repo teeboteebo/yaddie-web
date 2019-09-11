@@ -113,7 +113,7 @@ class RecipePage extends React.Component {
       },
       {
         "text": "Pudra över mjölet och rör om. Spä med buljongen och de krossade tomaterna. Krydda såsen med örtkryddorna. Pressa i vitlöken. Sjud på svag värme under lock i 15 minuter. Krydda med salt och peppar.",
-        "timer": 85
+        "timer": 15
       },
       {
         "text": "Koka pastan i rikligt med saltat vatten enligt anvisning på paketet. Häll av vattnet. Servera med såsen och parmesanost.",
