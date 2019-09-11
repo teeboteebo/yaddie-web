@@ -7,9 +7,8 @@ class Header extends React.Component {
   render(){
     return(
       <header>
-        Header
-        <Row className="justify-content-md-center">
-          <Col md="6"> <SearchSection /></Col>
+          <Row className="justify-content-md-center">
+          <Col md="8"> <SearchSection /></Col>
         </Row>
 
         
