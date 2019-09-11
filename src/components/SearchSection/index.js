@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Button, Form, FormGroup, Input } from 'reactstrap';
+import { Col, Form, FormGroup, Input } from 'reactstrap';
 import './style.scss';
 
 class SearchSection extends React.Component {
@@ -18,14 +18,18 @@ class SearchSection extends React.Component {
             </Col>
           </FormGroup>
         </Form>
-        <div>
-          <a
-            href='/nytt-recept'
-            type='btn'
-            className='btn btn-primary add-recipes text-white'>
-            Lägg till recept!
-          </a>
-        </div>
+        <a
+          href='/till-receptvyn'
+          type='btn'
+          className='btn btn-success search-by-category text-white'>
+          Sök efter kategori!
+        </a>
+        <a
+          href='/nytt-recept'
+          type='btn'
+          className='btn btn-primary add-recipes text-white float-right'>
+          Lägg till recept!
+        </a>
       </section>
     );
   }
