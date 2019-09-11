@@ -2,7 +2,28 @@ import React from 'react'
 import { Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
 import './styles.scss'
 
+import TagSelector from '../../components/Form/TagSelector'
+
 class NewRecipePage extends React.Component {
+  // This method needs to be before the state declaration
+  deleteTag = id => {
+    const { tags } = this.state
+    tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
+    this.setState({ ...this.state, tags })
+  }
+
+  state = {
+    tags: [<TagSelector key={0} id={0} deleteTag={this.deleteTag} />, <TagSelector key={1} id={1} deleteTag={this.deleteTag} />, <TagSelector key={2} id={2} deleteTag={this.deleteTag} />],
+    tagsIdx: 3
+  }
+
+  addTag = () => {
+    let { tags, tagsIdx } = this.state
+    tags.push(<TagSelector key={tagsIdx} id={tagsIdx} deleteTag={this.deleteTag} />)
+    tagsIdx++
+    this.setState({ ...this.state, tags, tagsIdx })
+  }
+
   render() {
     return (
       <Form className="new-recipe-page">
@@ -46,35 +67,11 @@ class NewRecipePage extends React.Component {
         </FormGroup>
         <Row>
           <Col sm={6}>
-            <FormGroup>
-              <Label for="tags1">Taggar</Label>
-              <Input type="select" name="tags1" id="tags1">
-                <option>Välj tag...</option>
-                <option>Middag</option>
-                <option>Kyckling</option>
-                <option>Pasta</option>
-                <option>Sallad</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Input type="select" name="tags2" id="tags2">
-                <option>Välj tag...</option>
-                <option>Middag</option>
-                <option>Kyckling</option>
-                <option>Pasta</option>
-                <option>Sallad</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Input type="select" name="tags3" id="tags3">
-                <option>Välj tag...</option>
-                <option>Middag</option>
-                <option>Kyckling</option>
-                <option>Pasta</option>
-                <option>Sallad</option>
-              </Input>
-            </FormGroup>
-            <Button color="success">Ny tagg...</Button>
+            <Label>Taggar</Label>
+            {this.state.tags.map(tag => tag)}
+            <div>
+              <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
+            </div>
           </Col>
           <Col sm={6}>
             <FormGroup>
