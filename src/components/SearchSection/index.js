@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Input, Button } from "reactstrap";
 import "./style.scss";
-
+import RecipePopOver from "../SearchSection/RecipePopOver";
 import axios from "axios";
 
 class SearchSection extends React.Component {
@@ -51,7 +51,7 @@ class SearchSection extends React.Component {
       return testarray.push(i.name.toLowerCase());
     });
     let searchString = this.state.query;
-    let responseData = this.state.data;
+    // let responseData = this.state.data;
 
     console.log(searchString);
     testarray = testarray.filter(i => i.includes(searchString.toLowerCase()));
@@ -94,6 +94,7 @@ class SearchSection extends React.Component {
           </section> */}
         </Col>
         <p>{this.state.query ? this.state.searchResult : ""}</p>
+        <RecipePopOver test={this.state.searchResult}></RecipePopOver>
         <a
           href="/till-receptvyn"
           type="btn"
