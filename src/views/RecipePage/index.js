@@ -145,7 +145,7 @@ class RecipePage extends React.Component {
             <Col md="6" className="summary-text">
               <Row>
                 <Col xs="12" className="mt-4 my-md-0">
-                  <Tags tags={this.tags} />
+                  <Tags tags={this.tags} size={14} clickable={true} />
                 </Col>
                 <Col xs="12" className="mt-3">
                   <p>
