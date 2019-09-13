@@ -14,7 +14,7 @@ class TagSelector extends React.Component {
       <FormGroup className="tag-selector">
         <Row className="align-items-center">
           <Col>
-            <Input type="select" name={'tags' + this.props.id} id={'tags' + this.props.id} onChange={this.onChange}>
+            <Input type="select" name={'tags-' + this.props.id} id={'tags-' + this.props.id} onChange={this.onChange}>
               <option>Välj tagg...</option>
               {this.state.tags.map((tag, idx) => <option key={idx}>{tag}</option>)}
             </Input>

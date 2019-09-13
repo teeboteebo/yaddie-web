@@ -20,7 +20,7 @@ class IngredientSelector extends React.Component {
         <FormGroup className="ingredient-selector">
           <Row className="align-items-center">
             <Col>
-              <Input type="select" name="ingredients1" id="ingredients1" onChange={this.changeIngredient}>
+              <Input type="select" name={'ingredients-' + this.props.id} id={'ingredients-' + this.props.id} onChange={this.changeIngredient}>
                 <option value="">Välj ingrediens...</option>
                 {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={this.setValue(ingredient)}>{ingredient}</option>)}
               </Input>
@@ -32,8 +32,8 @@ class IngredientSelector extends React.Component {
         </FormGroup>
         {this.state.chosenIngredient ?
           <FormGroup>
-            <Label for="quantity">Mängd</Label>
-            <Input type="number" name="quantity" id="quantity" />
+            <Label for={'quantity-' + this.props.id}>Mängd</Label>
+            <Input type="number" name={'quantity-' + this.props.id} id={'quantity-' + this.props.id} />
             <FormText color="muted">gram*</FormText>
           </FormGroup>
           :
