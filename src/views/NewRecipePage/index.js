@@ -16,7 +16,8 @@ class NewRecipePage extends React.Component {
   state = {
     tags: [<TagSelector key={0} id={0} deleteTag={this.deleteTag} />, <TagSelector key={1} id={1} deleteTag={this.deleteTag} />, <TagSelector key={2} id={2} deleteTag={this.deleteTag} />],
     tagsIdx: 3,
-    ingredients: [<IngredientSelector key={0} id={0} />, <IngredientSelector key={1} id={1} />, <IngredientSelector key={2} id={2} />]
+    ingredients: [<IngredientSelector key={0} id={0} />, <IngredientSelector key={1} id={1} />, <IngredientSelector key={2} id={2} />],
+    ingredientsIdx: 3
   }
 
   addTag = () => {
@@ -24,6 +25,13 @@ class NewRecipePage extends React.Component {
     tags.push(<TagSelector key={tagsIdx} id={tagsIdx} deleteTag={this.deleteTag} />)
     tagsIdx++
     this.setState({ ...this.state, tags, tagsIdx })
+  }
+
+  addIngredient = () => {
+    let { ingredients, ingredientsIdx } = this.state
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} />)
+    ingredientsIdx++
+    this.setState({ ...this.state, ingredients, ingredientsIdx })
   }
 
   render() {
@@ -97,7 +105,7 @@ class NewRecipePage extends React.Component {
               </Input>
             </FormGroup> */}
             <div>
-              <Button color="success">Ny ingrediens...</Button>
+              <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
             </div>
           </Col>
         </Row>
