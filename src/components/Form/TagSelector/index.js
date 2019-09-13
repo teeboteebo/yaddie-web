@@ -24,9 +24,12 @@ class TagSelector extends React.Component {
               {this.state.tags.map((tag, idx) => <option key={idx} value={tag}>{tag}</option>)}
             </Input>
           </Col>
-          <Col xs="auto">
-            <i className="fas fa-times" id={id} onClick={this.deleteTag} title="Ta bort tagg" />
-          </Col>
+          {this.state.chosenTag ?
+            <Col xs="auto">
+              <i className="fas fa-times" id={id} onClick={this.deleteTag} title="Ta bort tagg" />
+            </Col>
+            : ''
+          }
         </Row>
       </FormGroup>
     )
