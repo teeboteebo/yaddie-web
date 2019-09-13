@@ -1,9 +1,12 @@
 @import '../../sass/variables';
 
 .new-recipe-page {
-  input[type=number] {
+  /* input[type=number] {
     width: 200px;
   }
+  input[type=number], .quantity-input {
+    width: 100px;
+  } */
   input[type=time] {
     width: 140px;
   }

@@ -92,24 +92,6 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <Label>Ingredienser</Label>
             {this.state.ingredients.map(ingredient => ingredient)}
-            {/* <FormGroup>
-              <Input type="select" name="ingredients2" id="ingredients2">
-                <option>Välj ingrediens...</option>
-                <option>Gurka</option>
-                <option>Ägg</option>
-                <option>Lök</option>
-                <option>Kyckling</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Input type="select" name="ingredients3" id="ingredients3">
-                <option>Välj ingrediens...</option>
-                <option>Gurka</option>
-                <option>Ägg</option>
-                <option>Lök</option>
-                <option>Kyckling</option>
-              </Input>
-            </FormGroup> */}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
             </div>

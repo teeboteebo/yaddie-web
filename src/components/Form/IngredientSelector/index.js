@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Row, Col, FormGroup, Label, Input } from 'reactstrap'
 import '../styles.scss'
 
 class IngredientSelector extends React.Component {
@@ -8,38 +8,47 @@ class IngredientSelector extends React.Component {
     chosenIngredient: ''
   }
 
-  // setValue = ingredient => ingredient.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
-
   changeIngredient = e => this.setState({ chosenIngredient: e.target.value })
 
   deleteIngredient = e => this.props.deleteIngredient(e.target.id)
 
   render() {
+    const { id } = this.props
+
     return (
-      <div>
-        <FormGroup className="ingredient-selector">
-          <Row className="align-items-center">
-            <Col>
-              <Input type="select" name={'ingredients-' + this.props.id} id={'ingredients-' + this.props.id} onChange={this.changeIngredient}>
-                <option value="">Välj ingrediens...</option>
-                {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={ingredient}>{ingredient}</option>)}
-              </Input>
-            </Col>
-            <Col xs="auto" className="pl-0">
-              <i className="fas fa-times" id={this.props.id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
-            </Col>
-          </Row>
-        </FormGroup>
-        {this.state.chosenIngredient ?
+      <Row className="align-items-center ingredient-selector">
+        <Col>
           <FormGroup>
-            <Label for={'quantity-' + this.props.id}>Mängd</Label>
-            <Input type="number" name={'quantity-' + this.props.id} id={'quantity-' + this.props.id} />
-            <FormText color="muted">gram*</FormText>
+            <Input type="select" name={'ingredients-' + id} id={'ingredients-' + id} onChange={this.changeIngredient}>
+              <option value="">Välj ingrediens...</option>
+              {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={ingredient}>{ingredient}</option>)}
+            </Input>
+            {this.state.chosenIngredient ?
+              <Row>
+                <Col>
+                  <FormGroup>
+                    <Label xs="auto" className="pl-0" for={'quantity-' + id}><em>Mängd</em></Label>
+                    <Input type="number" name={'quantity-' + id} id={'quantity-' + id} />
+                  </FormGroup>
+                </Col>
+                <Col>
+                  <FormGroup>
+                    <Label xs="auto" className="pl-0" for={'entity-' + id}><em>Enhet</em></Label>
+                    <Input type="select" name={'entity-' + id} id={'entity-' + id}>
+                      <option value="">Välj enhet...</option>
+                    </Input>
+                  </FormGroup>
+                </Col>
+              </Row>
+              :
+              ''
+            }
           </FormGroup>
-          :
-          ''
-        }
-      </div>
+        </Col>
+        <Col xs="auto" className="mb-3">
+          <i className="fas fa-times" id={this.props.id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
+        </Col>
+      </Row>
     )
   }
 }

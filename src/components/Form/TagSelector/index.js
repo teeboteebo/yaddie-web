@@ -8,24 +8,24 @@ class TagSelector extends React.Component {
     chosenTag: ''
   }
 
-  // setValue = tag => tag.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
-
   changeTag = e => this.setState({ chosenTag: e.target.value })
 
   deleteTag = e => this.props.deleteTag(e.target.id)
 
   render() {
+    const { id } = this.props
+
     return (
       <FormGroup className="tag-selector">
         <Row className="align-items-center">
           <Col>
-            <Input type="select" name={'tags-' + this.props.id} id={'tags-' + this.props.id} onChange={this.onChange} onChange={this.changeTag}>
+            <Input type="select" name={'tags-' + id} id={'tags-' + id} onChange={this.changeTag}>
               <option value="">Välj tagg...</option>
               {this.state.tags.map((tag, idx) => <option key={idx} value={tag}>{tag}</option>)}
             </Input>
           </Col>
-          <Col xs="auto" className="pl-0">
-            <i className="fas fa-times" id={this.props.id} onClick={this.deleteTag} title="Ta bort tagg" />
+          <Col xs="auto">
+            <i className="fas fa-times" id={id} onClick={this.deleteTag} title="Ta bort tagg" />
           </Col>
         </Row>
       </FormGroup>
