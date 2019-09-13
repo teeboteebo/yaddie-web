@@ -8,7 +8,7 @@ class SearchSection extends React.Component {
   state = {
     query: "",
     data: [],
-    searchString: []
+    searchResult: []
   };
 
   handleInputChange = event => {
@@ -48,18 +48,15 @@ class SearchSection extends React.Component {
     let testarray = [];
 
     this.state.data.data.map(i => {
-      //console.log(i);
-      return testarray.push(i.name);
+      return testarray.push(i.name.toLowerCase());
     });
-
-    //console.log(testarray);
-
     let searchString = this.state.query;
     let responseData = this.state.data;
 
     console.log(searchString);
-    testarray = testarray.filter(i => i.includes(searchString));
+    testarray = testarray.filter(i => i.includes(searchString.toLowerCase()));
     console.log(testarray);
+    this.setState({ searchResult: testarray });
     /*
     if (searchString.length > 0) {
       // console.log(responseData[i].name);
@@ -90,12 +87,13 @@ class SearchSection extends React.Component {
           <Button type="submit" color="success" className="search-button">
             Sök
           </Button>
-          {/* <div>
-            {this.state.responseData.map(i => (
+          {/* <section>
+            {this.state.data..map(i => (
               <p>{i.name}</p>
             ))}
-          </div> */}
+          </section> */}
         </Col>
+        <p>{this.state.query ? this.state.searchResult : ""}</p>
         <a
           href="/till-receptvyn"
           type="btn"
