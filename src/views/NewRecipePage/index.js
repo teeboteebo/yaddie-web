@@ -6,17 +6,23 @@ import TagSelector from '../../components/Form/TagSelector'
 import IngredientSelector from '../../components/Form/IngredientSelector'
 
 class NewRecipePage extends React.Component {
-  // This method needs to be before the state declaration
+  // These methods needs to be before the state declaration
   deleteTag = id => {
     const { tags } = this.state
     tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
     this.setState({ ...this.state, tags })
   }
 
+  deleteIngredient = id => {
+    const { ingredients } = this.state
+    ingredients.splice(ingredients.indexOf(ingredients.find(ingredient => ingredient.key === id)), 1)
+    this.setState({ ...this.state, ingredients })
+  }
+
   state = {
     tags: [<TagSelector key={0} id={0} deleteTag={this.deleteTag} />, <TagSelector key={1} id={1} deleteTag={this.deleteTag} />, <TagSelector key={2} id={2} deleteTag={this.deleteTag} />],
     tagsIdx: 3,
-    ingredients: [<IngredientSelector key={0} id={0} />, <IngredientSelector key={1} id={1} />, <IngredientSelector key={2} id={2} />],
+    ingredients: [<IngredientSelector key={0} id={0} deleteIngredient={this.deleteIngredient} />, <IngredientSelector key={1} id={1} deleteIngredient={this.deleteIngredient} />, <IngredientSelector key={2} id={2} deleteIngredient={this.deleteIngredient} />],
     ingredientsIdx: 3
   }
 
@@ -29,7 +35,7 @@ class NewRecipePage extends React.Component {
 
   addIngredient = () => {
     let { ingredients, ingredientsIdx } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} />)
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} deleteIngredient={this.deleteIngredient} />)
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx })
   }

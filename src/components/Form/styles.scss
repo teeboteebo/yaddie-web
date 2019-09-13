@@ -1,0 +1,8 @@
+@import '../../sass/variables';
+
+.tag-selector, .ingredient-selector {
+  i {
+    color: $danger;
+    cursor: pointer;
+  }
+}

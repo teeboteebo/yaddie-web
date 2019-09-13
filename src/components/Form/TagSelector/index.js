@@ -1,6 +1,6 @@
 import React from 'react'
 import { Row, Col, FormGroup, Input } from 'reactstrap'
-import './styles.scss'
+import '../styles.scss'
 
 class TagSelector extends React.Component {
   state = {

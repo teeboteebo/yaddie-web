@@ -1,5 +1,6 @@
 import React from 'react'
-import { FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Row, Col, FormGroup, Label, Input, FormText } from 'reactstrap'
+import '../styles.scss'
 
 class IngredientSelector extends React.Component {
   state = {
@@ -9,14 +10,23 @@ class IngredientSelector extends React.Component {
 
   changeIngredient = e => this.setState({ chosenIngredient: e.target.value })
 
+  deleteIngredient = e => this.props.deleteIngredient(e.target.id)
+
   render() {
     return (
       <div>
-        <FormGroup>
-          <Input type="select" name="ingredients1" id="ingredients1" onChange={this.changeIngredient}>
-            <option value="">Välj ingrediens...</option>
-            {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={ingredient.toLowerCase()}>{ingredient}</option>)}
-          </Input>
+        <FormGroup className="ingredient-selector">
+          <Row className="align-items-center">
+            <Col>
+              <Input type="select" name="ingredients1" id="ingredients1" onChange={this.changeIngredient}>
+                <option value="">Välj ingrediens...</option>
+                {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={ingredient.toLowerCase()}>{ingredient}</option>)}
+              </Input>
+            </Col>
+            <Col xs="auto" className="pl-0">
+              <i className="fas fa-times" id={this.props.id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
+            </Col>
+          </Row>
         </FormGroup>
         {this.state.chosenIngredient ?
           <FormGroup>
@@ -24,7 +34,7 @@ class IngredientSelector extends React.Component {
             <Input type="number" name="quantity" id="quantity" />
             <FormText color="muted">gram*</FormText>
           </FormGroup>
-        :
+          :
           ''
         }
       </div>
