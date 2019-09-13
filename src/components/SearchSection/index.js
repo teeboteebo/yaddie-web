@@ -2,7 +2,63 @@ import React from "react";
 import { Col, Input, Button } from "reactstrap";
 import "./style.scss";
 
+import axios from "axios";
+
 class SearchSection extends React.Component {
+  state = {
+    query: "",
+    data: [],
+    searchString: []
+  };
+
+  handleInputChange = event => {
+    this.setState(
+      {
+        query: event.target.value
+      },
+      () => {
+        this.filterArray();
+      }
+    );
+  };
+
+  async getData() {
+    await axios({
+      method: "get",
+      url: "/api/tag"
+    }).then(data => {
+      this.setState({
+        data
+      });
+      console.log(this.state.data);
+    });
+    // .then(response => response.json())
+    // .then(responseData => {
+    //   // console.log(responseData)
+    //   this.setState({
+    //     data: responseData,
+    //     searchString: responseData
+    //   });
+    // });
+  }
+
+  filterArray = () => {
+    let searchString = this.state.query;
+    let responseData = this.state.data;
+
+    if (searchString.length > 0) {
+      // console.log(responseData[i].name);
+      responseData = responseData.filter(searchString);
+      this.setState({
+        responseData
+      });
+    }
+  };
+
+  componentWillMount() {
+    this.getData();
+  }
+
   render() {
     return (
       <section className="search-section">
@@ -12,10 +68,16 @@ class SearchSection extends React.Component {
             type="text"
             name="search"
             placeholder="Sök efter recept.."
+            onChange={this.handleInputChange}
           />
-          <Button type="btn" color="success" className="search-button">
+          <Button type="submit" color="success" className="search-button">
             Sök
           </Button>
+          {/* <div>
+            {this.state.responseData.map(i => (
+              <p>{i.name}</p>
+            ))}
+          </div> */}
         </Col>
         <a
           href="/till-receptvyn"
