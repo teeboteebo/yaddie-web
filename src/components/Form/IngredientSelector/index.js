@@ -8,7 +8,7 @@ class IngredientSelector extends React.Component {
     chosenIngredient: ''
   }
 
-  setValue = (ingredient) => ingredient.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
+  setValue = ingredient => ingredient.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
 
   changeIngredient = e => this.setState({ chosenIngredient: e.target.value })
 

@@ -7,6 +7,8 @@ class TagSelector extends React.Component {
     tags: ['Bakverk', 'Bröd/Mjöl/Gryn', 'Bönor/Ärtor/Linser', 'Dessert', 'Dryck', 'Fisk', 'Frukt & Bär', 'Fågel', 'Förrätt', 'Frukost', 'Griskött', 'Grönsaker/Rotfrukter', 'Kalvkött', 'Lammkött', 'Lunch', 'Matbröd', 'Mejeriprodukter', 'Mellanmål', 'Middag', 'Nötkött', 'Pasta', 'Potatis', 'Skaldjur', 'Soppa', 'Sås', 'Tillbehör', 'Viltkött', 'Ägg']
   }
 
+  setValue = tag => tag.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
+
   deleteTag = e => this.props.deleteTag(e.target.id)
 
   render() {
@@ -15,8 +17,8 @@ class TagSelector extends React.Component {
         <Row className="align-items-center">
           <Col>
             <Input type="select" name={'tags-' + this.props.id} id={'tags-' + this.props.id} onChange={this.onChange}>
-              <option>Välj tagg...</option>
-              {this.state.tags.map((tag, idx) => <option key={idx}>{tag}</option>)}
+              <option value="">Välj tagg...</option>
+              {this.state.tags.map((tag, idx) => <option key={idx} value={this.setValue(tag)}>{tag}</option>)}
             </Input>
           </Col>
           <Col xs="auto" className="pl-0">
