@@ -13,13 +13,18 @@ class Footer extends React.Component {
       <Col md={6}>
         <div className="info">
         <h5 className="bold">Yaddie</h5>
-        <p>1355 Market St,Suite 900</p>
-        <p>San Fransisco, CA 94103</p>
-        <p>P:(123) 456-7890</p>
+        <ul className="info-style">
+          <li><span>1355 Market St,Suite 900</span></li>
+          <li><span>San Fransisco, CA 94103</span></li>
+          <li><span>P:(123) 456-7890</span></li>
+
+        </ul>
         </div>
         <div className="Contact">
           <h5 className="bold">Kontakt</h5>
-          <p>yaddie@gmail.com</p>
+          <ul className="info-style">
+            <li><span>yaddie@gmail.com</span></li>
+          </ul>
         </div>
        
       </Col>
