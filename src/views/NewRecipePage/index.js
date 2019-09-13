@@ -15,7 +15,8 @@ class NewRecipePage extends React.Component {
 
   state = {
     tags: [<TagSelector key={0} id={0} deleteTag={this.deleteTag} />, <TagSelector key={1} id={1} deleteTag={this.deleteTag} />, <TagSelector key={2} id={2} deleteTag={this.deleteTag} />],
-    tagsIdx: 3
+    tagsIdx: 3,
+    ingredients: [<IngredientSelector key={0} id={0} />, <IngredientSelector key={1} id={1} />, <IngredientSelector key={2} id={2} />]
   }
 
   addTag = () => {
@@ -76,8 +77,8 @@ class NewRecipePage extends React.Component {
           </Col>
           <Col sm={6}>
             <Label>Ingredienser</Label>
-            <IngredientSelector />
-            <FormGroup>
+            {this.state.ingredients.map(ingredient => ingredient)}
+            {/* <FormGroup>
               <Input type="select" name="ingredients2" id="ingredients2">
                 <option>Välj ingrediens...</option>
                 <option>Gurka</option>
@@ -94,7 +95,7 @@ class NewRecipePage extends React.Component {
                 <option>Lök</option>
                 <option>Kyckling</option>
               </Input>
-            </FormGroup>
+            </FormGroup> */}
             <div>
               <Button color="success">Ny ingrediens...</Button>
             </div>
