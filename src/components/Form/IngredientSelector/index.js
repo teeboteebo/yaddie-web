@@ -8,7 +8,7 @@ class IngredientSelector extends React.Component {
     chosenIngredient: ''
   }
 
-  setValue = ingredient => ingredient.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
+  // setValue = ingredient => ingredient.toLowerCase().replace(/[åä]/g, 'a').replace(/ö/g, 'o')
 
   changeIngredient = e => this.setState({ chosenIngredient: e.target.value })
 
@@ -22,7 +22,7 @@ class IngredientSelector extends React.Component {
             <Col>
               <Input type="select" name={'ingredients-' + this.props.id} id={'ingredients-' + this.props.id} onChange={this.changeIngredient}>
                 <option value="">Välj ingrediens...</option>
-                {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={this.setValue(ingredient)}>{ingredient}</option>)}
+                {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={ingredient}>{ingredient}</option>)}
               </Input>
             </Col>
             <Col xs="auto" className="pl-0">
