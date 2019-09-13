@@ -43,16 +43,33 @@ class SearchSection extends React.Component {
   }
 
   filterArray = () => {
+    console.log("test");
+    console.log(this.state.data.data);
+    let testarray = [];
+
+    this.state.data.data.map(i => {
+      //console.log(i);
+      return testarray.push(i.name);
+    });
+
+    //console.log(testarray);
+
     let searchString = this.state.query;
     let responseData = this.state.data;
 
+    console.log(searchString);
+    testarray = testarray.filter(i => i.includes(searchString));
+    console.log(testarray);
+    /*
     if (searchString.length > 0) {
       // console.log(responseData[i].name);
+      console.log(searchString);
       responseData = responseData.filter(searchString);
       this.setState({
         responseData
       });
     }
+    */
   };
 
   componentWillMount() {
