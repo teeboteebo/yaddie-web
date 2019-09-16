@@ -34,10 +34,10 @@
     font-family: $small-text;
     font-weight: 700;
     position: absolute;
-    bottom: 5px;
+    bottom: 8px;
     left: 15px;
     @include media-breakpoint-up(md) {
-      top: 5px;
+      top: 19px;
       right: 15px;
       left: initial;
       bottom: initial;
