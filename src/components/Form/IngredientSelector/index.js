@@ -47,7 +47,7 @@ class IngredientSelector extends React.Component {
         </Col>
         {this.state.chosenIngredient ?
           <Col xs="auto" className="mb-3">
-            <i className="fas fa-times" id={this.props.id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
+            <i className="fas fa-times" id={id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
           </Col>
           : ''
         }

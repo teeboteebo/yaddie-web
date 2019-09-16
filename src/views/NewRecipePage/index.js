@@ -4,6 +4,7 @@ import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
 import IngredientSelector from '../../components/Form/IngredientSelector'
+import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
   // These methods needs to be before the state declaration
@@ -19,11 +20,30 @@ class NewRecipePage extends React.Component {
     this.setState({ ...this.state, ingredients })
   }
 
+  deleteCookingStep = id => {
+    const { cookingSteps } = this.state
+    cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingSteps => cookingSteps.key === id)), 1)
+    this.setState({ ...this.state, cookingSteps })
+  }
+
   state = {
-    tags: [<TagSelector key={0} id={0} deleteTag={this.deleteTag} />, <TagSelector key={1} id={1} deleteTag={this.deleteTag} />, <TagSelector key={2} id={2} deleteTag={this.deleteTag} />],
+    tags: [
+      <TagSelector key={0} id={0} deleteTag={this.deleteTag} />,
+      <TagSelector key={1} id={1} deleteTag={this.deleteTag} />,
+      <TagSelector key={2} id={2} deleteTag={this.deleteTag} />
+    ],
     tagsIdx: 3,
-    ingredients: [<IngredientSelector key={0} id={0} deleteIngredient={this.deleteIngredient} />, <IngredientSelector key={1} id={1} deleteIngredient={this.deleteIngredient} />, <IngredientSelector key={2} id={2} deleteIngredient={this.deleteIngredient} />],
-    ingredientsIdx: 3
+    ingredients: [
+      <IngredientSelector key={0} id={0} deleteIngredient={this.deleteIngredient} />,
+      <IngredientSelector key={1} id={1} deleteIngredient={this.deleteIngredient} />,
+      <IngredientSelector key={2} id={2} deleteIngredient={this.deleteIngredient} />
+    ],
+    ingredientsIdx: 3,
+    cookingSteps: [
+      <CookingStep key={0} id={0} deleteCookingStep={this.deleteCookingStep} />,
+      <CookingStep key={1} id={1} deleteCookingStep={this.deleteCookingStep} />
+    ],
+    cookingStepsIdx: 2
   }
 
   addTag = () => {
@@ -48,7 +68,7 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <FormGroup>
               <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" />
+              <Input type="heading" name="heading" id="heading" value={this.state.heading} />
             </FormGroup>
           </Col>
           <Col sm={6}>
@@ -98,40 +118,7 @@ class NewRecipePage extends React.Component {
           </Col>
         </Row>
         <h4>Tillvägagångssätt</h4>
-        <FormGroup>
-          <Label for="step1">Steg 1</Label>
-          <Input type="textarea" name="step1" id="step1" />
-        </FormGroup>
-        <Row className="align-items-center">
-          <Col xs="auto">
-            <FormGroup check>
-              <Input type="checkbox" name="timer1" id="timer1" />
-              <Label for="timer1" check>Timer?</Label>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Input type="time" name="time1" id="time1" step="1" disabled />
-            </FormGroup>
-          </Col>
-        </Row>
-        <FormGroup>
-          <Label for="step1">Steg 2</Label>
-          <Input type="textarea" name="step2" id="step2" />
-        </FormGroup>
-        <Row className="align-items-center">
-          <Col xs="auto">
-            <FormGroup check>
-              <Input type="checkbox" name="timer2" id="timer2" />
-              <Label for="timer2" check>Timer?</Label>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Input type="time" name="time2" id="time2" step="1" disabled />
-            </FormGroup>
-          </Col>
-        </Row>
+        {this.state.cookingSteps.map(cookingStep => cookingStep)}
         <Button color="success">Lägg till steg...</Button>
         <Row>
           <Col className="submit-section">

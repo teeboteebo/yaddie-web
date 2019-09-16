@@ -1,7 +1,7 @@
 import React from 'react'
 import './styles.scss'
 
-import RecipeLister from '../../components/RecipeLister'
+// import RecipeLister from '../../components/RecipeLister'
 
 class StartPage extends React.Component {
   render() {
