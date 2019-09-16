@@ -7,6 +7,56 @@ import IngredientSelector from '../../components/Form/IngredientSelector'
 import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+      Titel: '',
+      Timer: '',
+      Portion: ''  
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNewImage = this.handleNewImage.bind(this);
+
+  }
+
+  
+  handleChange(event) {
+    console.log('Rubrik change')
+    this.setState({value: event.target.value});
+  }
+  handleSubmit(event) {
+    console.log(
+      'Rubrik:' + this.state.value,
+      'Tillagningstid:' + this.state.Timer,
+      'Portion:' + this.state.Portion
+      );
+    event.preventDefault();
+  }
+
+  handleTimer(evt) {
+    const Timer = (evt.target.validity.valid) ? evt.target.value : this.state.Timer;
+    console.log('Time handel')
+    this.setState({ Timer });
+  }
+  handlePortion(evt) {
+    const Portion = (evt.target.validity.valid) ? evt.target.value : this.state.Portion;
+    console.log('Time handel')
+    this.setState({ Portion });
+  }
+
+  handleNewImage = event => {
+    this.setState({
+      picture: event.target.files[0]
+    })
+    console.log(this.state.picture); //gives null still 
+  }
+
+
+
+ 
   // These methods needs to be before the state declaration
   deleteTag = id => {
     const { tags } = this.state
@@ -59,22 +109,23 @@ class NewRecipePage extends React.Component {
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx })
   }
+  
 
   render() {
     return (
-      <Form className="new-recipe-page">
+      <Form className="new-recipe-page" onSubmit={this.handleSubmit}>
         <h2>Lägg till nytt recept</h2>
         <Row>
           <Col sm={6}>
-            <FormGroup>
+            <FormGroup >
               <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" value={this.state.heading} />
+              <Input type="heading" name="heading" id="heading"  value={this.state.value} onChange={this.handleChange} />
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
-              <Input type="file" name="picture" id="picture" />
+              <Input type="file" name="picture" id="picture" onChange={this.handleNewImage}/>
               <FormText color="muted">
                 Välj en Yaddie upplösning!
               </FormText>
@@ -85,15 +136,17 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
-              <Input type="number" name="cookingTime" id="cooking-time" />
+              {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
+              <Input type="text" name="cookingTime" id="cooking-time" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="portions">Antal portioner</Label>
-              <Input type="number" name="portions" id="portions" />
+              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortion.bind(this)} />
               <FormText color="muted">2-10 portioner</FormText>
+
             </FormGroup>
           </Col>
         </Row>
@@ -104,21 +157,21 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <Label>Taggar</Label>
-            {this.state.tags.map(tag => tag)}
+            {/* {this.state.tags.map(tag => tag)} */}
             <div>
               <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
             </div>
           </Col>
           <Col sm={6}>
             <Label>Ingredienser</Label>
-            {this.state.ingredients.map(ingredient => ingredient)}
+            {/* {this.state.ingredients.map(ingredient => ingredient)} */}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
             </div>
           </Col>
         </Row>
         <h4>Tillvägagångssätt</h4>
-        {this.state.cookingSteps.map(cookingStep => cookingStep)}
+        {/* {this.state.cookingSteps.map(cookingStep => cookingStep)} */}
         <Button color="success">Lägg till steg...</Button>
         <Row>
           <Col className="submit-section">
