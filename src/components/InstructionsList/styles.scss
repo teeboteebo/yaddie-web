@@ -1,0 +1,24 @@
+@import "../../sass/variables.scss";
+
+.instructions-list {
+  // @include media-breakpoint-up(md) {
+  //   border-left: 1px solid $light;
+  // }
+
+  ol {
+    padding-left: 15px;
+    @include media-breakpoint-up(md){
+      padding-left: 40px
+    }
+    li {
+      font-family: $big-text;
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+
+    li span {
+      font-family: $small-text;
+      font-size: 18px;
+    }
+  }
+}

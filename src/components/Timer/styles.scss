@@ -1,0 +1,24 @@
+@import '../../sass/variables.scss';
+
+.timer {
+  .timer-text {
+    color: #666;
+    font-size: 14px;
+    font-family: $small-text;
+  }
+  .timer-button {
+    background-color: $success;
+    min-width: 150px;
+    border-radius: 40px !important;
+    color: #fff;
+    text-align: center;
+    font-family: $big-text;
+  }
+  .reset-btn {
+    margin-left: 10px;
+    padding: 7px 8px;
+    color: #fff;
+    font-family: $big-text;
+    border-radius: 40px !important;
+  }
+}
