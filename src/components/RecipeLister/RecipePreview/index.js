@@ -20,6 +20,7 @@ class RecipePreview extends React.Component {
       hours = (60 % this.props.recipe.cookingTime) / 60;
       minutes = this.props.recipe.cookingTime - hours * 60;
     }
+    // Set max characters on cards
     if (this.props.recipe.summary.length > 180) {
       this.props.recipe.summary =
         this.props.recipe.summary.slice(0, 180) + '...';
