@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
 import './styles.scss'
 
@@ -25,19 +26,37 @@ class NewRecipePage extends React.Component {
     cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingSteps => cookingSteps.key === id)), 1)
     this.setState({ ...this.state, cookingSteps })
   }
+  async componentDidMount() {
+    let tags = await axios({
+      method: 'GET',
+      url: '/api/tags'
+    })
+    const tagNames = tags.data.map(tag => tag.name)
+
+    let ingredients = await axios({
+      method: 'GET',
+      url: '/api/ingredients'
+    })
+    const ingredientNames = ingredients.data.map(ingredient => ingredient.name)
+
+    this.setState({
+      tags: [      
+        <TagSelector key={0} id={0} tagNames={tagNames} deleteTag={this.deleteTag} />,
+        <TagSelector key={1} id={1} tagNames={tagNames} deleteTag={this.deleteTag} />,
+        <TagSelector key={2} id={2} tagNames={tagNames} deleteTag={this.deleteTag} />
+      ],
+      ingredients: [
+        <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />
+      ],
+      tagNames: tagNames,
+      ingredientNames: ingredientNames
+    })
+  }
 
   state = {
-    tags: [
-      <TagSelector key={0} id={0} deleteTag={this.deleteTag} />,
-      <TagSelector key={1} id={1} deleteTag={this.deleteTag} />,
-      <TagSelector key={2} id={2} deleteTag={this.deleteTag} />
-    ],
     tagsIdx: 3,
-    ingredients: [
-      <IngredientSelector key={0} id={0} deleteIngredient={this.deleteIngredient} />,
-      <IngredientSelector key={1} id={1} deleteIngredient={this.deleteIngredient} />,
-      <IngredientSelector key={2} id={2} deleteIngredient={this.deleteIngredient} />
-    ],
     ingredientsIdx: 3,
     cookingSteps: [
       <CookingStep key={0} id={0} deleteCookingStep={this.deleteCookingStep} />,
@@ -46,11 +65,15 @@ class NewRecipePage extends React.Component {
     cookingStepsIdx: 2
   }
 
+
+
   addTag = () => {
-    let { tags, tagsIdx } = this.state
-    tags.push(<TagSelector key={tagsIdx} id={tagsIdx} deleteTag={this.deleteTag} />)
+    let { tags, tagsIdx, tagNames } = this.state
+    tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} deleteTag={this.deleteTag} />)
     tagsIdx++
     this.setState({ ...this.state, tags, tagsIdx })
+    console.log(this.state)
+
   }
 
   addIngredient = () => {
@@ -104,14 +127,14 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <Label>Taggar</Label>
-            {this.state.tags.map(tag => tag)}
+            {this.state.tags ? this.state.tags.map(tag => tag) : ''}
             <div>
               <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
             </div>
           </Col>
           <Col sm={6}>
             <Label>Ingredienser</Label>
-            {this.state.ingredients.map(ingredient => ingredient)}
+            {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : 'laddar'}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
             </div>

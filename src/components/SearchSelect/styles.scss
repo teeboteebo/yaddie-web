@@ -119,7 +119,7 @@ input[type="search"]::-webkit-search-decoration {
 .select-search-box__select {
   display: none;
   position: absolute;
-  top: 60px;
+  top: 45px;
   left: 0;
   right: 0;
   background: #fff;
@@ -152,9 +152,7 @@ input[type="search"]::-webkit-search-decoration {
   padding: 10px 20px;
   border-top: 1px solid #eee;
   cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: wrap;
   user-select: none;
 }
 
