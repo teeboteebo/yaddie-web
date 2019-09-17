@@ -2,13 +2,14 @@ import React from 'react'
 import { Row, Col, FormGroup, Label, Input } from 'reactstrap'
 import '../styles.scss'
 
+import SearchSelect from '../../SearchSelect'
+
 class IngredientSelector extends React.Component {
   state = {
-    ingredients: ['Gurka', 'Kyckling', 'Lök', 'Ägg'],
     chosenIngredient: ''
   }
 
-  changeIngredient = e => this.setState({ chosenIngredient: e.target.value })
+  changeIngredient = e => this.setState({ chosenIngredient: e.value })
 
   deleteIngredient = e => this.props.deleteIngredient(e.target.id)
 
@@ -19,10 +20,7 @@ class IngredientSelector extends React.Component {
       <Row className="align-items-center ingredient-selector">
         <Col>
           <FormGroup>
-            <Input type="select" name={'ingredients-' + id} id={'ingredients-' + id} onChange={this.changeIngredient}>
-              <option value="">Välj ingrediens...</option>
-              {this.state.ingredients.map((ingredient, idx) => <option key={idx} value={ingredient}>{ingredient}</option>)}
-            </Input>
+            <SearchSelect id={'ingredients-' + id} value={this.state.chosenIngredient} changeSelect={this.changeIngredient} results={this.props.ingredientNames} placeholder="Välj ingrediens..." />
             {this.state.chosenIngredient ?
               <Row>
                 <Col>
@@ -45,12 +43,10 @@ class IngredientSelector extends React.Component {
             }
           </FormGroup>
         </Col>
-        {this.state.chosenIngredient ?
-          <Col xs="auto" className="mb-3">
-            <i className="fas fa-times" id={id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
-          </Col>
-          : ''
-        }
+        <Col xs="auto" className="mb-3 pl-0">
+          <i className="fas fa-times" id={id} onClick={this.deleteIngredient} title="Ta bort ingrediens" />
+        </Col>
+
       </Row>
     )
   }
