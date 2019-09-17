@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Row, Col, Button, Form, FormGroup, Label, Input, FormText, Spinner } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
@@ -65,8 +65,6 @@ class NewRecipePage extends React.Component {
     cookingStepsIdx: 2
   }
 
-
-
   addTag = () => {
     let { tags, tagsIdx, tagNames } = this.state
     tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} deleteTag={this.deleteTag} />)
@@ -90,9 +88,13 @@ class NewRecipePage extends React.Component {
     this.setState({ ...this.state, cookingSteps, cookingStepsIdx })
   }
 
+  onSubmit = e => {
+    e.preventDefault()
+  }
+
   render() {
     return (
-      <Form className="new-recipe-page">
+      <Form className="new-recipe-page" onSubmit={this.onSubmit}>
         <h2>Lägg till nytt recept</h2>
         <Row>
           <Col sm={6}>
@@ -134,14 +136,14 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <Label>Taggar</Label>
-            {this.state.tags ? this.state.tags.map(tag => tag) : ''}
+            {this.state.tags ? this.state.tags.map(tag => tag) : <div className="text-center p-5"><Spinner color="primary" /></div>}
             <div>
               <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
             </div>
           </Col>
           <Col sm={6}>
             <Label>Ingredienser</Label>
-            {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : 'laddar'}
+            {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : <div className="text-center p-5"><Spinner color="primary" /></div>}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
             </div>
@@ -152,7 +154,7 @@ class NewRecipePage extends React.Component {
         <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
         <Row>
           <Col className="submit-section">
-            <Button color="danger">Avbryt</Button><Button color="success">Publicera</Button>
+            <Button color="danger">Avbryt</Button><Button type="submit" color="success">Publicera</Button>
           </Col>
         </Row>
       </Form>
