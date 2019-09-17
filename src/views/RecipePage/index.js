@@ -41,7 +41,7 @@ class RecipePage extends React.Component {
     return (
       <article className="recipe-page">
         {this.state.loaded ? 
-          this.state.recipe === 'No match' ? console.log(this.state.recipe) :
+          this.state.recipe === 'No match' ? 'Gått vilse? Här fanns inget recept...' :
           <div>
             <Container fluid className="recipe-header mb-5">
               <Row>
