@@ -26,7 +26,7 @@ class RecipePage extends React.Component {
         loaded: true,
         recipe: data,
       })
-      document.title = `Yaddie - ${data ? data.heading : 'Sidan saknas'}`
+      document.title = `Yaddie - ${data.heading ? data.heading : 'Sidan saknas'}`
     })
 
   }
