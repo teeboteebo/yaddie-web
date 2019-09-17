@@ -9,28 +9,23 @@ class Ingredients extends React.Component {
     super()
     this.state = {
       initialPortions: '',
-      amount: '',
-      multiplier: ''
+      amount: ''
     }
   }
   componentDidMount() {
     this.setState({
       initialPortions: this.props.portions,
       amount: this.props.portions,
-      multiplier: this.props.portions / 2
     })
   }
   increaseAmount = () => {
     this.setState({
       amount: this.state.amount + 2,
-      multiplier: this.state.multiplier + 1
     })
   }
   decreaseAmount = () => {
     this.setState({
       amount: this.state.amount - 2,
-      multiplier: this.state.multiplier - 1
-
     })
   }
 
@@ -61,7 +56,7 @@ class Ingredients extends React.Component {
                       {ingredient.name}
                     </td>
                     <td nowrap="true" className="text-right">
-                      {(ingredient.amount ? ingredient.amount * this.state.multiplier : '') + (ingredient.unit ? " " + ingredient.unit : '')}
+                      {(ingredient.amount ? (ingredient.amount / this.state.initialPortions) * this.state.amount : '') + (ingredient.unit ? " " + ingredient.unit : '')}
                     </td>
                   </tr>
                 )
