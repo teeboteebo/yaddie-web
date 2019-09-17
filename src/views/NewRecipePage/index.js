@@ -77,8 +77,8 @@ class NewRecipePage extends React.Component {
   }
 
   addIngredient = () => {
-    let { ingredients, ingredientsIdx } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} deleteIngredient={this.deleteIngredient} />)
+    let { ingredients, ingredientsIdx, ingredientNames } = this.state
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />)
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx })
   }
