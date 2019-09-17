@@ -8,9 +8,17 @@ class Ingredients extends React.Component {
   constructor() {
     super()
     this.state = {
-      amount: 4,
-      multiplier: 2
+      initialPortions: '',
+      amount: '',
+      multiplier: ''
     }
+  }
+  componentDidMount() {
+    this.setState({
+      initialPortions: this.props.portions,
+      amount: this.props.portions,
+      multiplier: this.props.portions / 2
+    })
   }
   increaseAmount = () => {
     this.setState({
@@ -34,6 +42,9 @@ class Ingredients extends React.Component {
           <span className="amount-selected">{this.state.amount} portioner</span>
           <button disabled={this.state.amount === 12 ? true : false} className="btn btn-success amount-button" onClick={this.increaseAmount}>+</button>
         </div>
+        {this.state.amount !== this.state.initialPortions ?
+          <div className="warning-label mt-3 p-2 px-3" >Tillagningstider kan variera vid portionsändring</div>
+          : ''}
         <div className="ingredients-list mt-3 p-3">
           <table>
             <thead>
@@ -43,7 +54,7 @@ class Ingredients extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.props.map((ingredient, i) => {
+              {this.props.ingredients.map((ingredient, i) => {
                 return (
                   <tr key={"ingredient_" + i}>
                     <td width="100%">

@@ -19,6 +19,12 @@
       width: 40px;
     }
   }
+  .warning-label {
+    font-size: 14px;
+    border-radius: 10px;
+    background-color: $warning;
+    border: 1px solid $light;
+  }
   .ingredients-list {
     border-radius: 10px;
     background-color: $info;
