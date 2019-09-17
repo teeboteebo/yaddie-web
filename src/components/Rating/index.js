@@ -13,11 +13,9 @@ const Rating = (props) => {
     emptyStars.push(<Star size="24" color="#666" key={"star_" + i} />)
   }
   return (
-    <abbr title={props.rating} className="preview-rating">
-      <div className="rating">
-        {stars}{emptyStars}
-      </div>
-    </abbr>
+    <div className="rating" title={props.rating}>
+      {stars}{emptyStars}
+    </div>
   )
 }
 
