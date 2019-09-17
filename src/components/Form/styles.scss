@@ -2,6 +2,8 @@
 
 .tag-selector, .ingredient-selector, .cooking-step {
   i {
+    font-size: 28px;
+    padding: 8px;
     color: $danger;
     cursor: pointer;
   }
