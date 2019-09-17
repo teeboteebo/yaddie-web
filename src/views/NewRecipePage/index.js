@@ -7,7 +7,7 @@ import IngredientSelector from '../../components/Form/IngredientSelector'
 import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
-  // These methods needs to be before the state declaration
+  // These methods need to be before the state declaration
   deleteTag = id => {
     const { tags } = this.state
     tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
@@ -22,7 +22,7 @@ class NewRecipePage extends React.Component {
 
   deleteCookingStep = id => {
     const { cookingSteps } = this.state
-    cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingSteps => cookingSteps.key === id)), 1)
+    cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingStep => cookingStep.key === id)), 1)
     this.setState({ ...this.state, cookingSteps })
   }
 
@@ -58,6 +58,13 @@ class NewRecipePage extends React.Component {
     ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} deleteIngredient={this.deleteIngredient} />)
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx })
+  }
+
+  addStep = () => {
+    let { cookingSteps, cookingStepsIdx } = this.state
+    cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} deleteCookingStep={this.deleteCookingStep} />)
+    cookingStepsIdx++
+    this.setState({ ...this.state, cookingSteps, cookingStepsIdx })
   }
 
   render() {
@@ -117,9 +124,9 @@ class NewRecipePage extends React.Component {
             </div>
           </Col>
         </Row>
-        <h4>Tillvägagångssätt</h4>
-        {this.state.cookingSteps.map(cookingStep => cookingStep)}
-        <Button color="success">Lägg till steg...</Button>
+        <h4 className="mt-4">Steg för steg instruktioner</h4>
+        {this.state.cookingSteps.map((cookingStep) => cookingStep)}
+        <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
         <Row>
           <Col className="submit-section">
             <Button color="danger">Avbryt</Button><Button color="success">Publicera</Button>
