@@ -4,18 +4,7 @@ import '../styles.scss'
 import SearchSelect from '../../SearchSelect'
 
 class TagSelector extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      chosenTag: ''
-    }
-  }
-
-
-
-  changeTag = e => {
-    this.setState({ chosenTag: e.value })
-  }
+  changeTag = e => this.props.onTagChange(e.value, this.props.id)
 
   deleteTag = e => this.props.deleteTag(e.target.id)
 
@@ -26,7 +15,7 @@ class TagSelector extends React.Component {
       <FormGroup className="tag-selector">
         <Row className="align-items-center">
           <Col>
-            <SearchSelect id={'tags-' + id} value={this.state.chosenTag} changeSelect={this.changeTag} results={this.props.tagNames} placeholder="Välj tagg..." />
+            <SearchSelect id={'tags-' + id} changeSelect={this.changeTag} results={this.props.tagNames} placeholder="Välj tagg..." />
           </Col>
           <Col xs="auto" className="pl-0">
             <i className="fas fa-times" id={id} onClick={this.deleteTag} title="Ta bort tagg" />
