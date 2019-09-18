@@ -7,12 +7,21 @@
     font-family: $small-text;
   }
   .timer-button {
-    background-color: $success;
+    background-color: $timer;
     min-width: 150px;
     border-radius: 40px !important;
     color: #fff;
     text-align: center;
     font-family: $big-text;
+    &:hover {
+      color: #fff;
+      background-color: $success;
+    }
+  }
+  .timer-button.started {
+    background-color: $success;
+    color: #fff;
+    cursor: default;
   }
   .reset-btn {
     margin-left: 10px;

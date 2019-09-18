@@ -20,13 +20,9 @@ const Rating = props => {
     emptyStars.push(<Star size={props.size} color='#666' key={'star_' + i} />);
   }
   return (
-    <abbr title={props.rating} className='preview-rating'>
-      <div className='rating' style={{ minWidth: props.size * 5 + 'px' }}>
+      <div className='rating preview-rating' title={props.rating} style={{ minWidth: props.size * 5 + 'px' }}>
         {stars}
         {emptyStars}
       </div>
-    </abbr>
-  );
-};
 
 export default Rating;

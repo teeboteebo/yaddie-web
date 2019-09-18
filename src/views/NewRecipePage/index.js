@@ -1,27 +1,93 @@
 import React from 'react'
+import axios from 'axios'
 import { Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
+import IngredientSelector from '../../components/Form/IngredientSelector'
+import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
-  // This method needs to be before the state declaration
+  // These methods need to be before the state declaration
   deleteTag = id => {
     const { tags } = this.state
     tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
     this.setState({ ...this.state, tags })
   }
 
-  state = {
-    tags: [<TagSelector key={0} id={0} deleteTag={this.deleteTag} />, <TagSelector key={1} id={1} deleteTag={this.deleteTag} />, <TagSelector key={2} id={2} deleteTag={this.deleteTag} />],
-    tagsIdx: 3
+  deleteIngredient = id => {
+    const { ingredients } = this.state
+    ingredients.splice(ingredients.indexOf(ingredients.find(ingredient => ingredient.key === id)), 1)
+    this.setState({ ...this.state, ingredients })
   }
 
+  deleteCookingStep = id => {
+    const { cookingSteps } = this.state
+    cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingStep => cookingStep.key === id)), 1)
+    this.setState({ ...this.state, cookingSteps })
+  }
+  async componentDidMount() {
+    let tags = await axios({
+      method: 'GET',
+      url: '/api/tags'
+    })
+    const tagNames = tags.data.map(tag => tag.name)
+
+    let ingredients = await axios({
+      method: 'GET',
+      url: '/api/ingredients'
+    })
+    const ingredientNames = ingredients.data.map(ingredient => ingredient.name)
+
+    this.setState({
+      tags: [      
+        <TagSelector key={0} id={0} tagNames={tagNames} deleteTag={this.deleteTag} />,
+        <TagSelector key={1} id={1} tagNames={tagNames} deleteTag={this.deleteTag} />,
+        <TagSelector key={2} id={2} tagNames={tagNames} deleteTag={this.deleteTag} />
+      ],
+      ingredients: [
+        <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />
+      ],
+      tagNames: tagNames,
+      ingredientNames: ingredientNames
+    })
+  }
+
+  state = {
+    tagsIdx: 3,
+    ingredientsIdx: 3,
+    cookingSteps: [
+      <CookingStep key={0} id={0} deleteCookingStep={this.deleteCookingStep} />,
+      <CookingStep key={1} id={1} deleteCookingStep={this.deleteCookingStep} />
+    ],
+    cookingStepsIdx: 2
+  }
+
+
+
   addTag = () => {
-    let { tags, tagsIdx } = this.state
-    tags.push(<TagSelector key={tagsIdx} id={tagsIdx} deleteTag={this.deleteTag} />)
+    let { tags, tagsIdx, tagNames } = this.state
+    tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} deleteTag={this.deleteTag} />)
     tagsIdx++
     this.setState({ ...this.state, tags, tagsIdx })
+    console.log(this.state)
+
+  }
+
+  addIngredient = () => {
+    let { ingredients, ingredientsIdx, ingredientNames } = this.state
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />)
+    ingredientsIdx++
+    this.setState({ ...this.state, ingredients, ingredientsIdx })
+  }
+
+  addStep = () => {
+    let { cookingSteps, cookingStepsIdx } = this.state
+    cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} deleteCookingStep={this.deleteCookingStep} />)
+    cookingStepsIdx++
+    this.setState({ ...this.state, cookingSteps, cookingStepsIdx })
   }
 
   render() {
@@ -32,7 +98,7 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <FormGroup>
               <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" />
+              <Input type="heading" name="heading" id="heading" value={this.state.heading} />
             </FormGroup>
           </Col>
           <Col sm={6}>
@@ -68,84 +134,22 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <Label>Taggar</Label>
-            {this.state.tags.map(tag => tag)}
+            {this.state.tags ? this.state.tags.map(tag => tag) : ''}
             <div>
               <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
             </div>
           </Col>
           <Col sm={6}>
-            <FormGroup>
-              <Label for="ingredients1">Ingredienser</Label>
-              <Input type="select" name="ingredients1" id="ingredients1">
-                <option>Välj ingrediens...</option>
-                <option>Gurka</option>
-                <option>Ägg</option>
-                <option>Lök</option>
-                <option>Kyckling</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Label for="quantity">Mängd</Label>
-              <Input type="number" name="quantity" id="quantity" />
-              <FormText color="muted">gram*</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Input type="select" name="ingredients2" id="ingredients2">
-                <option>Välj ingrediens...</option>
-                <option>Gurka</option>
-                <option>Ägg</option>
-                <option>Lök</option>
-                <option>Kyckling</option>
-              </Input>
-            </FormGroup>
-            <FormGroup>
-              <Input type="select" name="ingredients3" id="ingredients3">
-                <option>Välj ingrediens...</option>
-                <option>Gurka</option>
-                <option>Ägg</option>
-                <option>Lök</option>
-                <option>Kyckling</option>
-              </Input>
-            </FormGroup>
-            <Button color="success">Ny ingrediens...</Button>
+            <Label>Ingredienser</Label>
+            {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : 'laddar'}
+            <div>
+              <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
+            </div>
           </Col>
         </Row>
-        <h4>Tillvägagångssätt</h4>
-        <FormGroup>
-          <Label for="step1">Steg 1</Label>
-          <Input type="textarea" name="step1" id="step1" />
-        </FormGroup>
-        <Row className="align-items-center">
-          <Col xs="auto">
-            <FormGroup check>
-              <Input type="checkbox" name="timer1" id="timer1" />
-              <Label for="timer1" check>Timer?</Label>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Input type="time" name="time1" id="time1" step="1" disabled />
-            </FormGroup>
-          </Col>
-        </Row>
-        <FormGroup>
-          <Label for="step1">Steg 2</Label>
-          <Input type="textarea" name="step2" id="step2" />
-        </FormGroup>
-        <Row className="align-items-center">
-          <Col xs="auto">
-            <FormGroup check>
-              <Input type="checkbox" name="timer2" id="timer2" />
-              <Label for="timer2" check>Timer?</Label>
-            </FormGroup>
-          </Col>
-          <Col>
-            <FormGroup>
-              <Input type="time" name="time2" id="time2" step="1" disabled />
-            </FormGroup>
-          </Col>
-        </Row>
-        <Button color="success">Lägg till steg...</Button>
+        <h4 className="mt-4">Steg för steg instruktioner</h4>
+        {this.state.cookingSteps.map((cookingStep) => cookingStep)}
+        <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
         <Row>
           <Col className="submit-section">
             <Button color="danger">Avbryt</Button><Button color="success">Publicera</Button>

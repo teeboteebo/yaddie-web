@@ -27,8 +27,9 @@ class Timer extends React.Component {
   }
 
   render() {
-    const hoursRender = (60 % this.props.time)/60
-    const minutesAfterHoursRender = this.props.time - hoursRender * 60
+    const hoursRender = Math.floor(this.props.time / 60)
+    const minutesRender = (this.props.time % 60)
+
     const Completionist = () => <span>Klar!</span>;
 
     const renderer = ({ hours, minutes, seconds, completed }) => {
@@ -43,7 +44,7 @@ class Timer extends React.Component {
     return (
       <div className="timer mt-2">
         <p className="timer-text mb-2">{this.state.started ? 'Klicka på knappen bredvid för att återställa' : 'Klicka på timern för att starta'}</p>
-        <button className="btn btn-success timer-button" onClick={this.startTimer}>
+        <button className={this.state.started ? "btn timer-button started" : "btn timer-button"} onClick={this.startTimer}>
           {this.state.started ?
             <Countdown
               date={Date.now() + (60000 * this.props.time)}
@@ -51,7 +52,7 @@ class Timer extends React.Component {
               autoStart={true}
               renderer={renderer} >
             </Countdown>
-            : <span>{hoursRender ? hoursRender + 'h ' : ''}{minutesAfterHoursRender}min</span>}
+            : <span>{hoursRender >= 1 ? hoursRender + ' h ' : ''}{minutesRender} min</span>}
         </button>
         <button className="btn btn-primary reset-btn" onClick={this.resetTimer}><RefreshCcw /></button>
       </div>
