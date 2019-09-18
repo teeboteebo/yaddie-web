@@ -12,19 +12,19 @@ class NewRecipePage extends React.Component {
   
   handleTitle(evt) {
     const Title = (evt.target.validity.valid) ? evt.target.value : this.state.Title;
-    console.log('Time handel')
+    console.log('Title')
     this.setState({ Title });
   }
   
 
   handleTimer(evt) {
     const Timer = (evt.target.validity.valid) ? evt.target.value : this.state.Timer;
-    console.log('Time handel')
+    console.log('Timer')
     this.setState({ Timer });
   }
   handlePortion(evt) {
     const Portion = (evt.target.validity.valid) ? evt.target.value : this.state.Portion;
-    console.log('Portion handel')
+    console.log('Portion')
     this.setState({ Portion });
   }
 
