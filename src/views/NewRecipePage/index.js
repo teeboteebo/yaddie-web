@@ -8,7 +8,28 @@ import IngredientSelector from '../../components/Form/IngredientSelector'
 import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
-  // These methods need to be before the state declaration
+
+  
+  handleTitle(evt) {
+    const Title = (evt.target.validity.valid) ? evt.target.value : this.state.Title;
+    console.log('Title')
+    this.setState({ Title });
+  }
+  
+
+  handleTimer(evt) {
+    const Timer = (evt.target.validity.valid) ? evt.target.value : this.state.Timer;
+    console.log('Timer')
+    this.setState({ Timer });
+  }
+  handlePortion(evt) {
+    const Portion = (evt.target.validity.valid) ? evt.target.value : this.state.Portion;
+    console.log('Portion')
+    this.setState({ Portion });
+  }
+
+ 
+  // These methods needs to be before the state declaration
   deleteTag = id => {
     const { tags, tagsData } = this.state
     tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
@@ -105,6 +126,12 @@ class NewRecipePage extends React.Component {
   }
 
   state = {
+    //States created for Titel,Timer and Portioner.
+      Title: '',
+      Timer: '',
+      Portion: '',
+
+
     tagsIdx: 3,
     tagsData: [
       { id: 0, text: '' },
@@ -143,6 +170,7 @@ class NewRecipePage extends React.Component {
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
   }
+  
 
   addStep = () => {
     let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
@@ -163,15 +191,15 @@ class NewRecipePage extends React.Component {
         <h2>Lägg till nytt recept</h2>
         <Row>
           <Col sm={6}>
-            <FormGroup>
+            <FormGroup >
               <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" value={this.state.heading} />
+              <Input type="heading" name="heading" id="heading" onChange={this.handleTitle.bind(this)} />
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
-              <Input type="file" name="picture" id="picture" />
+              <Input type="file" name="picture" id="picture"/>
               <FormText color="muted">
                 Välj en Yaddie upplösning!
               </FormText>
@@ -182,15 +210,17 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
-              <Input type="number" name="cookingTime" id="cooking-time" />
+              {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
+              <Input type="number" name="cookingTime" id="cooking-time"  min="1" max="1000" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="portions">Antal portioner</Label>
-              <Input type="number" name="portions" id="portions" />
+              <Input type="number" name="portions" id="portions" min="2" max="10"  onChange={this.handlePortion.bind(this)} />
               <FormText color="muted">2-10 portioner</FormText>
+
             </FormGroup>
           </Col>
         </Row>
