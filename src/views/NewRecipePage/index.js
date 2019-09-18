@@ -1,5 +1,6 @@
 import React from 'react'
-import { Row, Col, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import axios from 'axios'
+import { Row, Col, Button, Form, FormGroup, Label, Input, FormText, Spinner } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
@@ -7,33 +8,14 @@ import IngredientSelector from '../../components/Form/IngredientSelector'
 import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      Titel: '',
-      Timer: '',
-      Portion: ''  
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-
-  }
 
   
-  handleChange(event) {
-    console.log('Rubrik change')
-    this.setState({value: event.target.value});
+  handleTitle(evt) {
+    const Title = (evt.target.validity.valid) ? evt.target.value : this.state.Title;
+    console.log('Time handel')
+    this.setState({ Title });
   }
-  handleSubmit(event) {
-    console.log(
-      'Rubrik:' + this.state.value,
-      'Tillagningstid:' + this.state.Timer,
-      'Portion:' + this.state.Portion,
-      );
-    event.preventDefault();
-  }
+  
 
   handleTimer(evt) {
     const Timer = (evt.target.validity.valid) ? evt.target.value : this.state.Timer;
@@ -49,67 +31,169 @@ class NewRecipePage extends React.Component {
  
   // These methods needs to be before the state declaration
   deleteTag = id => {
-    const { tags } = this.state
+    const { tags, tagsData } = this.state
     tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
-    this.setState({ ...this.state, tags })
+    tagsData.splice(tagsData.indexOf(tagsData.find(tagData => tagData.id === +id)), 1)
+    this.setState({ ...this.state, tags, tagsData })
   }
 
   deleteIngredient = id => {
-    const { ingredients } = this.state
+    const { ingredients, ingredientsData } = this.state
     ingredients.splice(ingredients.indexOf(ingredients.find(ingredient => ingredient.key === id)), 1)
-    this.setState({ ...this.state, ingredients })
+    ingredientsData.splice(ingredientsData.indexOf(ingredientsData.find(ingredientData => ingredientData.id === +id)), 1)
+    this.setState({ ...this.state, ingredients, ingredientsData })
   }
 
   deleteCookingStep = id => {
-    const { cookingSteps } = this.state
-    cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingSteps => cookingSteps.key === id)), 1)
-    this.setState({ ...this.state, cookingSteps })
+    const { cookingSteps, cookingStepsData } = this.state
+    cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingStep => cookingStep.key === id)), 1)
+    cookingStepsData.splice(cookingStepsData.indexOf(cookingStepsData.find(cookingStepData => cookingStepData.id === +id)), 1)
+    this.setState({ ...this.state, cookingSteps, cookingStepsData })
+  }
+
+  onTagChange = (str, id) => {
+    const { tagsData } = this.state
+    const foundObj = tagsData.find(tag => tag.id === id)
+    foundObj.text = str
+    this.setState({ ...this.state, tagsData })
+  }
+
+  onIngredientTextChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.text = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
+  onIngredientQuantityChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.quantity = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
+  onIngredientEntityChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.entity = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
+  async componentDidMount() {
+    let tags = await axios({
+      method: 'GET',
+      url: '/api/tags'
+    })
+    const tagNames = tags.data.map(tag => tag.name)
+
+    this.setState({
+      tags: [      
+        <TagSelector key={0} id={0} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
+        <TagSelector key={1} id={1} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
+        <TagSelector key={2} id={2} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />
+      ],
+      tagNames: tagNames
+    })
+
+    let ingredients = await axios({
+      method: 'GET',
+      url: '/api/ingredients'
+    })
+    const ingredientNames = ingredients.data.map(ingredient => ingredient.name)
+
+    this.setState({
+      ingredients: [
+        <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
+      ],
+      ingredientNames: ingredientNames
+    })
+  }
+
+  onStepTextChange = (str, id) => {
+    const { cookingStepsData } = this.state
+    const foundObj = cookingStepsData.find(cookingStep => cookingStep.id === id)
+    foundObj.text = str
+    this.setState({ ...this.state, cookingStepsData })
+  }
+
+  onStepTimeChange = (str, id) => {
+    const { cookingStepsData } = this.state
+    const foundObj = cookingStepsData.find(cookingStep => cookingStep.id === id)
+    foundObj.time = str
+    this.setState({ ...this.state, cookingStepsData })
   }
 
   state = {
-    tags: [
-      <TagSelector key={0} id={0} deleteTag={this.deleteTag} />,
-      <TagSelector key={1} id={1} deleteTag={this.deleteTag} />,
-      <TagSelector key={2} id={2} deleteTag={this.deleteTag} />
-    ],
+    //States created for Titel,Timer and Portioner.
+      Title: '',
+      Timer: '',
+      Portion: '',
+
+
     tagsIdx: 3,
-    ingredients: [
-      <IngredientSelector key={0} id={0} deleteIngredient={this.deleteIngredient} />,
-      <IngredientSelector key={1} id={1} deleteIngredient={this.deleteIngredient} />,
-      <IngredientSelector key={2} id={2} deleteIngredient={this.deleteIngredient} />
+    tagsData: [
+      { id: 0, text: '' },
+      { id: 1, text: '' },
+      { id: 2, text: '' }
     ],
     ingredientsIdx: 3,
+    ingredientsData: [
+      { id: 0, text: '', quantity: 0, entity: '' },
+      { id: 1, text: '', quantity: 0, entity: '' },
+      { id: 2, text: '', quantity: 0, entity: '' }
+    ],
     cookingSteps: [
-      <CookingStep key={0} id={0} deleteCookingStep={this.deleteCookingStep} />,
-      <CookingStep key={1} id={1} deleteCookingStep={this.deleteCookingStep} />
+      <CookingStep key={0} id={0} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />,
+      <CookingStep key={1} id={1} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />
+    ],
+    cookingStepsData: [
+      { id: 0, text: '', time: '' },
+      { id: 1, text: '', time: '' }
     ],
     cookingStepsIdx: 2
   }
 
   addTag = () => {
-    let { tags, tagsIdx } = this.state
-    tags.push(<TagSelector key={tagsIdx} id={tagsIdx} deleteTag={this.deleteTag} />)
+    let { tags, tagsIdx, tagNames, tagsData } = this.state
+    tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />)
+    tagsData.push({ id: tagsIdx, text: '' })
     tagsIdx++
-    this.setState({ ...this.state, tags, tagsIdx })
+    this.setState({ ...this.state, tags, tagsIdx, tagsData })
   }
 
   addIngredient = () => {
-    let { ingredients, ingredientsIdx } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} deleteIngredient={this.deleteIngredient} />)
+    let { ingredients, ingredientsIdx, ingredientNames, ingredientsData } = this.state
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
+    ingredientsData.push({ id: ingredientsIdx, text: '', quantity: 0, entity: '' })
     ingredientsIdx++
-    this.setState({ ...this.state, ingredients, ingredientsIdx })
+    this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
   }
   
 
+  addStep = () => {
+    let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
+    cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
+    cookingStepsData.push({ id: cookingStepsIdx, text: '', time: '' })
+    cookingStepsIdx++
+    this.setState({ ...this.state, cookingSteps, cookingStepsIdx, cookingStepsData })
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+    console.log(this.state)
+  }
+
   render() {
     return (
-      <Form className="new-recipe-page" onSubmit={this.handleSubmit}>
+      <Form className="new-recipe-page" onSubmit={this.onSubmit}>
         <h2>Lägg till nytt recept</h2>
         <Row>
           <Col sm={6}>
             <FormGroup >
               <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" onChange={this.handleChange} />
+              <Input type="heading" name="heading" id="heading" onChange={this.handleTitle.bind(this)} />
             </FormGroup>
           </Col>
           <Col sm={6}>
@@ -147,25 +231,25 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <Label>Taggar</Label>
-            {/* {this.state.tags.map(tag => tag)} */}
+            {this.state.tags ? this.state.tags.map(tag => tag) : ''}
             <div>
               <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
             </div>
           </Col>
           <Col sm={6}>
             <Label>Ingredienser</Label>
-            {/* {this.state.ingredients.map(ingredient => ingredient)} */}
+            {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : <div className="text-center p-5"><Spinner color="primary" /></div>}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
             </div>
           </Col>
         </Row>
-        <h4>Tillvägagångssätt</h4>
-        {/* {this.state.cookingSteps.map(cookingStep => cookingStep)} */}
-        <Button color="success">Lägg till steg...</Button>
+        <h4 className="mt-4">Steg för steg instruktioner</h4>
+        {this.state.cookingSteps.map((cookingStep) => cookingStep)}
+        <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
         <Row>
           <Col className="submit-section">
-            <Button color="danger">Avbryt</Button><Button color="success">Publicera</Button>
+            <Button color="danger">Avbryt</Button><Button type="submit" color="success">Publicera</Button>
           </Col>
         </Row>
       </Form>

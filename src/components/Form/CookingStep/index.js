@@ -1,15 +1,13 @@
 import React from 'react'
-import { Row, Col, FormGroup, Label, Input } from 'reactstrap'
+import { Row, Col, FormGroup, FormText, Label, Input } from 'reactstrap'
 import '../styles.scss'
 
 class CookingStep extends React.Component {
-  state = {
-    text: '',
-    timer: false,
-    time: ''
-  }
+  state = { timer: false }
 
-  onTextChange = e => this.setState({ text: e.target.value })
+  onTextChange = e => this.props.onTextChange(e.target.value, this.props.id)
+
+  onTimeChange = e => this.props.onTimeChange(e.target.value, this.props.id)
 
   onCheckChange = () => this.setState({ timer: !this.state.timer })
 
@@ -19,11 +17,11 @@ class CookingStep extends React.Component {
     const { id } = this.props
 
     return (
-      <Row className="align-items-center cooking-step">
+      <Row className="align-items-center cooking-step mt-4">
         <Col>
           <FormGroup>
-            <Label for={'step-' + id}>Steg {id + 1}</Label>
-            <Input type="textarea" name={'step-' + id} id={'step-' + id} value={this.state.text} onChange={this.onTextChange} />
+            {/* <Input type="textarea" name={'step-' + id} id={'step-' + id} value={this.state.text} onChange={this.onTextChange} /> */}
+            <Input type="textarea" name={'step-' + id} id={'step-' + id} onChange={this.onTextChange} />
           </FormGroup>
           <Row className="align-items-center">
             <Col xs="auto">
@@ -34,7 +32,8 @@ class CookingStep extends React.Component {
             </Col>
             <Col>
               <FormGroup>
-                <Input type="time" name={'time-' + id} id={'time-' + id} step="1" disabled={!this.state.timer} />
+                <Input type="time" name={'time-' + id} id={'time-' + id} onChange={this.onTimeChange} disabled={!this.state.timer} />
+                <FormText color="muted">HH:MM</FormText>
               </FormGroup>
             </Col>
           </Row>

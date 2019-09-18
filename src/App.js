@@ -5,7 +5,9 @@ import Header from './components/Header'
 import StartPage from './views/StartPage'
 import RecipePage from './views/RecipePage'
 import NewRecipePage from './views/NewRecipePage'
+import TestPage from './views/TestPage'
 import Footer from './components/Footer'
+import CategoriesPage from './views/CategoriesPage'
 
 class App extends React.Component {
   render() {
@@ -16,8 +18,11 @@ class App extends React.Component {
           <main>
             <Switch>
               <Route exact path="/" component={StartPage} />
+              <Route exact path="/kategorier" component={CategoriesPage} />
               <Route exact path="/recept/:link" component={RecipePage} />
-              <Route path="/nytt-recept" component={NewRecipePage} />
+              <Route exact path="/nytt-recept" component={NewRecipePage} />
+              <Route exact path="/test" component={TestPage} />
+
             </Switch>
           </main>
           <Footer />

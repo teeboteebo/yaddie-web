@@ -1,0 +1,64 @@
+@import '../../../sass/variables';
+
+.latest-added-recipe {
+  & > a {
+    color: $text !important;
+    text-decoration: none;
+    &:hover {
+      color: $text !important;
+      text-decoration: none;
+    }
+  }
+  border: 1px solid $light;
+  border-radius: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  color: $text;
+  position: relative;
+  &:hover {
+    box-shadow: 0 0 3px 3px $light;
+  }
+  .recipe-title {
+    font-family: $big-text;
+    padding: 10px 0;
+    h4 {
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+  }
+  .recipe-card-resume {
+    font-family: $small-text;
+    text-overflow: ellipsis;
+  }
+  .recipe-card-time {
+    font-family: $small-text;
+    font-weight: 700;
+    position: absolute;
+    bottom: 8px;
+    left: 15px;
+    @include media-breakpoint-up(md) {
+      top: 19px;
+      right: 15px;
+      left: initial;
+      bottom: initial;
+    }
+  }
+  .preview-rating {
+    position: absolute;
+    bottom: 5px;
+    right: 7.5px;
+  }
+  .preview-tag {
+    bottom: 15px;
+    position: absolute;
+    @include media-breakpoint-up(md) {
+      bottom: 5px;
+    }
+  }
+  .recipe-img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+}
