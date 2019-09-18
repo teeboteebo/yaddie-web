@@ -10,15 +10,17 @@ import CookingStep from '../../components/Form/CookingStep'
 class NewRecipePage extends React.Component {
   // These methods need to be before the state declaration
   deleteTag = id => {
-    const { tags } = this.state
+    const { tags, tagsData } = this.state
     tags.splice(tags.indexOf(tags.find(tag => tag.key === id)), 1)
-    this.setState({ ...this.state, tags })
+    tagsData.splice(tagsData.indexOf(tagsData.find(tagData => tagData.id === +id)), 1)
+    this.setState({ ...this.state, tags, tagsData })
   }
 
   deleteIngredient = id => {
-    const { ingredients } = this.state
+    const { ingredients, ingredientsData } = this.state
     ingredients.splice(ingredients.indexOf(ingredients.find(ingredient => ingredient.key === id)), 1)
-    this.setState({ ...this.state, ingredients })
+    ingredientsData.splice(ingredientsData.indexOf(ingredientsData.find(ingredientData => ingredientData.id === +id)), 1)
+    this.setState({ ...this.state, ingredients, ingredientsData })
   }
 
   deleteCookingStep = id => {
@@ -26,6 +28,34 @@ class NewRecipePage extends React.Component {
     cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingStep => cookingStep.key === id)), 1)
     cookingStepsData.splice(cookingStepsData.indexOf(cookingStepsData.find(cookingStepData => cookingStepData.id === +id)), 1)
     this.setState({ ...this.state, cookingSteps, cookingStepsData })
+  }
+
+  onTagChange = (str, id) => {
+    const { tagsData } = this.state
+    const foundObj = tagsData.find(tag => tag.id === id)
+    foundObj.text = str
+    this.setState({ ...this.state, tagsData })
+  }
+
+  onIngredientTextChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.text = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
+  onIngredientQuantityChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.quantity = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
+  onIngredientEntityChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.entity = str
+    this.setState({ ...this.state, ingredientsData })
   }
 
   async componentDidMount() {
@@ -37,9 +67,9 @@ class NewRecipePage extends React.Component {
 
     this.setState({
       tags: [      
-        <TagSelector key={0} id={0} tagNames={tagNames} deleteTag={this.deleteTag} />,
-        <TagSelector key={1} id={1} tagNames={tagNames} deleteTag={this.deleteTag} />,
-        <TagSelector key={2} id={2} tagNames={tagNames} deleteTag={this.deleteTag} />
+        <TagSelector key={0} id={0} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
+        <TagSelector key={1} id={1} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
+        <TagSelector key={2} id={2} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />
       ],
       tagNames: tagNames
     })
@@ -52,9 +82,9 @@ class NewRecipePage extends React.Component {
 
     this.setState({
       ingredients: [
-        <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />
+        <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
       ],
       ingredientNames: ingredientNames
     })
@@ -62,21 +92,31 @@ class NewRecipePage extends React.Component {
 
   onStepTextChange = (str, id) => {
     const { cookingStepsData } = this.state
-    const foundData = cookingStepsData.find(cookingStep => cookingStep.id === id)
-    foundData.text = str
+    const foundObj = cookingStepsData.find(cookingStep => cookingStep.id === id)
+    foundObj.text = str
     this.setState({ ...this.state, cookingStepsData })
   }
 
   onStepTimeChange = (str, id) => {
     const { cookingStepsData } = this.state
-    const foundData = cookingStepsData.find(cookingStep => cookingStep.id === id)
-    foundData.time = str
+    const foundObj = cookingStepsData.find(cookingStep => cookingStep.id === id)
+    foundObj.time = str
     this.setState({ ...this.state, cookingStepsData })
   }
 
   state = {
     tagsIdx: 3,
+    tagsData: [
+      { id: 0, text: '' },
+      { id: 1, text: '' },
+      { id: 2, text: '' }
+    ],
     ingredientsIdx: 3,
+    ingredientsData: [
+      { id: 0, text: '', quantity: 0, entity: '' },
+      { id: 1, text: '', quantity: 0, entity: '' },
+      { id: 2, text: '', quantity: 0, entity: '' }
+    ],
     cookingSteps: [
       <CookingStep key={0} id={0} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />,
       <CookingStep key={1} id={1} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />
@@ -89,19 +129,19 @@ class NewRecipePage extends React.Component {
   }
 
   addTag = () => {
-    let { tags, tagsIdx, tagNames } = this.state
-    tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} deleteTag={this.deleteTag} />)
+    let { tags, tagsIdx, tagNames, tagsData } = this.state
+    tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />)
+    tagsData.push({ id: tagsIdx, text: '' })
     tagsIdx++
-    this.setState({ ...this.state, tags, tagsIdx })
-    console.log(this.state)
-
+    this.setState({ ...this.state, tags, tagsIdx, tagsData })
   }
 
   addIngredient = () => {
-    let { ingredients, ingredientsIdx, ingredientNames } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />)
+    let { ingredients, ingredientsIdx, ingredientNames, ingredientsData } = this.state
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
+    ingredientsData.push({ id: ingredientsIdx, text: '', quantity: 0, entity: '' })
     ingredientsIdx++
-    this.setState({ ...this.state, ingredients, ingredientsIdx })
+    this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
   }
 
   addStep = () => {
@@ -109,12 +149,12 @@ class NewRecipePage extends React.Component {
     cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
     cookingStepsData.push({ id: cookingStepsIdx, text: '', time: '' })
     cookingStepsIdx++
-    this.setState({ ...this.state, cookingSteps, cookingStepsIdx })
+    this.setState({ ...this.state, cookingSteps, cookingStepsIdx, cookingStepsData })
   }
 
   onSubmit = e => {
     e.preventDefault()
-    console.log(this.state.cookingStepsData)
+    console.log(this.state)
   }
 
   render() {

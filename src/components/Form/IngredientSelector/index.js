@@ -6,10 +6,20 @@ import SearchSelect from '../../SearchSelect'
 
 class IngredientSelector extends React.Component {
   state = {
-    chosenIngredient: ''
+    chosenIngredient: '',
+    entities: ['kg', 'hg', 'g', 'mg', 'l', 'dl', 'cl', 'ml', 'msk', 'tsk', 'krm', 'styck']
   }
 
-  changeIngredient = e => this.setState({ chosenIngredient: e.value })
+  // FIXA ENTITY!!!
+
+  changeIngredient = e => {
+    this.setState({ chosenIngredient: e.value })
+    this.props.onTextChange(e.value, this.props.id)
+  }
+
+  changeQuantity = e => this.props.onQuantityChange(e.target.value, this.props.id)
+
+  changeEntity = e => this.props.onEntityChange(e.target.value, this.props.id)
 
   deleteIngredient = e => this.props.deleteIngredient(e.target.id)
 
@@ -26,14 +36,15 @@ class IngredientSelector extends React.Component {
                 <Col>
                   <FormGroup>
                     <Label xs="auto" className="pl-0" for={'quantity-' + id}><em>Mängd</em></Label>
-                    <Input type="number" name={'quantity-' + id} id={'quantity-' + id} />
+                    <Input type="number" name={'quantity-' + id} id={'quantity-' + id} onChange={this.changeQuantity} />
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
                     <Label xs="auto" className="pl-0" for={'entity-' + id}><em>Enhet</em></Label>
-                    <Input type="select" name={'entity-' + id} id={'entity-' + id}>
+                    <Input type="select" name={'entity-' + id} id={'entity-' + id} onChange={this.changeEntity}>
                       <option value="">Välj enhet...</option>
+                      {this.state.entities.map((entity, idx) => <option key={idx} value={entity}>{entity}</option>)}
                     </Input>
                   </FormGroup>
                 </Col>
