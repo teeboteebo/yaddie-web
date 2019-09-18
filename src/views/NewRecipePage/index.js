@@ -31,7 +31,7 @@ class NewRecipePage extends React.Component {
     console.log(
       'Rubrik:' + this.state.value,
       'Tillagningstid:' + this.state.Timer,
-      'Portion:' + this.state.Portion
+      'Portion:' + this.state.Portion,
       );
     event.preventDefault();
   }
@@ -43,7 +43,7 @@ class NewRecipePage extends React.Component {
   }
   handlePortion(evt) {
     const Portion = (evt.target.validity.valid) ? evt.target.value : this.state.Portion;
-    console.log('Time handel')
+    console.log('Portion handel')
     this.setState({ Portion });
   }
 
@@ -119,7 +119,7 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <FormGroup >
               <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading"  value={this.state.value} onChange={this.handleChange} />
+              <Input type="heading" name="heading" id="heading" onChange={this.handleChange} />
             </FormGroup>
           </Col>
           <Col sm={6}>
@@ -137,14 +137,14 @@ class NewRecipePage extends React.Component {
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
               {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
-              <Input type="text" name="cookingTime" id="cooking-time" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
+              <Input type="number" name="cookingTime" id="cooking-time"  min="0" max="1000" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="portions">Antal portioner</Label>
-              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortion.bind(this)} />
+              <Input type="number" name="portions" id="portions" min="2" max="10"  onChange={this.handlePortion.bind(this)} />
               <FormText color="muted">2-10 portioner</FormText>
 
             </FormGroup>
