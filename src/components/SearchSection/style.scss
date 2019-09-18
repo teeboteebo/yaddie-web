@@ -1,0 +1,49 @@
+@import "../../sass/variables";
+
+.search-section {
+  color: white;
+  margin: 20px;
+  .button-inside {
+    position: relative;
+    .search-bar {
+      border-radius: 60px;
+      height: 68px;
+      font-family: $big-text;
+      font-size: 34px;
+      padding: 30px;
+      width: 100%;
+    }
+    .search-button {
+      position: absolute;
+      right: 22px;
+      top: 7px;
+      border: none;
+      height: 54px;
+      width: 80px;
+      border-radius: 60px;
+      text-align: center;
+      font-size: 24px;
+      padding: 2px 2px;
+      cursor: pointer;
+    }
+    @media (max-width: 1023px) {
+      .search-button {
+        display: none;
+      }
+    }
+  }
+  // .add-recipes {
+  //   margin-top: 15px;
+  //   border-radius: 30px;
+  //   font-family: $big-text;
+  //   font-size: 24px;
+  //   padding: 25px;
+  // }
+  .add-recipes, .search-by-category{
+    margin-top: 15px;
+    border-radius: 30px;
+    font-family: $big-text;
+    font-size: 20px;
+    padding: 5px 20px;
+  }
+}
