@@ -22,16 +22,27 @@ class NewRecipePage extends React.Component {
   }
 
   deleteCookingStep = id => {
-    const { cookingSteps } = this.state
+    const { cookingSteps, cookingStepsData } = this.state
     cookingSteps.splice(cookingSteps.indexOf(cookingSteps.find(cookingStep => cookingStep.key === id)), 1)
-    this.setState({ ...this.state, cookingSteps })
+    cookingStepsData.splice(cookingStepsData.indexOf(cookingStepsData.find(cookingStepData => cookingStepData.id === +id)), 1)
+    this.setState({ ...this.state, cookingSteps, cookingStepsData })
   }
+
   async componentDidMount() {
     let tags = await axios({
       method: 'GET',
       url: '/api/tags'
     })
     const tagNames = tags.data.map(tag => tag.name)
+
+    this.setState({
+      tags: [      
+        <TagSelector key={0} id={0} tagNames={tagNames} deleteTag={this.deleteTag} />,
+        <TagSelector key={1} id={1} tagNames={tagNames} deleteTag={this.deleteTag} />,
+        <TagSelector key={2} id={2} tagNames={tagNames} deleteTag={this.deleteTag} />
+      ],
+      tagNames: tagNames
+    })
 
     let ingredients = await axios({
       method: 'GET',
@@ -40,27 +51,39 @@ class NewRecipePage extends React.Component {
     const ingredientNames = ingredients.data.map(ingredient => ingredient.name)
 
     this.setState({
-      tags: [      
-        <TagSelector key={0} id={0} tagNames={tagNames} deleteTag={this.deleteTag} />,
-        <TagSelector key={1} id={1} tagNames={tagNames} deleteTag={this.deleteTag} />,
-        <TagSelector key={2} id={2} tagNames={tagNames} deleteTag={this.deleteTag} />
-      ],
       ingredients: [
         <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
         <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />,
         <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} deleteIngredient={this.deleteIngredient} />
       ],
-      tagNames: tagNames,
       ingredientNames: ingredientNames
     })
+  }
+
+  onStepTextChange = (str, id) => {
+    const { cookingStepsData } = this.state
+    const foundData = cookingStepsData.find(cookingStep => cookingStep.id === id)
+    foundData.text = str
+    this.setState({ ...this.state, cookingStepsData })
+  }
+
+  onStepTimeChange = (str, id) => {
+    const { cookingStepsData } = this.state
+    const foundData = cookingStepsData.find(cookingStep => cookingStep.id === id)
+    foundData.time = str
+    this.setState({ ...this.state, cookingStepsData })
   }
 
   state = {
     tagsIdx: 3,
     ingredientsIdx: 3,
     cookingSteps: [
-      <CookingStep key={0} id={0} deleteCookingStep={this.deleteCookingStep} />,
-      <CookingStep key={1} id={1} deleteCookingStep={this.deleteCookingStep} />
+      <CookingStep key={0} id={0} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />,
+      <CookingStep key={1} id={1} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />
+    ],
+    cookingStepsData: [
+      { id: 0, text: '', time: '' },
+      { id: 1, text: '', time: '' }
     ],
     cookingStepsIdx: 2
   }
@@ -82,14 +105,16 @@ class NewRecipePage extends React.Component {
   }
 
   addStep = () => {
-    let { cookingSteps, cookingStepsIdx } = this.state
-    cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} deleteCookingStep={this.deleteCookingStep} />)
+    let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
+    cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
+    cookingStepsData.push({ id: cookingStepsIdx, text: '', time: '' })
     cookingStepsIdx++
     this.setState({ ...this.state, cookingSteps, cookingStepsIdx })
   }
 
   onSubmit = e => {
     e.preventDefault()
+    console.log(this.state.cookingStepsData)
   }
 
   render() {
@@ -136,7 +161,7 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <Label>Taggar</Label>
-            {this.state.tags ? this.state.tags.map(tag => tag) : <div className="text-center p-5"><Spinner color="primary" /></div>}
+            {this.state.tags ? this.state.tags.map(tag => tag) : ''}
             <div>
               <Button color="success" onClick={this.addTag}><i className="fas fa-plus" /> Ny tagg</Button>
             </div>
