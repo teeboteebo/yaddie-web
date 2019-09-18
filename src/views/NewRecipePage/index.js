@@ -18,7 +18,6 @@ class NewRecipePage extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleNewImage = this.handleNewImage.bind(this);
 
   }
 
@@ -46,15 +45,6 @@ class NewRecipePage extends React.Component {
     console.log('Portion handel')
     this.setState({ Portion });
   }
-
-  handleNewImage = event => {
-    this.setState({
-      picture: event.target.files[0]
-    })
-    console.log(this.state.picture); //gives null still 
-  }
-
-
 
  
   // These methods needs to be before the state declaration
@@ -125,7 +115,7 @@ class NewRecipePage extends React.Component {
           <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
-              <Input type="file" name="picture" id="picture" onChange={this.handleNewImage}/>
+              <Input type="file" name="picture" id="picture"/>
               <FormText color="muted">
                 Välj en Yaddie upplösning!
               </FormText>
@@ -137,7 +127,7 @@ class NewRecipePage extends React.Component {
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
               {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
-              <Input type="number" name="cookingTime" id="cooking-time"  min="0" max="1000" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
+              <Input type="number" name="cookingTime" id="cooking-time"  min="1" max="1000" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
