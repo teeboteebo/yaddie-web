@@ -20,10 +20,9 @@ class Header extends React.Component {
                 'Orange tallrik med vita bestick i form av gaffel och kniv. Hemsidans namn Yaddie finns undertill tallriken i logan.'
               }>
               <img src={logo} />
-            </NavLink>{' '}
+            </NavLink>
           </Col>
           <Col xs={12} md={9} className='test'>
-            {' '}
             <SearchSection />
           </Col>
         </Row>
