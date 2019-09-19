@@ -15,7 +15,6 @@ class Header extends React.Component {
               to='/'
               exact
               className='mx-auto d-block logo'
-              //src={logo}
               >
               <img src={logo} alt='Orange tallrik med vita bestick i form av gaffel och kniv. Hemsidans namn Yaddie finns undertill tallriken i logan.' />
             </NavLink>

@@ -45,5 +45,8 @@
     font-family: $big-text;
     font-size: 20px;
     padding: 5px 20px;
+    @include media-breakpoint-up(md) {
+      
+    }
   }
 }
