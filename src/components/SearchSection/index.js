@@ -193,7 +193,7 @@ class SearchSection extends React.Component {
           Sök efter kategori!
         </Link>
         <Link
-          href="/nytt-recept"
+          to="/nytt-recept"
           type="btn"
           className="btn btn-primary add-recipes text-white float-right"
         >

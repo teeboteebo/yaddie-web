@@ -62,16 +62,11 @@
     }
     .recipe-list {
       border-radius: 5px;
-      // box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-      // border-bottom: 12px solid #fff;
-      // border-left: 12px solid transparent;
-      // border-right: 12px solid transparent;
       border: 2px solid $primary;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
       font-size: 22px;
       color: black;
       padding: 10px;
-      // max-width: 480px
       top: 54px;
       position: absolute;
       @include media-breakpoint-up(md) {
