@@ -175,7 +175,6 @@ class SearchSection extends React.Component {
               ""
             )}
           </div>
-
           <Link
             to={'/sök/recept?namn="' + this.state.searchInput + '"'}
             type="btn"
@@ -188,7 +187,6 @@ class SearchSection extends React.Component {
         <Col sm={12}>
           <Link
             to='/nytt-recept'
-            exact
             type='btn'
             className='btn btn-primary add-recipes text-white'>
             Lägg till recept!
