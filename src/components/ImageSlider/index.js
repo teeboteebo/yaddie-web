@@ -5,18 +5,22 @@ import "./styles.scss"
 //import { ArrowLeftCircle, ArrowRightCircle } from "react-feather"
 
 class ImageSlider extends React.Component {
-  items = [1, 2, 3, 4, 5, 6]
-
-  imgArray = [
-    "/images/pizza.jpg",
-    "/images/hamburger.jpg",
-    "/images/what.jpg",
-    "/images/korv.jpg",
-    "/images/fries.jpg",
-    "/images/spaghetti.jpg"
+  sliderArray = [
+    { name: "Pizza", image: "/images/pizza.jpg", link: "/recept/pizza" },
+    {
+      name: "Hamburgare",
+      image: "/images/hamburger.jpg",
+      link: "/recept/hamburgare"
+    },
+    { name: "What", image: "/images/what.jpg", link: "/recept/what" },
+    { name: "Korvrullar", image: "/images/korv.jpg", link: "/recept/korv" },
+    { name: "Pommes", image: "/images/fries.jpg", link: "/recept/fries" },
+    {
+      name: "Spaghetti",
+      image: "/images/spaghetti.jpg",
+      link: "/recept/spaghetti"
+    }
   ]
-
-  label = ["Pizza", "Hamburgare", "What", "Korvrullar", "Pommes", "Spaghetti"]
 
   state = {
     currentIndex: 0,
@@ -28,11 +32,13 @@ class ImageSlider extends React.Component {
   thumbItem = (item, i) => <span onClick={() => this.slideTo(i)}>* </span>
 
   galleryItems() {
-    return this.imgArray.map((img, index) => (
-      <div>
-        <img src={img} className="slider-img"></img>
-        <label className="img-label">{this.label[index]}</label>
-      </div>
+    return this.sliderArray.map((slide, index) => (
+      <a href={slide.link}>
+        <div>
+          <img src={slide.image} className="slider-img"></img>
+          <label className="img-label">{slide.name}</label>
+        </div>
+      </a>
     ))
   }
   /*
