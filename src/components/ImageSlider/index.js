@@ -6,19 +6,41 @@ import "./styles.scss"
 
 class ImageSlider extends React.Component {
   sliderArray = [
-    { name: "Pizza", image: "/images/pizza.jpg", link: "/recept/pizza" },
+    {
+      name: "Pizza",
+      image: "/images/pizza.jpg",
+      link: "/recept/pizza",
+      alt: "Bild på en pizza"
+    },
     {
       name: "Hamburgare",
       image: "/images/hamburger.jpg",
-      link: "/recept/hamburgare"
+      link: "/recept/hamburgare",
+      alt: "Bild på en hamburgare"
     },
-    { name: "What", image: "/images/what.jpg", link: "/recept/what" },
-    { name: "Korvrullar", image: "/images/korv.jpg", link: "/recept/korv" },
-    { name: "Pommes", image: "/images/fries.jpg", link: "/recept/fries" },
+    {
+      name: "What",
+      image: "/images/what.jpg",
+      link: "/recept/what",
+      alt: "Bild på någon våffelgrej?"
+    },
+    {
+      name: "Korvrullar",
+      image: "/images/korv.jpg",
+      link: "/recept/korv",
+      alt: "Bild på korvrullar"
+    },
+    {
+      name: "Pommes",
+      image: "/images/fries.jpg",
+      link: "/recept/fries",
+      alt: "Bild på pommes"
+    },
     {
       name: "Spaghetti",
       image: "/images/spaghetti.jpg",
-      link: "/recept/spaghetti"
+      link: "/recept/spaghetti",
+      alt: "Bild på korv och spaghetti"
     }
   ]
 
@@ -35,7 +57,7 @@ class ImageSlider extends React.Component {
     return this.sliderArray.map((slide, index) => (
       <a href={slide.link}>
         <div>
-          <img src={slide.image} className="slider-img"></img>
+          <img src={slide.image} className="slider-img" alt={slide.alt}></img>
           <label className="img-label">{slide.name}</label>
         </div>
       </a>
@@ -53,10 +75,8 @@ class ImageSlider extends React.Component {
 */
 
   handleOnSlideChange = event => {
-    console.log(event)
     const { itemsInSlide, item } = event
     this.setState({ itemsInSlide, currentIndex: item })
-    console.log(this.state.itemsInSlide, item)
   }
 
   render() {
