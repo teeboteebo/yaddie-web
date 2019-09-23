@@ -187,15 +187,6 @@ class SearchSection extends React.Component {
         </Col>
         <Col sm={12}>
           <Link
-            to='/till-receptvyn'
-            exact
-            type='btn'
-            className='btn btn-success search-by-category text-white'>
-            Sök efter kategori!
-          </Link>
-        </Col>
-        <Col sm={12}>
-          <Link
             to='/nytt-recept'
             exact
             type='btn'
