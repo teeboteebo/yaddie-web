@@ -6,57 +6,9 @@ import { Link } from "react-router-dom";
 import { Search } from "react-feather";
 import "./style.scss";
 
-// import "react-bootstrap-typeahead/css/Typeahead.css";
 
 class SearchSection extends React.Component {
-  // state = {
-  //   query: "",
-  //   data: [],
-  //   searchResult: []
-  // };
 
-  // handleInputChange = event => {
-  //   this.setState(
-  //     {
-  //       query: event.target.value
-  //     },
-  //     () => {
-  //       this.filterArray();
-  //     }
-  //   );
-  // };
-
-  // async getData() {
-  //   await axios({
-  //     method: "get",
-  //     url: "/api/tag"
-  //   }).then(data => {
-  //     this.setState({
-  //       data
-  //     });
-  //     console.log(this.state.data);
-  //   });
-  // }
-
-  // filterArray = () => {
-  //   console.log("test");
-  //   console.log(this.state.data.data);
-  //   let testarray = [];
-
-  //   this.state.data.data.map(i => {
-  //     return testarray.push(i.name.toLowerCase());
-  //   });
-  //   let searchString = this.state.query;
-
-  //   console.log(searchString);
-  //   testarray = testarray.filter(i => i.includes(searchString.toLowerCase()));
-  //   console.log(testarray);
-  //   this.setState({ searchResult: testarray });
-  // };
-
-  // componentDidMount() {
-  //   this.getData();
-  // }
   constructor(props) {
     super(props);
 
@@ -65,13 +17,15 @@ class SearchSection extends React.Component {
     this.state = {
       searchInput: "",
       resultTags: [],
-      resultRecipes: []
+      resultRecipes: [],
+      resultSelectedIndex: -1
     };
   }
   async searchHandler(e) {
     let searchInput = e.target.value;
     this.setState({
-      searchInput: e.target.value
+      searchInput: e.target.value,
+      resultFetched: false
     });
     if (searchInput.length > 1) {
       let tags = await axios({
@@ -87,7 +41,9 @@ class SearchSection extends React.Component {
 
       this.setState({
         resultTags: tags,
-        resultRecipes: recipes
+        resultRecipes: recipes,
+        resultSelectedIndex: -1,
+        resultFetched: true
       });
     } else {
       this.setState({
@@ -98,9 +54,26 @@ class SearchSection extends React.Component {
     console.log(searchInput);
   }
 
-  onEnterPress = e => {
+  onKeyDown = e => {
+    if(['Enter', 'ArrowDown', 'ArrowUp'].includes(e.key)){
+      e.preventDefault();
+    }
     if (e.key === "Enter") {
-      document.getElementById("search-btn").click();
+     
+      if(this.state.resultSelectedIndex >= 0){
+        let combo = this.state.resultTags.concat(this.state.resultRecipes);
+        this.setState({searchInput: combo[this.state.resultSelectedIndex].name});
+      }
+
+      // ugly hack - we should really push to history - check React router docs
+      setTimeout(() => document.getElementById("search-btn").click(), 0);
+    }
+    if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){
+      let newSelectedIndex = this.state.resultSelectedIndex + (e.key === 'ArrowDown' ? 1 : -1);
+      let max = this.state.resultTags.length + this.state.resultRecipes.length  - 1;
+      newSelectedIndex = newSelectedIndex > max ? 0 : newSelectedIndex;
+      newSelectedIndex = newSelectedIndex < 0 ? max : newSelectedIndex;
+      this.setState({resultSelectedIndex: newSelectedIndex})
     }
   };
 
@@ -115,13 +88,13 @@ class SearchSection extends React.Component {
             placeholder="Sök efter recept.."
             onChange={this.searchHandler}
             value={this.state.searchInput}
-            onKeyPress={this.onEnterPress}
+            onKeyDown = {this.onKeyDown}
           />
           <Search className="search-logo" color="#555" />
           <div className="search-res">
             {this.state.searchInput.length > 1 ? (
               this.state.resultRecipes.length < 1 &&
-              this.state.resultTags < 1 ? (
+              this.state.resultTags < 1 && this.state.resultFetched ? (
                 <table>
                   <tbody className="recipe-list">
                     <tr>
@@ -138,7 +111,7 @@ class SearchSection extends React.Component {
                       </tr>
                     ) : null}
                     {this.state.resultTags.map((item, index) => (
-                      <tr key={index} className="result-item">
+                      <tr key={index} className={this.state.resultSelectedIndex === index ? "result-item selected" : "result-item"}>
                         <td>
                           <Link to={"/sök?kategori='" + item.name + "'"}>
                             <div>{item.name}</div>
@@ -152,7 +125,7 @@ class SearchSection extends React.Component {
                       </tr>
                     ) : null}
                     {this.state.resultRecipes.map((item, index) => (
-                      <tr key={index} className="result-item">
+                      <tr key={index} className={this.state.resultSelectedIndex === index + this.state.resultTags.length ? "result-item selected" : "result-item"}>
                         <td className="pr-3 w-100">
                           <Link to={"/recept/" + item._id}>
                             <Row>

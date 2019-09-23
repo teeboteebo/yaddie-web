@@ -107,9 +107,12 @@
       }
       .result-item {
         min-width: 100% !important;
+        cursor: pointer;
         &:hover {
           background-color: #efefef;
-          cursor: pointer;
+        }
+        &.selected {
+          background-color: #efefef;
         }
         a {
           color: $text;
