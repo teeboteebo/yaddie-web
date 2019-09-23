@@ -1,0 +1,17 @@
+@import '../../sass/variables';
+
+.new-recipe-page {
+  input[type=time] {
+    width: 105px;
+  }
+  .form-check, button {
+    margin-bottom: 16px;
+  }
+  .submit-section {
+    margin-top: 30px;
+    text-align: center;
+    button {
+      margin-left: 10px;
+    }
+  }
+}

@@ -2,7 +2,25 @@
 
 header {
   background-image: url('/images/header-image.jpg');
-  background-size: contain;
+  background-size: cover;
   background-position: center top;
   background-attachment: fixed;
+  padding: 5rem;
+}
+
+.logo{
+  height: 200px !important;
+}
+
+.test{
+  padding-top: 2rem;
+}
+
+// Mobile breakpoints..
+
+
+@media only screen and (max-width: 600px){
+  header{
+    padding: 1rem;
+  }
 }

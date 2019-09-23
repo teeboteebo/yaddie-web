@@ -4,6 +4,7 @@ html {
   body {
     font-family: $small-text;
     background-color: $background;
+    color: $text;
   }
   body .App {
     display: flex;
@@ -11,19 +12,29 @@ html {
     flex-direction: column;
     margin: 0;
     header {
-      min-height: 100vh;
-      @include media-breakpoint-up(sm) {
-        min-height: 400px;
+      //min-height: 100vh;
+      @include media-breakpoint-up(sm){
+        //min-height: 400px;
       }
+    }
+    input {
+      // border: 1px solid $light;
     }
     main {
       margin: 0 auto;
-      max-width: 1000px;
+      padding: 30px 15px;
+      @include media-breakpoint-up(md){
+        padding: 80px;
+      }
       width: 100%;
+      max-width: 1000px;
       background-color: #fff;
       box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
       color: $text;
       flex: 1;
+    }
+    .col* {
+      padding: 0;
     }
   }
   // ::selection {

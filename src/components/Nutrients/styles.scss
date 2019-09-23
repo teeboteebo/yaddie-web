@@ -1,0 +1,14 @@
+@import "../../sass/variables.scss";
+
+.nutrients-list {
+  border-radius: 10px;
+  background-color: $info;
+  border: 1px solid $light;
+  table {
+    th,
+    td {
+      border-bottom: 1px solid $light;
+      padding: 5px 0;
+    }
+  }
+}
