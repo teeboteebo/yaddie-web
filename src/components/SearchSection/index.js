@@ -185,37 +185,23 @@ class SearchSection extends React.Component {
             Sök
           </Link>
         </Col>
-        <Link
-          to="/till-receptvyn"
-          type="btn"
-          className="btn btn-success search-by-category text-white"
-        >
-          Sök efter kategori!
-        </Link>
-        <Link
-          to="/nytt-recept"
-          type="btn"
-          className="btn btn-primary add-recipes text-white float-right"
-        >
-          Lägg till recept!
-        </Link>
         <Col sm={12}>
-          <NavLink
+          <Link
             to='/till-receptvyn'
             exact
             type='btn'
             className='btn btn-success search-by-category text-white'>
             Sök efter kategori!
-          </NavLink>
+          </Link>
         </Col>
         <Col sm={12}>
-          <NavLink
+          <Link
             to='/nytt-recept'
             exact
             type='btn'
             className='btn btn-primary add-recipes text-white'>
             Lägg till recept!
-          </NavLink>
+          </Link>
         </Col>
       </section>
     );
