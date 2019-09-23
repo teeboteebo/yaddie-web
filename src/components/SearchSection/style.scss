@@ -130,4 +130,13 @@
       
     }
   }
+  .recipe-name{
+    font-size: 20px;
+    @media (max-width: 475px) {
+      font-size: 13px;
+    }
+  }
+  .padding-left-fix{
+    padding-left: 0!important;
+  }
 }

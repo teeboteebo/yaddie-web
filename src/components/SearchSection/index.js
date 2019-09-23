@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import { Col, Input } from "reactstrap";
+import { Row, Col, Input } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Search } from "react-feather";
 import "./style.scss";
@@ -155,15 +155,21 @@ class SearchSection extends React.Component {
                       <tr key={index} className="result-item">
                         <td className="pr-3 w-100">
                           <Link to={"/recept/" + item._id}>
-                            <div>
+                            <Row>
+                              <Col xs={3} md={3}>
                               <img
                                 src={item.image}
-                                style={{ maxWidth: 100, height: "auto" }}
+                                style={{ maxWidth: "100%", height: "auto" }}
                                 alt={item.heading + " bild"}
-                                className="mr-3"
                               />
+                              </Col>
+                              <Col xs={9} md={9} className="padding-left-fix">
+                              <p className="recipe-name">
                               {item.heading}
-                            </div>
+                              </p>
+                              </Col>
+                            </Row>
+    
                           </Link>
                         </td>
                       </tr>
