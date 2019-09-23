@@ -14,16 +14,12 @@ import './styles.scss';
 
 class RecipePreview extends React.Component {
   render() {
-    let hours = 0;
-    let minutes = 0;
-    if (this.props.recipe.cookingTime > 60) {
-      hours = (60 % this.props.recipe.cookingTime) / 60;
-      minutes = this.props.recipe.cookingTime - hours * 60;
-    }
+    const hoursRender = Math.floor(this.props.recipe.time / 60)
+    const minutesRender = (this.props.recipe.time % 60)
+    const time = `${hoursRender ? hoursRender + ' h ' : ''}${minutesRender} min`
     // Set max characters on cards
-    if (this.props.recipe.summary.length > 180) {
-      this.props.recipe.summary =
-        this.props.recipe.summary.slice(0, 180) + '...';
+    if (this.props.recipe.desc.length > 180) {
+      this.props.recipe.desc = this.props.recipe.desc.slice(0, 180) + '...';
     }
     const recipe = this.props.recipe;
     return (
@@ -33,22 +29,20 @@ class RecipePreview extends React.Component {
             <Row>
               <Col xs='12' md='4' className='px-0'>
                 <CardImg
-                  src={recipe.img}
+                  src={recipe.image}
                   className='recipe-img'
-                  alt={'Maträttsbild på ' + recipe.title}
+                  alt={'Maträttsbild på ' + recipe.heading}
                 />
               </Col>
               <Col xs='12' md='8' className='pb-5 pb-md-0'>
                 <CardSubtitle className='recipe-title mt-1'>
-                  <h4>{recipe.title}</h4>
+                  <h4>{recipe.heading}</h4>
                 </CardSubtitle>
                 <CardText className='recipe-card-resume mb-5'>
-                  {recipe.summary}
+                  {recipe.desc}
                 </CardText>
                 <div className='recipe-card-time'>
-                  {hours
-                    ? hours + ' h ' + minutes + ' min'
-                    : recipe.cookingTime + ' min'}
+                  {time}
                 </div>
                 <div className='preview-rating'>
                   <Rating rating={recipe.rating} size='16' />
