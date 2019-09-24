@@ -35,6 +35,8 @@ class RecipePage extends React.Component {
       method: 'GET',
       url: `/api/recipes/populated/${id}`
     })    
+    console.log(recipe.data);
+    
     return recipe.data
   }
   render() {

@@ -8,28 +8,16 @@ class Nutrients extends React.Component {
     super()
     this.state = {
       nutrients: {
+        "Energi (kcal)": 0,
         "Mättade fettsyror": 0,
         "Enkelomättade fettsyror": 0,
         "Fleromättade fettsyror": 0,
-        "Energi (kcal)": 0,
         "Kolhydrater": 0,
         "Protein": 0,
         "Salt": 0
       }
     }
   }
-  // [{
-  //  displayName: 'asdad',
-  //  unit: 'g',
-  //  quantity: 200
-  //  ingredientType: {
-  //    name: 'späck gris',
-  //    group: 'kött',
-  //    nutrients: {
-  //       ...
-  //    }
-  //  }
-  // },{}]
 
   convertValues = (qty, unit) => {
     const unitsToGram = {
@@ -52,21 +40,19 @@ class Nutrients extends React.Component {
   }
 
   componentDidMount() {
-    for (let ingredient of this.props.ingredients) { //nötfärs,dn   300,qty,   g,unit  iT.nutrients{...}
-      const unitInGrams = this.convertValues(ingredient.amount, ingredient.unit)
+    for (let ingredient of this.props.ingredients) { 
+      const unitInGrams = this.convertValues(ingredient.quantity, ingredient.unit)
       let { nutrients } = this.state 
-      console.log(ingredient);
-      
-      // nutrients["Mättade fettsyror"] += (ingredient.ingredientType.nutrients['Summa mättade fettsyror'] * unitInGrams / 100)
-      // nutrients["Enkelomättade fettsyror"] += (ingredient.ingredientType.nutrients['Summa enkelomättade fettsyror'] * unitInGrams / 100)
-      // nutrients["Fleromättade fettsyror"] += (ingredient.ingredientType.nutrients['Summa fleromättade fettsyror'] * unitInGrams / 100)
-      // nutrients["Energi (kcal)"] += (ingredient.ingredientType.nutrients['Energi (kcal)'] * unitInGrams / 100)
-      // nutrients["Kolhydrater"] += (ingredient.ingredientType.nutrients['Kolhydrater'] * unitInGrams / 100)
-      // nutrients["Protein"] += (ingredient.ingredientType.nutrients['Protein'] * unitInGrams / 100)
-      // nutrients["Salt"] += (ingredient.ingredientType.nutrients['Salt'] * unitInGrams / 100)
-      // this.setState({...this.state, nutrients})
+
+      nutrients["Mättade fettsyror"] += Math.round((ingredient.ingredientType.nutrients['Summa mättade fettsyror'] * unitInGrams / 100) * 10) / 10
+      nutrients["Enkelomättade fettsyror"] += Math.round((ingredient.ingredientType.nutrients['Summa enkelomättade fettsyror'] * unitInGrams / 100) * 10) / 10
+      nutrients["Fleromättade fettsyror"] += Math.round((ingredient.ingredientType.nutrients['Summa fleromättade fettsyror'] * unitInGrams / 100) * 10) / 10
+      nutrients["Energi (kcal)"] += Math.round((ingredient.ingredientType.nutrients['Energi (kcal)'] * unitInGrams / 100) * 10) / 10
+      nutrients["Kolhydrater"] += Math.round((ingredient.ingredientType.nutrients['Kolhydrater'] * unitInGrams / 100) * 10) / 10
+      nutrients["Protein"] += Math.round((ingredient.ingredientType.nutrients['Protein'] * unitInGrams / 100) * 10) / 10
+      nutrients["Salt"] += Math.round((ingredient.ingredientType.nutrients['Salt'] * unitInGrams / 100) * 10) / 10
+      this.setState({...this.state, nutrients})
     }
-    console.log(this.props.ingredients)
   }
   render() {
     return (
