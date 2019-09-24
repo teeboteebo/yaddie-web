@@ -44,6 +44,13 @@ class NewRecipePage extends React.Component {
     this.setState({ ...this.state, ingredientsData })
   }
 
+  onIngredientDisplayNameChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.displayName = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
   onIngredientQuantityChange = (str, id) => {
     const { ingredientsData } = this.state
     const foundObj = ingredientsData.find(tag => tag.id === id)
@@ -82,9 +89,9 @@ class NewRecipePage extends React.Component {
 
     this.setState({
       ingredients: [
-        <IngredientSelector key={0} id={0} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={1} id={1} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={2} id={2} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
+        <IngredientSelector key={0} id={0} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
       ],
       ingredientsDataObj: ingredients
     })
@@ -116,9 +123,9 @@ class NewRecipePage extends React.Component {
     ],
     ingredientsIdx: 3,
     ingredientsData: [
-      { id: 0, ingredientType: '', quantity: 0, entity: '' },
-      { id: 1, ingredientType: '', quantity: 0, entity: '' },
-      { id: 2, ingredientType: '', quantity: 0, entity: '' }
+      { id: 0, ingredientType: '', displayName: '', quantity: 0, entity: '' },
+      { id: 1, ingredientType: '', displayName: '', quantity: 0, entity: '' },
+      { id: 2, ingredientType: '', displayName: '', quantity: 0, entity: '' }
     ],
     cookingSteps: [
       <CookingStep key={0} id={0} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />,
@@ -180,7 +187,7 @@ class NewRecipePage extends React.Component {
 
   addIngredient = () => {
     let { ingredients, ingredientsIdx, ingredientsDataObj, ingredientsData } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientsData={ingredientsDataObj} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientsData={ingredientsDataObj} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
     ingredientsData.push({ id: ingredientsIdx, ingredientType: '', quantity: 0, entity: '' })
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
@@ -222,7 +229,7 @@ class NewRecipePage extends React.Component {
     // ingredientsData.forEach(ingredient => delete ingredient.id) // This must be after validation!!!
     const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
     this.validate()
-    //console.log(data)
+    console.log(data)
   }
 
   render() {
