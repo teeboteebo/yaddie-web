@@ -1,5 +1,5 @@
 import React from 'react'
-import { Row, Col, FormGroup, Label, Input } from 'reactstrap'
+import { Row, Col, FormGroup, Label, Input, Tooltip } from 'reactstrap'
 import '../styles.scss'
 
 import SearchSelect from '../../SearchSelect'
@@ -7,10 +7,9 @@ import SearchSelect from '../../SearchSelect'
 class IngredientSelector extends React.Component {
   state = {
     chosenIngredient: '',
-    entities: ['kg', 'hg', 'g', 'mg', 'l', 'dl', 'cl', 'ml', 'msk', 'tsk', 'krm', 'styck']
+    entities: ['kg', 'hg', 'g', 'mg', 'l', 'dl', 'cl', 'ml', 'msk', 'tsk', 'krm', 'styck'],
+    tooltipOpen: false
   }
-
-  // FIXA ENTITY!!!
 
   changeIngredient = e => {
     this.setState({ chosenIngredient: e.value })
@@ -25,6 +24,8 @@ class IngredientSelector extends React.Component {
 
   deleteIngredient = e => this.props.deleteIngredient(e.target.id)
 
+  toggle = () => this.setState({ tooltipOpen: !this.state.tooltipOpen })
+
   render() {
     const { id } = this.props
 
@@ -34,11 +35,16 @@ class IngredientSelector extends React.Component {
           <FormGroup>
             <SearchSelect id={'ingredients-' + id} value={this.state.chosenIngredient} changeSelect={this.changeIngredient} results={this.props.ingredientsData.data} placeholder="Välj ingrediens..." />
             {this.state.chosenIngredient ?
-              <div>
+              <div className="mb-4">
                 <Row className="mt-2">
                   <Col>
                     <FormGroup className="mb-0">
-                      <Label for={'display-name-' + id}><em>Visningsnamn</em></Label>
+                      <Label for={'display-name-' + id}><em>Visningsnamn</em>&nbsp;
+                        <i className="fas fa-info-circle info" href="#" id={'tooltip-' + id} />
+                        <Tooltip placement="top" isOpen={this.state.tooltipOpen} autohide={false} target={'tooltip-' + id} toggle={this.toggle}>
+                          Namn som ska visas på receptsidan (valfritt)
+                        </Tooltip>
+                      </Label>
                       <Input bsSize="sm" type="text" name={'display-name-' + id} id={'display-name-' + id} onChange={this.changeDisplayName} />
                     </FormGroup>
                   </Col>
