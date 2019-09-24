@@ -237,6 +237,7 @@ class NewRecipePage extends React.Component {
         delete ingredient.id
         ingredient.unit = ingredient.entity
         delete ingredient.entity
+        ingredient.quantity = +ingredient.quantity
       })
 
       cookingStepsData = cookingStepsData.filter(cookingStep => cookingStep.text)
