@@ -1,6 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import { Container, Row, Col } from 'reactstrap'
+import {
+  Container,
+  Row,
+  Col,
+  Spinner
+} from 'reactstrap'
 import './styles.scss'
 
 import Rating from '../../components/Rating'
@@ -34,14 +39,12 @@ class RecipePage extends React.Component {
     const recipe = await axios({
       method: 'GET',
       url: `/api/recipes/populated/${id}`
-    })    
-    console.log(recipe.data);
-    
+    })
     return recipe.data
   }
   render() {
-    const hoursRender = Math.floor(this.state.recipe.time / 60)
-    const minutesRender = (this.state.recipe.time % 60)
+    const hoursRender = Math.floor(this.state.recipe.cookingTime / 60)
+    const minutesRender = (this.state.recipe.cookingTime % 60)
     const time = `${hoursRender ? hoursRender + ' h ' : ''}${minutesRender} min`
     return (
       <article className="recipe-page">
@@ -72,7 +75,7 @@ class RecipePage extends React.Component {
                       </Col>
                       <Col xs="12" className="mt-3">
                         <p>
-                          {this.state.recipe.desc}
+                          {this.state.recipe.summary}
                         </p>
                       </Col>
                     </Row>
@@ -103,7 +106,7 @@ class RecipePage extends React.Component {
                 </Row>
               </Container>
             </div>
-          : 'laddar'}
+          : <Col xs="12"><Spinner color="primary" /></Col>}
       </article>
     )
   }

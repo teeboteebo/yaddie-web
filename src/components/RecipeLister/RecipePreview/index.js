@@ -15,12 +15,12 @@ import './styles.scss';
 
 class RecipePreview extends React.Component {
   render() {
-    const hoursRender = Math.floor(this.props.recipe.time / 60)
-    const minutesRender = (this.props.recipe.time % 60)
+    const hoursRender = Math.floor(this.props.recipe.cookingTime / 60)
+    const minutesRender = (this.props.recipe.cookingTime % 60)
     const time = `${hoursRender ? hoursRender + ' h ' : ''}${minutesRender} min`
     // Set max characters on cards
-    if (this.props.recipe.desc.length > 180) {
-      this.props.recipe.desc = this.props.recipe.desc.slice(0, 180) + '...';
+    if (this.props.recipe.summary.length > 180) {
+      this.props.recipe.summary = this.props.recipe.summary.slice(0, 180) + '...';
     }
     const recipe = this.props.recipe;
     return (
@@ -40,7 +40,7 @@ class RecipePreview extends React.Component {
                   <h4>{recipe.heading}</h4>
                 </CardSubtitle>
                 <CardText className='recipe-card-resume mb-5'>
-                  {recipe.desc}
+                  {recipe.summary}
                 </CardText>
                 <div className='recipe-card-time'>
                   {time}
