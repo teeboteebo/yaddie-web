@@ -25,7 +25,7 @@ class RecipePreview extends React.Component {
     const recipe = this.props.recipe;
     return (
       <article className='latest-added-recipe'>
-        <Link to={'/recept/'+ recipe._id}>
+        <Link to={'/recept/' + recipe._id}>
           <Container fluid>
             <Row>
               <Col xs='12' md='4' className='px-0'>
