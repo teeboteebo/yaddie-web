@@ -348,7 +348,7 @@ class NewRecipePage extends React.Component {
         <h4 className="mt-5">
           {!this.state.validation.instructions.valid ? <span style={{ 'color': '#dc3545' }}>Steg för steg instruktioner *</span> : 'Steg för steg instruktioner *'}
         </h4>
-        <FormText color="muted" className="d-inline-block">(Minst 1)</FormText>
+        <FormText color="muted" className="d-inline-block">Minst 1 steg</FormText>
         {this.state.cookingSteps.map((cookingStep) => cookingStep)}
         <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
         {!this.state.validation.instructions.valid ? <FormFeedback>{this.state.validation.instructions.text}</FormFeedback> : ''}
