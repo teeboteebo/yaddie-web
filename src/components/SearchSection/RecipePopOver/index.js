@@ -36,9 +36,10 @@ class RecipePopOver extends React.Component {
           <PopoverHeader>Popover Title</PopoverHeader>
           <PopoverBody>
             <div>
-              <h1>{this.props.test}</h1>
+              <h1></h1>
               <ul style={{ listStyle: "none" }}>
                 <li>
+                  {this.props.test}
                   <span></span>
                 </li>
               </ul>
