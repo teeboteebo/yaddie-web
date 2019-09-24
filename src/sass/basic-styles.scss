@@ -1,4 +1,4 @@
-@import './variables.scss';
+@import "./variables.scss";
 
 html {
   body {
@@ -17,6 +17,9 @@ html {
         //min-height: 400px;
       }
     }
+    input {
+      // border: 1px solid $light;
+    }
     main {
       margin: 0 auto;
       padding: 30px 15px;
@@ -26,7 +29,7 @@ html {
       width: 100%;
       max-width: 1000px;
       background-color: #fff;
-      box-shadow: 0 0 4px 1px rgba(0,0,0,0.1);
+      box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.1);
       color: $text;
       flex: 1;
     }

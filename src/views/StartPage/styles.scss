@@ -1,5 +1,9 @@
 @import '../../sass/variables';
 
 .start-page {
-  font-family: $big-text;
+  h3 {
+    font-family: $big-text;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
 }
