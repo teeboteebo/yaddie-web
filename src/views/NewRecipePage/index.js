@@ -107,7 +107,7 @@ class NewRecipePage extends React.Component {
   onStepTimeChange = (str, id) => {
     const { cookingStepsData } = this.state
     const foundObj = cookingStepsData.find(cookingStep => cookingStep.id === id)
-    foundObj.time = str
+    foundObj.timer = str
     this.setState({ ...this.state, cookingStepsData })
   }
 
@@ -132,8 +132,8 @@ class NewRecipePage extends React.Component {
       <CookingStep key={1} id={1} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />
     ],
     cookingStepsData: [
-      { id: 0, text: '', time: '' },
-      { id: 1, text: '', time: '' }
+      { id: 0, text: '', timer: '' },
+      { id: 1, text: '', timer: '' }
     ],
     cookingStepsIdx: 2,
     validation: {
@@ -196,7 +196,7 @@ class NewRecipePage extends React.Component {
   addStep = () => {
     let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
     cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
-    cookingStepsData.push({ id: cookingStepsIdx, text: '', time: '' })
+    cookingStepsData.push({ id: cookingStepsIdx, text: '', timer: '' })
     cookingStepsIdx++
     this.setState({ ...this.state, cookingSteps, cookingStepsIdx, cookingStepsData })
   }
@@ -226,7 +226,7 @@ class NewRecipePage extends React.Component {
     return false
   }
 
-  onSubmit = () => {
+  onSubmit = async () => {
     if (this.validate()) {
       let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
       
@@ -241,10 +241,21 @@ class NewRecipePage extends React.Component {
       })
 
       cookingStepsData = cookingStepsData.filter(cookingStep => cookingStep.text)
-      cookingStepsData.forEach(cookingStep => delete cookingStep.id)
+      cookingStepsData.forEach(cookingStep => {
+        let timerToMin = cookingStep.timer.split(':')
+        timerToMin = timerToMin[0] = parseInt(timerToMin) * 60 + parseInt(timerToMin[1])
+        cookingStep.timer = timerToMin
+        delete cookingStep.id
+      })
 
       const data = { heading, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
       console.log(data)
+
+      await axios({
+        method: 'POST',
+        url: '/api/recipes',
+        data
+      })
     }
   }
 
