@@ -14,7 +14,7 @@ class SearchSelect extends React.Component {
     const options = []
     if (this.props.results) {
     this.props.results.map((result, i) => {      
-      return options.push({"name": result, "value": result})
+      return options.push({"name": result.name, "value": result._id})
     })} else {
       options.push({"name": "Laddar", "value": 'Laddar'})
     }

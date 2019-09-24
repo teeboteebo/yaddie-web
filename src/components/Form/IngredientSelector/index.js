@@ -30,7 +30,7 @@ class IngredientSelector extends React.Component {
       <Row className="align-items-center ingredient-selector">
         <Col>
           <FormGroup>
-            <SearchSelect id={'ingredients-' + id} value={this.state.chosenIngredient} changeSelect={this.changeIngredient} results={this.props.ingredientNames} placeholder="Välj ingrediens..." />
+            <SearchSelect id={'ingredients-' + id} value={this.state.chosenIngredient} changeSelect={this.changeIngredient} results={this.props.ingredientsData.data} placeholder="Välj ingrediens..." />
             {this.state.chosenIngredient ?
               <Row>
                 <Col>

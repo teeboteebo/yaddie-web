@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Row, Col, Button, Form, FormGroup, Label, Input, FormText, Spinner } from 'reactstrap'
+import { Row, Col, Button, FormGroup, Label, Input, FormText, Spinner } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
@@ -8,27 +8,6 @@ import IngredientSelector from '../../components/Form/IngredientSelector'
 import CookingStep from '../../components/Form/CookingStep'
 
 class NewRecipePage extends React.Component {
-
-  
-  handleTitle(evt) {
-    const Title = (evt.target.validity.valid) ? evt.target.value : this.state.Title;
-    console.log('Title')
-    this.setState({ Title });
-  }
-  
-
-  handleTimer(evt) {
-    const Timer = (evt.target.validity.valid) ? evt.target.value : this.state.Timer;
-    console.log('Timer')
-    this.setState({ Timer });
-  }
-  handlePortion(evt) {
-    const Portion = (evt.target.validity.valid) ? evt.target.value : this.state.Portion;
-    console.log('Portion')
-    this.setState({ Portion });
-  }
-
- 
   // These methods needs to be before the state declaration
   deleteTag = id => {
     const { tags, tagsData } = this.state
@@ -54,14 +33,14 @@ class NewRecipePage extends React.Component {
   onTagChange = (str, id) => {
     const { tagsData } = this.state
     const foundObj = tagsData.find(tag => tag.id === id)
-    foundObj.text = str
+    foundObj.tagType = str
     this.setState({ ...this.state, tagsData })
   }
 
   onIngredientTextChange = (str, id) => {
     const { ingredientsData } = this.state
     const foundObj = ingredientsData.find(tag => tag.id === id)
-    foundObj.text = str
+    foundObj.ingredientType = str
     this.setState({ ...this.state, ingredientsData })
   }
 
@@ -84,30 +63,30 @@ class NewRecipePage extends React.Component {
       method: 'GET',
       url: '/api/tags'
     })
-    const tagNames = tags.data.map(tag => tag.name)
+    // const tagsDataObj = tags.data.map(tag => tag)
 
     this.setState({
       tags: [      
-        <TagSelector key={0} id={0} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
-        <TagSelector key={1} id={1} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
-        <TagSelector key={2} id={2} tagNames={tagNames} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />
+        <TagSelector key={0} id={0} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
+        <TagSelector key={1} id={1} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
+        <TagSelector key={2} id={2} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />
       ],
-      tagNames: tagNames
+      tagsDataObj: tags
     })
 
     let ingredients = await axios({
       method: 'GET',
       url: '/api/ingredients'
     })
-    const ingredientNames = ingredients.data.map(ingredient => ingredient.name)
+    // const ingredientsDataObj = ingredients.data.map(ingredient => ingredient)
 
     this.setState({
       ingredients: [
-        <IngredientSelector key={0} id={0} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={1} id={1} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={2} id={2} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
+        <IngredientSelector key={0} id={0} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
       ],
-      ingredientNames: ingredientNames
+      ingredientsDataObj: ingredients
     })
   }
 
@@ -126,23 +105,20 @@ class NewRecipePage extends React.Component {
   }
 
   state = {
-    //States created for Titel,Timer and Portioner.
-      Title: '',
-      Timer: '',
-      Portion: '',
-
-
+    heading: '',
+    cookingTime: '',
+    portions: '',
     tagsIdx: 3,
     tagsData: [
-      { id: 0, text: '' },
-      { id: 1, text: '' },
-      { id: 2, text: '' }
+      { id: 0, tagType: '' },
+      { id: 1, tagType: '' },
+      { id: 2, tagType: '' }
     ],
     ingredientsIdx: 3,
     ingredientsData: [
-      { id: 0, text: '', quantity: 0, entity: '' },
-      { id: 1, text: '', quantity: 0, entity: '' },
-      { id: 2, text: '', quantity: 0, entity: '' }
+      { id: 0, ingredientType: '', quantity: 0, entity: '' },
+      { id: 1, ingredientType: '', quantity: 0, entity: '' },
+      { id: 2, ingredientType: '', quantity: 0, entity: '' }
     ],
     cookingSteps: [
       <CookingStep key={0} id={0} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />,
@@ -155,23 +131,39 @@ class NewRecipePage extends React.Component {
     cookingStepsIdx: 2
   }
 
+  handleTitle(evt) {
+    const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
+    this.setState({ heading: title });
+  }
+
+  handleCookingTime(evt) {
+    const cookingTime = (evt.target.validity.valid) ? evt.target.value : this.state.cookingTime;
+    this.setState({ cookingTime });
+  }
+
+  handlePortions(evt) {
+    const portions = (evt.target.validity.valid) ? evt.target.value : this.state.portions;
+    this.setState({ portions });
+  }
+
+  onSummaryChange = e => this.setState({ summary: e.target.value })
+
   addTag = () => {
-    let { tags, tagsIdx, tagNames, tagsData } = this.state
-    tags.push(<TagSelector key={tagsIdx} tagNames={tagNames} id={tagsIdx} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />)
-    tagsData.push({ id: tagsIdx, text: '' })
+    let { tags, tagsIdx, tagsDataObj, tagsData } = this.state
+    tags.push(<TagSelector key={tagsIdx} tagsData={tagsDataObj} id={tagsIdx} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />)
+    tagsData.push({ id: tagsIdx, tagType: '' })
     tagsIdx++
     this.setState({ ...this.state, tags, tagsIdx, tagsData })
   }
 
   addIngredient = () => {
-    let { ingredients, ingredientsIdx, ingredientNames, ingredientsData } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientNames={ingredientNames} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
-    ingredientsData.push({ id: ingredientsIdx, text: '', quantity: 0, entity: '' })
+    let { ingredients, ingredientsIdx, ingredientsDataObj, ingredientsData } = this.state
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientsData={ingredientsDataObj} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
+    ingredientsData.push({ id: ingredientsIdx, ingredientType: '', quantity: 0, entity: '' })
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
   }
   
-
   addStep = () => {
     let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
     cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
@@ -181,13 +173,17 @@ class NewRecipePage extends React.Component {
   }
 
   onSubmit = e => {
-    e.preventDefault()
-    console.log(this.state)
+    // e.preventDefault()
+    let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
+    tagsData = tagsData.map(tag => tag.tagType)
+    ingredientsData.forEach(ingredient => delete ingredient.id) // This must be after validation!!!
+    const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
+    console.log(data)
   }
 
   render() {
     return (
-      <Form className="new-recipe-page" onSubmit={this.onSubmit}>
+      <div className="new-recipe-page">
         <h2>Lägg till nytt recept</h2>
         <Row>
           <Col sm={6}>
@@ -211,22 +207,21 @@ class NewRecipePage extends React.Component {
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
               {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
-              <Input type="number" name="cookingTime" id="cooking-time"  min="1" max="1000" pattern="[0-9]*" onChange={this.handleTimer.bind(this)} value={this.state.Timer} />
+              <Input type="number" name="cookingTime" id="cooking-time"  min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="portions">Antal portioner</Label>
-              <Input type="number" name="portions" id="portions" min="2" max="10"  onChange={this.handlePortion.bind(this)} />
+              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortions.bind(this)} />
               <FormText color="muted">2-10 portioner</FormText>
-
             </FormGroup>
           </Col>
         </Row>
         <FormGroup>
           <Label for="summary">Sammanfattning</Label>
-          <Input type="textarea" name="summary" id="summary" />
+          <Input type="textarea" name="summary" id="summary" value={this.state.summary} onChange={this.onSummaryChange} />
         </FormGroup>
         <Row>
           <Col sm={6}>
@@ -249,10 +244,10 @@ class NewRecipePage extends React.Component {
         <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
         <Row>
           <Col className="submit-section">
-            <Button color="danger">Avbryt</Button><Button type="submit" color="success">Publicera</Button>
+            <Button color="danger">Avbryt</Button><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>
           </Col>
         </Row>
-      </Form>
+      </div>
     )
   }
 }

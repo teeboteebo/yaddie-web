@@ -15,7 +15,7 @@ class TagSelector extends React.Component {
       <FormGroup className="tag-selector">
         <Row className="align-items-center">
           <Col>
-            <SearchSelect id={'tags-' + id} changeSelect={this.changeTag} results={this.props.tagNames} placeholder="Välj tagg..." />
+            <SearchSelect id={'tags-' + id} changeSelect={this.changeTag} results={this.props.tagsData.data} placeholder="Välj tagg..." />
           </Col>
           <Col xs="auto" className="pl-0">
             <i className="fas fa-times" id={id} onClick={this.deleteTag} title="Ta bort tagg" />
