@@ -15,7 +15,9 @@ class Nutrients extends React.Component {
         "Kolhydrater": 0,
         "Protein": 0,
         "Salt": 0
-      }
+      },
+      totalG: 0,
+      loaded: false
     }
   }
 
@@ -40,19 +42,42 @@ class Nutrients extends React.Component {
   }
 
   componentDidMount() {
-    for (let ingredient of this.props.ingredients) { 
-      const unitInGrams = this.convertValues(ingredient.quantity, ingredient.unit)
-      let { nutrients } = this.state 
-
-      nutrients["Mättade fettsyror"] += Math.round((ingredient.ingredientType.nutrients['Summa mättade fettsyror'] * unitInGrams / 100) * 10) / 10
-      nutrients["Enkelomättade fettsyror"] += Math.round((ingredient.ingredientType.nutrients['Summa enkelomättade fettsyror'] * unitInGrams / 100) * 10) / 10
-      nutrients["Fleromättade fettsyror"] += Math.round((ingredient.ingredientType.nutrients['Summa fleromättade fettsyror'] * unitInGrams / 100) * 10) / 10
-      nutrients["Energi (kcal)"] += Math.round((ingredient.ingredientType.nutrients['Energi (kcal)'] * unitInGrams / 100) * 10) / 10
-      nutrients["Kolhydrater"] += Math.round((ingredient.ingredientType.nutrients['Kolhydrater'] * unitInGrams / 100) * 10) / 10
-      nutrients["Protein"] += Math.round((ingredient.ingredientType.nutrients['Protein'] * unitInGrams / 100) * 10) / 10
-      nutrients["Salt"] += Math.round((ingredient.ingredientType.nutrients['Salt'] * unitInGrams / 100) * 10) / 10
-      this.setState({...this.state, nutrients})
+    if (!this.state.loaded) {
+      this.setNutrientValues(this.props.ingredients)
+      this.setState({ loaded: true })
     }
+  }
+  setNutrientValues = (ingredients) => {
+
+    let nutrients = {
+      "Energi (kcal)": 0,
+      "Mättade fettsyror": 0,
+      "Enkelomättade fettsyror": 0,
+      "Fleromättade fettsyror": 0,
+      "Kolhydrater": 0,
+      "Protein": 0,
+      "Salt": 0
+    }
+    let totalGrams = 0
+
+    for (let ingredient of ingredients) {
+      const amountInGrams = this.convertValues(ingredient.quantity, ingredient.unit)
+      totalGrams += amountInGrams
+
+      nutrients["Energi (kcal)"] += Math.round(ingredient.ingredientType.nutrients['Energi (kcal)'] * amountInGrams)
+      nutrients["Mättade fettsyror"] += Math.round(ingredient.ingredientType.nutrients['Summa mättade fettsyror'] * amountInGrams)
+      nutrients["Enkelomättade fettsyror"] += Math.round(ingredient.ingredientType.nutrients['Summa enkelomättade fettsyror'] * amountInGrams)
+      nutrients["Fleromättade fettsyror"] += Math.round(ingredient.ingredientType.nutrients['Summa fleromättade fettsyror'] * amountInGrams)
+      nutrients["Kolhydrater"] += Math.round(ingredient.ingredientType.nutrients['Kolhydrater'] * amountInGrams)
+      nutrients["Protein"] += Math.round(ingredient.ingredientType.nutrients['Protein'] * amountInGrams)
+      nutrients["Salt"] += (ingredient.ingredientType.nutrients['Salt'] * amountInGrams)
+
+    }
+
+    this.setState({
+      nutrients: nutrients,
+      totalGrams: totalGrams
+    })
   }
   render() {
     return (
@@ -72,7 +97,7 @@ class Nutrients extends React.Component {
                     {entry[0]}
                   </td>
                   <td nowrap="true" className="text-right">
-                    {entry[0] === 'Energi (kcal)' ? entry[1] + " kcal" : entry[1] + " g"}
+                    {entry[0] === 'Energi (kcal)' ? (entry[1]/this.state.totalGrams) + " kcal" : (entry[1] / this.state.totalGrams).toFixed(2) + " g"}
                   </td>
                 </tr>
               )
