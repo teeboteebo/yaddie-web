@@ -85,7 +85,7 @@ class SearchSection extends React.Component {
             className="search-bar"
             type="text"
             name="search"
-            placeholder="Sök efter recept.."
+            placeholder="Sök recept/kategori.."
             onChange={this.searchHandler}
             value={this.state.searchInput}
             onKeyDown = {this.onKeyDown}
@@ -164,17 +164,11 @@ class SearchSection extends React.Component {
             Sök
           </Link>
         </Col>
-        <Link
-          to="/till-receptvyn"
-          type="btn"
-          className="btn btn-success search-by-category text-white"
-        >
-          Sök efter kategori!
-        </Link>
+        
         <Link
           to="/nytt-recept"
           type="btn"
-          className="btn btn-primary add-recipes text-white float-right"
+          className="btn btn-primary col-12 col-md-5 add-recipes text-white float-right"
         >
           Lägg till recept!
         </Link>
