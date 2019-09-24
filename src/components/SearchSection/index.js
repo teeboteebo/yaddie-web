@@ -23,8 +23,9 @@ class SearchSection extends React.Component {
   }
   async searchHandler(e) {
     let searchInput = e.target.value;
+
     this.setState({
-      searchInput: e.target.value,
+      searchInput : e.target.value,
       resultFetched: false
     });
     if (searchInput.length > 1) {
@@ -63,6 +64,9 @@ class SearchSection extends React.Component {
       if(this.state.resultSelectedIndex >= 0){
         let combo = this.state.resultTags.concat(this.state.resultRecipes);
         this.setState({searchInput: combo[this.state.resultSelectedIndex].name});
+        if(this.state.searchInput === undefined){
+          this.setState({searchInput : ""})
+        }
         
       }
      
@@ -90,12 +94,13 @@ class SearchSection extends React.Component {
             name="search"
             placeholder="Sök recept/kategori.."
             onChange={this.searchHandler}
-            value={this.state.searchInput}
+            value={this.state.searchInput || ""}
             onKeyDown = {this.onKeyDown}
           />
           <Search className="search-logo" color="#555" />
           <div className="search-res">
-            {this.state.searchInput.length > 1 ? (
+            { this.state.searchInput ?
+              this.state.searchInput.length > 1 ? (
               this.state.resultRecipes.length < 1 &&
               this.state.resultTags < 1 && this.state.resultFetched ? (
                 <table>
@@ -155,7 +160,7 @@ class SearchSection extends React.Component {
               )
             ) : (
               ""
-            )}
+            ) : ""}
           </div>
 
           <Link
