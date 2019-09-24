@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Row, Col, Button, FormGroup, Label, Input, FormText, Spinner } from 'reactstrap'
+import { Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Spinner } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
@@ -66,7 +66,7 @@ class NewRecipePage extends React.Component {
     // const tagsDataObj = tags.data.map(tag => tag)
 
     this.setState({
-      tags: [      
+      tags: [
         <TagSelector key={0} id={0} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
         <TagSelector key={1} id={1} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
         <TagSelector key={2} id={2} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />
@@ -128,12 +128,34 @@ class NewRecipePage extends React.Component {
       { id: 0, text: '', time: '' },
       { id: 1, text: '', time: '' }
     ],
-    cookingStepsIdx: 2
+    cookingStepsIdx: 2,
+    validation: {
+      heading: {
+        valid: true,
+        text: 'Vänligen fyll i en rubrik'
+      },
+      portions: {
+        valid: true,
+        text: 'Vänligen ange antal portioner (2-10)'
+      },
+      ingredients: {
+        valid: true,
+        text: 'Vänligen välj minst en ingrediens'
+      },
+      qtyAndEntity: {
+        valid: true,
+        text: 'Fyll i mängd och enhet för alla valda ingredienser'
+      },
+      instructions: {
+        valid: true,
+        text: 'Vänligen fyll i minst en instruktion'
+      }
+    }
   }
 
   handleTitle(evt) {
-    const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
-    this.setState({ heading: title });
+    // const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
+    this.setState({ heading: evt.target.value });
   }
 
   handleCookingTime(evt) {
@@ -142,8 +164,8 @@ class NewRecipePage extends React.Component {
   }
 
   handlePortions(evt) {
-    const portions = (evt.target.validity.valid) ? evt.target.value : this.state.portions;
-    this.setState({ portions });
+    // const portions = (evt.target.validity.valid) ? evt.target.value : this.state.portions;
+    this.setState({ portions: evt.target.value });
   }
 
   onSummaryChange = e => this.setState({ summary: e.target.value })
@@ -163,7 +185,7 @@ class NewRecipePage extends React.Component {
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
   }
-  
+
   addStep = () => {
     let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
     cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
@@ -172,13 +194,32 @@ class NewRecipePage extends React.Component {
     this.setState({ ...this.state, cookingSteps, cookingStepsIdx, cookingStepsData })
   }
 
+  validate() {
+    const { validation, heading, portions, ingredientsData } = this.state
+    if (!/\w+/.test(heading)) validation.heading.valid = false
+    else validation.heading.valid = true
+
+    if (!/\d+/.test(portions) || (+portions < 2 || +portions > 10)) validation.portions.valid = false
+    else validation.portions.valid = true
+
+    if (!ingredientsData.some(ingredient => ingredient.ingredientType)) validation.ingredients.valid = false
+    else validation.ingredients.valid = true
+
+    const chosenIngredients = ingredientsData.filter(ingredient => ingredient.ingredientType)
+    if (chosenIngredients.some(ingredient => ingredient.quantity <= 0 || !ingredient.entity)) validation.qtyAndEntity.valid = false
+    else validation.qtyAndEntity.valid = true
+
+    this.setState({ ...this.state, validation })
+  }
+
   onSubmit = e => {
     // e.preventDefault()
     let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
     tagsData = tagsData.map(tag => tag.tagType)
-    ingredientsData.forEach(ingredient => delete ingredient.id) // This must be after validation!!!
+    // ingredientsData.forEach(ingredient => delete ingredient.id) // This must be after validation!!!
     const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
-    console.log(data)
+    this.validate()
+    //console.log(data)
   }
 
   render() {
@@ -188,14 +229,17 @@ class NewRecipePage extends React.Component {
         <Row>
           <Col sm={6}>
             <FormGroup >
-              <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" onChange={this.handleTitle.bind(this)} />
+              <Label for="heading">
+                {!this.state.validation.heading.valid ? <span style={{ 'color': '#dc3545' }}>Rubrik *</span> : 'Rubrik *'}
+              </Label>
+              <Input type="heading" name="heading" id="heading" onChange={this.handleTitle.bind(this)} invalid={!this.state.validation.heading.valid} />
+              {this.state.validation.heading.valid ? '' : <FormFeedback>{this.state.validation.heading.text}</FormFeedback>}
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
-              <Input type="file" name="picture" id="picture"/>
+              <Input type="file" name="picture" id="picture" />
               <FormText color="muted">
                 Välj en Yaddie upplösning!
               </FormText>
@@ -207,14 +251,17 @@ class NewRecipePage extends React.Component {
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
               {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
-              <Input type="number" name="cookingTime" id="cooking-time"  min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} />
+              <Input type="number" name="cookingTime" id="cooking-time" min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
-              <Label for="portions">Antal portioner</Label>
-              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortions.bind(this)} />
+              <Label for="portions">
+                {!this.state.validation.portions.valid ? <span style={{ 'color': '#dc3545' }}>Antal portioner *</span> : 'Antal portioner *'}
+              </Label>
+              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortions.bind(this)} invalid={!this.state.validation.portions.valid} />
+              {!this.state.validation.portions.valid ? <FormFeedback>{this.state.validation.portions.text}</FormFeedback> : ''}
               <FormText color="muted">2-10 portioner</FormText>
             </FormGroup>
           </Col>
@@ -232,10 +279,17 @@ class NewRecipePage extends React.Component {
             </div>
           </Col>
           <Col sm={6}>
-            <Label>Ingredienser</Label>
+            <Label>{!this.state.validation.ingredients.valid || !this.state.validation.qtyAndEntity.valid ?
+              <span style={{ 'color': '#dc3545' }}>Ingredienser *&nbsp;</span>
+              :
+              <span>Ingredienser *&nbsp;</span>
+            }</Label>
+            <FormText color="muted" className="d-inline-block">(Minst 1)</FormText>
             {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : <div className="text-center p-5"><Spinner color="primary" /></div>}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
+              {!this.state.validation.ingredients.valid ? <FormFeedback>{this.state.validation.ingredients.text}</FormFeedback> : ''}
+              {!this.state.validation.qtyAndEntity.valid ? <FormFeedback>{this.state.validation.qtyAndEntity.text}</FormFeedback> : ''}
             </div>
           </Col>
         </Row>
