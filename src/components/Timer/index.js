@@ -2,7 +2,7 @@ import React from "react"
 import Countdown from "react-countdown-now"
 import { RefreshCcw } from "react-feather"
 import "./styles.scss"
-import soundfile from "./alert.mp3"
+import soundfile from "./bruh.mp3"
 
 // Takes props.time as a value in minutes
 class Timer extends React.Component {
@@ -13,6 +13,7 @@ class Timer extends React.Component {
       audio: new Audio(soundfile)
     }
   }
+
   startTimer = () => {
     if (this.state.started) {
       return
