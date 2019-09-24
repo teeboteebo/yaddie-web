@@ -195,7 +195,7 @@ class NewRecipePage extends React.Component {
   }
 
   validate() {
-    const { validation, heading, portions, ingredientsData } = this.state
+    const { validation, heading, portions, ingredientsData, cookingStepsData } = this.state
     if (!/\w+/.test(heading)) validation.heading.valid = false
     else validation.heading.valid = true
 
@@ -208,6 +208,9 @@ class NewRecipePage extends React.Component {
     const chosenIngredients = ingredientsData.filter(ingredient => ingredient.ingredientType)
     if (chosenIngredients.some(ingredient => ingredient.quantity <= 0 || !ingredient.entity)) validation.qtyAndEntity.valid = false
     else validation.qtyAndEntity.valid = true
+
+    if (!cookingStepsData.some(cookingStep => cookingStep.text)) validation.instructions.valid = false
+    else validation.instructions.valid = true
 
     this.setState({ ...this.state, validation })
   }
@@ -225,7 +228,7 @@ class NewRecipePage extends React.Component {
   render() {
     return (
       <div className="new-recipe-page">
-        <h2>Lägg till nytt recept</h2>
+        <h2 className="mb-3">Lägg till nytt recept</h2>
         <Row>
           <Col sm={6}>
             <FormGroup >
@@ -293,9 +296,13 @@ class NewRecipePage extends React.Component {
             </div>
           </Col>
         </Row>
-        <h4 className="mt-4">Steg för steg instruktioner</h4>
+        <h4 className="mt-5">
+          {!this.state.validation.instructions.valid ? <span style={{ 'color': '#dc3545' }}>Steg för steg instruktioner *</span> : 'Steg för steg instruktioner *'}
+        </h4>
+        <FormText color="muted" className="d-inline-block">(Minst 1)</FormText>
         {this.state.cookingSteps.map((cookingStep) => cookingStep)}
         <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
+        {!this.state.validation.instructions.valid ? <FormFeedback>{this.state.validation.instructions.text}</FormFeedback> : ''}
         <Row>
           <Col className="submit-section">
             <Button color="danger">Avbryt</Button><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>

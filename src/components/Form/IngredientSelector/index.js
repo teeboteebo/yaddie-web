@@ -35,13 +35,13 @@ class IngredientSelector extends React.Component {
               <Row>
                 <Col>
                   <FormGroup>
-                    <Label xs="auto" className="pl-0" for={'quantity-' + id}><em>Mängd</em></Label>
+                    <Label xs="auto" className="pl-0" for={'quantity-' + id}><em>Mängd</em> *</Label>
                     <Input type="number" name={'quantity-' + id} id={'quantity-' + id} onChange={this.changeQuantity} />
                   </FormGroup>
                 </Col>
                 <Col>
                   <FormGroup>
-                    <Label xs="auto" className="pl-0" for={'entity-' + id}><em>Enhet</em></Label>
+                    <Label xs="auto" className="pl-0" for={'entity-' + id}><em>Enhet</em> *</Label>
                     <Input type="select" name={'entity-' + id} id={'entity-' + id} onChange={this.changeEntity}>
                       <option value="">Välj enhet...</option>
                       {this.state.entities.map((entity, idx) => <option key={idx} value={entity}>{entity}</option>)}
