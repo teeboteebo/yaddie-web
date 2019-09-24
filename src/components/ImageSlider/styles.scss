@@ -4,16 +4,21 @@
   width: 90%;
   height: 260px;
   text-align: center;
-  margin: 0 5% 0 5%;
+  margin: 10px 5% 10px 5%;
   border-radius: 10px;
   object-fit: cover;
   cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  &:hover {
+    transition: all 200ms ease-in;
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.1);
+  }
 }
 
 .slider-container {
   position: relative;
   width: 90%;
-  margin: 50px auto 30px auto;
+  margin: 40px auto 30px auto;
   .button-left {
     position: absolute;
     left: -40px;
@@ -32,5 +37,6 @@
     margin-top: 3px;
     font-weight: 600;
     font-family: $small-text;
+    color: $text;
   }
 }

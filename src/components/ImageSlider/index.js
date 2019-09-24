@@ -1,4 +1,5 @@
 import React from "react"
+import { Link } from "react-router-dom"
 import AliceCarousel from "react-alice-carousel"
 import "react-alice-carousel/lib/alice-carousel.css"
 import "./styles.scss"
@@ -55,12 +56,12 @@ class ImageSlider extends React.Component {
 
   galleryItems() {
     return this.sliderArray.map((slide, index) => (
-      <a href={slide.link}>
+      <Link to={slide.link}>
         <div>
           <img src={slide.image} className="slider-img" alt={slide.alt}></img>
           <label className="img-label">{slide.name}</label>
         </div>
-      </a>
+      </Link>
     ))
   }
   /*
