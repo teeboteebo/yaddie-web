@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Spinner } from 'reactstrap'
+import { Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Spinner, Alert } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
@@ -236,6 +236,22 @@ class NewRecipePage extends React.Component {
     return (
       <div className="new-recipe-page">
         <h2 className="mb-3">Lägg till nytt recept</h2>
+        {
+          !this.state.validation.heading.valid ||
+          !this.state.validation.portions.valid ||
+          !this.state.validation.ingredients.valid ||
+          !this.state.validation.qtyAndEntity.valid ||
+          !this.state.validation.instructions.valid ?
+        <Alert color="danger">
+          <p><strong>Var god åtgärda följande:</strong></p>
+          <p>{!this.state.validation.heading.valid ? this.state.validation.heading.text : ''}</p>
+          <p>{!this.state.validation.portions.valid ? this.state.validation.portions.text : ''}</p>
+          <p>{!this.state.validation.ingredients.valid ? this.state.validation.ingredients.text : ''}</p>
+          <p>{!this.state.validation.qtyAndEntity.valid ? this.state.validation.qtyAndEntity.text : ''}</p>
+          <p>{!this.state.validation.instructions.valid ? this.state.validation.instructions.text : ''}</p>
+        </Alert>
+        : ''
+        }
         <Row>
           <Col sm={6}>
             <FormGroup >
