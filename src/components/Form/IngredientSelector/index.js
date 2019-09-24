@@ -7,7 +7,7 @@ import SearchSelect from '../../SearchSelect'
 class IngredientSelector extends React.Component {
   state = {
     chosenIngredient: '',
-    entities: ['kg', 'hg', 'g', 'mg', 'l', 'dl', 'cl', 'ml', 'msk', 'tsk', 'krm', 'styck'],
+    entities: ['kg', 'hg', 'g', 'mg', 'l', 'dl', 'cl', 'ml', 'msk', 'tsk', 'krm', 'st'],
     tooltipOpen: false
   }
 
@@ -42,7 +42,7 @@ class IngredientSelector extends React.Component {
                       <Label for={'display-name-' + id}><em>Visningsnamn</em>&nbsp;
                         <i className="fas fa-info-circle info" href="#" id={'tooltip-' + id} />
                         <Tooltip placement="top" isOpen={this.state.tooltipOpen} autohide={false} target={'tooltip-' + id} toggle={this.toggle}>
-                          Namn som ska visas på receptsidan (valfritt)
+                          Namn som ska visas på receptsidan om annat än det som valts ovan önskas
                         </Tooltip>
                       </Label>
                       <Input bsSize="sm" type="text" name={'display-name-' + id} id={'display-name-' + id} onChange={this.changeDisplayName} />

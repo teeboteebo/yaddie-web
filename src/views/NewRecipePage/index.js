@@ -220,37 +220,51 @@ class NewRecipePage extends React.Component {
     else validation.instructions.valid = true
 
     this.setState({ ...this.state, validation })
+
+    if (!Object.keys(validation).some(key => !validation[key].valid)) return true
+
+    return false
   }
 
-  onSubmit = e => {
-    // e.preventDefault()
-    let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
-    tagsData = tagsData.map(tag => tag.tagType)
-    // ingredientsData.forEach(ingredient => delete ingredient.id) // This must be after validation!!!
-    const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
-    this.validate()
-    console.log(data)
+  onSubmit = () => {
+    if (this.validate()) {
+      let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
+      
+      tagsData = tagsData.map(tag => tag.tagType).filter(tag => tag)
+
+      ingredientsData = ingredientsData.filter(ingredient => ingredient.ingredientType)
+      ingredientsData.forEach(ingredient => {
+        delete ingredient.id
+        ingredient.unit = ingredient.entity
+        delete ingredient.entity
+      })
+
+      cookingStepsData = cookingStepsData.filter(cookingStep => cookingStep.text)
+      cookingStepsData.forEach(cookingStep => delete cookingStep.id)
+
+      const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
+      console.log(data)
+    }
   }
 
   render() {
     return (
       <div className="new-recipe-page">
         <h2 className="mb-3">Lägg till nytt recept</h2>
-        {
-          !this.state.validation.heading.valid ||
+        {!this.state.validation.heading.valid ||
           !this.state.validation.portions.valid ||
           !this.state.validation.ingredients.valid ||
           !this.state.validation.qtyAndEntity.valid ||
           !this.state.validation.instructions.valid ?
-        <Alert color="danger">
-          <p><strong>Var god åtgärda följande:</strong></p>
-          <p>{!this.state.validation.heading.valid ? this.state.validation.heading.text : ''}</p>
-          <p>{!this.state.validation.portions.valid ? this.state.validation.portions.text : ''}</p>
-          <p>{!this.state.validation.ingredients.valid ? this.state.validation.ingredients.text : ''}</p>
-          <p>{!this.state.validation.qtyAndEntity.valid ? this.state.validation.qtyAndEntity.text : ''}</p>
-          <p>{!this.state.validation.instructions.valid ? this.state.validation.instructions.text : ''}</p>
-        </Alert>
-        : ''
+          <Alert color="danger">
+            <p><strong>Fel! Var god åtgärda följande:</strong></p>
+            <p>{!this.state.validation.heading.valid ? this.state.validation.heading.text : ''}</p>
+            <p>{!this.state.validation.portions.valid ? this.state.validation.portions.text : ''}</p>
+            <p>{!this.state.validation.ingredients.valid ? this.state.validation.ingredients.text : ''}</p>
+            <p>{!this.state.validation.qtyAndEntity.valid ? this.state.validation.qtyAndEntity.text : ''}</p>
+            <p>{!this.state.validation.instructions.valid ? this.state.validation.instructions.text : ''}</p>
+          </Alert>
+          : ''
         }
         <Row>
           <Col sm={6}>
