@@ -1,16 +1,29 @@
-@import '../../sass/variables';
+@import "../../sass/variables";
 
 footer {
   background-color: #eee;
-  .logo-footer{
-    height: 180px;
-  }
-  .bold{
-    font-weight: bold;
-  }
-  .info-style{
-    list-style: none;
-    padding: 0;
+  .footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    .info,
+    .contact {
+      max-width: 200px;
+      margin: 0 auto;
+      text-align: left;
+      font-size: 16px;
+      .bold {
+        font-family: $big-text;
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .info-style {
+        list-style: none;
+        padding: 0;
+      }
+    }
+    .logo-footer {
+      width: 150px;
+      height: auto;
+    }
   }
 }
-
