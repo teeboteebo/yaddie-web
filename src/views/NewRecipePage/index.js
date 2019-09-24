@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Spinner, Alert } from 'reactstrap'
 import './styles.scss'
@@ -223,6 +224,15 @@ class NewRecipePage extends React.Component {
 
     if (!Object.keys(validation).some(key => !validation[key].valid)) return true
 
+    const bodyTop = document.body.getBoundingClientRect().top * -1
+    const elemTop = document.getElementById('scrollRef').getBoundingClientRect().top * -1
+    const offset = bodyTop - elemTop
+
+    window.scrollTo({
+      top: offset,
+      behavior: 'smooth'
+    })
+
     return false
   }
 
@@ -249,7 +259,6 @@ class NewRecipePage extends React.Component {
       })
 
       const data = { heading, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
-      console.log(data)
 
       await axios({
         method: 'POST',
@@ -262,14 +271,14 @@ class NewRecipePage extends React.Component {
   render() {
     return (
       <div className="new-recipe-page">
-        <h2 className="mb-3">Lägg till nytt recept</h2>
+        <h2 className="mb-3" id="scrollRef">Lägg till nytt recept</h2>
         {!this.state.validation.heading.valid ||
           !this.state.validation.portions.valid ||
           !this.state.validation.ingredients.valid ||
           !this.state.validation.qtyAndEntity.valid ||
           !this.state.validation.instructions.valid ?
-          <Alert color="danger">
-            <p><strong>Fel! Var god åtgärda följande:</strong></p>
+          <Alert color="danger" className="pl-4">
+            <p className="mt-3"><strong>Fel! Var god åtgärda följande:</strong></p>
             <p>{!this.state.validation.heading.valid ? this.state.validation.heading.text : ''}</p>
             <p>{!this.state.validation.portions.valid ? this.state.validation.portions.text : ''}</p>
             <p>{!this.state.validation.ingredients.valid ? this.state.validation.ingredients.text : ''}</p>
@@ -354,7 +363,7 @@ class NewRecipePage extends React.Component {
         {!this.state.validation.instructions.valid ? <FormFeedback>{this.state.validation.instructions.text}</FormFeedback> : ''}
         <Row>
           <Col className="submit-section">
-            <Button color="danger">Avbryt</Button><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>
+            <Link to="/"><Button color="danger">Avbryt</Button></Link><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>
           </Col>
         </Row>
       </div>
