@@ -242,7 +242,7 @@ class NewRecipePage extends React.Component {
       cookingStepsData = cookingStepsData.filter(cookingStep => cookingStep.text)
       cookingStepsData.forEach(cookingStep => delete cookingStep.id)
 
-      const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
+      const data = { heading, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
       console.log(data)
     }
   }
