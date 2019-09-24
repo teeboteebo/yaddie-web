@@ -6,6 +6,7 @@ import StartPage from './views/StartPage'
 import RecipePage from './views/RecipePage'
 import NewRecipePage from './views/NewRecipePage'
 import TestPage from './views/TestPage'
+import SearchPage from './views/SearchPage'
 import Footer from './components/Footer'
 
 class App extends React.Component {
@@ -20,6 +21,7 @@ class App extends React.Component {
               <Route exact path="/recept/:link" component={RecipePage} />
               <Route exact path="/nytt-recept" component={NewRecipePage} />
               <Route exact path="/test" component={TestPage} />
+              <Route path="/sök" component={SearchPage} />
 
             </Switch>
           </main>

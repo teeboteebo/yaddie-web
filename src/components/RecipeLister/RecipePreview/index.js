@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import {
   Container,
   Row,
@@ -24,7 +25,7 @@ class RecipePreview extends React.Component {
     const recipe = this.props.recipe;
     return (
       <article className='latest-added-recipe'>
-        <a href='/recept/test'>
+        <Link to={'/recept/' + recipe._id}>
           <Container fluid>
             <Row>
               <Col xs='12' md='4' className='px-0'>
@@ -53,7 +54,7 @@ class RecipePreview extends React.Component {
               </Col>
             </Row>
           </Container>
-        </a>
+        </Link>
       </article>
     );
   }
