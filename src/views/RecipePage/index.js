@@ -38,6 +38,9 @@ class RecipePage extends React.Component {
     return recipe.data
   }
   render() {
+    const hoursRender = Math.floor(this.state.recipe.time / 60)
+    const minutesRender = (this.state.recipe.time % 60)
+    const time = `${hoursRender ? hoursRender + ' h ' : ''}${minutesRender} min`
     return (
       <article className="recipe-page">
         {this.state.loaded ? 
@@ -51,14 +54,14 @@ class RecipePage extends React.Component {
               </Row>
               <Row>
                 <Col sm="12" >
-                  <Rating rating={this.state.recipe.rating} /> <span className="cooking-time">- 55 minuter</span>
+                  <Rating rating={this.state.recipe.rating} /> <span className="cooking-time">- {time}</span>
                 </Col>
               </Row>
             </Container>
             <Container fluid className="recipe-summary">
               <Row className="">
                 <Col md="6" className="recipe-image">
-                  <img src="/images/food/pasta-bolog.jpg" className="img-fluid w-100 border-light border" alt="Receptbild" />
+                  <img src={this.state.recipe.image} className="img-fluid w-100 border-light border" alt="Receptbild" />
                 </Col>
                 <Col md="6" className="summary-text">
                   <Row>
