@@ -1,6 +1,11 @@
 import React from 'react'
 import axios from 'axios'
-import { Container, Row, Col } from 'reactstrap'
+import {
+  Container,
+  Row,
+  Col,
+  Spinner
+} from 'reactstrap'
 import './styles.scss'
 
 import Rating from '../../components/Rating'
@@ -33,76 +38,75 @@ class RecipePage extends React.Component {
   async findRecipeToRender(id) {
     const recipe = await axios({
       method: 'GET',
-      url: `/api/recipes/id/${id}`
+      url: `/api/recipes/populated/${id}`
     })
     return recipe.data
   }
   render() {
-    const hoursRender = Math.floor(this.state.recipe.time / 60)
-    const minutesRender = (this.state.recipe.time % 60)
+    const hoursRender = Math.floor(this.state.recipe.cookingTime / 60)
+    const minutesRender = (this.state.recipe.cookingTime % 60)
     const time = `${hoursRender ? hoursRender + ' h ' : ''}${minutesRender} min`
     return (
       <article className="recipe-page">
-        {this.state.loaded ? 
+        {this.state.loaded ?
           this.state.recipe === 'No match' ? 'Gått vilse? Här fanns inget recept...' :
-          <div>
-            <Container fluid className="recipe-header mb-5">
-              <Row>
-                <Col sm="12" >
-                  <h2 className="recipe-title">{this.state.recipe.heading}</h2>
-                </Col>
-              </Row>
-              <Row>
-                <Col sm="12" >
-                  <Rating rating={this.state.recipe.rating} /> <span className="cooking-time">- {time}</span>
-                </Col>
-              </Row>
-            </Container>
-            <Container fluid className="recipe-summary">
-              <Row className="">
-                <Col md="6" className="recipe-image">
-                  <img src={this.state.recipe.image} className="img-fluid w-100 border-light border" alt="Receptbild" />
-                </Col>
-                <Col md="6" className="summary-text">
-                  <Row>
-                    <Col xs="12" className="mt-4 my-md-0">
-                      <Tags tags={this.state.recipe.tags} size={14} clickable={true} />
-                    </Col>
-                    <Col xs="12" className="mt-3">
-                      <p>
-                        {this.state.recipe.desc}
-                      </p>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Container>
-            <Container fluid className="mt-md-5 pt-md-3">
-              <Row>
-                <Col xs="12" md="5" className="">
-                  <Row>
-                    <Col xs="12">
-                      <h5 className="mt-5 mt-md-0 mb-3 mb-md-4">Detta behöver du</h5>
-                      <Ingredients ingredients={this.state.recipe.ingredients} portions={this.state.recipe.portions} />
-
-                    </Col>
-                    <Col xs="12" className="nutrients-desktop">
-                      <Nutrients props={this.state.recipe.nutrients} />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs="12" md="7" className="recipe-instructions">
-                  <h5 className="mt-5 mt-md-0 mb-3 mb-md-4">Gör så här</h5>
-                  <ScreenToggle />
-                  <InstructionsList props={this.state.recipe.instructions} />
-                </Col>
-                <Col xs="12" className="nutrients-mobile">
-                  <Nutrients props={this.state.recipe.nutrients} />
-                </Col>
-              </Row>
-            </Container>
-          </div>
-          : 'laddar'}
+            <div>
+              <Container fluid className="recipe-header mb-5">
+                <Row>
+                  <Col sm="12" >
+                    <h2 className="recipe-title">{this.state.recipe.heading}</h2>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col sm="12" >
+                    <Rating rating={this.state.recipe.rating} /> <span className="cooking-time">- {time}</span>
+                  </Col>
+                </Row>
+              </Container>
+              <Container fluid className="recipe-summary">
+                <Row className="">
+                  <Col md="6" className="recipe-image">
+                    <img src={this.state.recipe.image} className="img-fluid w-100 border-light border" alt="Receptbild" />
+                  </Col>
+                  <Col md="6" className="summary-text">
+                    <Row>
+                      <Col xs="12" className="mt-4 my-md-0">
+                        <Tags tags={this.state.recipe.tags} size={14} clickable={true} />
+                      </Col>
+                      <Col xs="12" className="mt-3">
+                        <p>
+                          {this.state.recipe.summary}
+                        </p>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Container>
+              <Container fluid className="mt-md-5 pt-md-3">
+                <Row>
+                  <Col xs="12" md="5" className="">
+                    <Row>
+                      <Col xs="12">
+                        <h5 className="mt-5 mt-md-0 mb-3 mb-md-4">Detta behöver du</h5>
+                        <Ingredients ingredients={this.state.recipe.ingredients} portions={this.state.recipe.portions} />
+                      </Col>
+                      <Col xs="12" className="nutrients-desktop">
+                        <Nutrients ingredients={this.state.recipe.ingredients} id={this.state.recipe._id} />
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs="12" md="7" className="recipe-instructions">
+                    <h5 className="mt-5 mt-md-0 mb-3 mb-md-4">Gör så här</h5>
+                    <ScreenToggle />
+                    <InstructionsList props={this.state.recipe.instructions} />
+                  </Col>
+                  <Col xs="12" className="nutrients-mobile">
+                    <Nutrients ingredients={this.state.recipe.ingredients} id={this.state.recipe._id} />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
+          : <Col xs="12"><Spinner color="primary" /></Col>}
       </article>
     )
   }

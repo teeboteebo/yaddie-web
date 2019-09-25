@@ -9,33 +9,32 @@ class StartPage extends React.Component {
   constructor() {
     super()
     this.state = {
-      latestRecipes : []
+      latestRecipes: []
     }
 
     this.getLatestRecipes()
   }
 
-  async getLatestRecipes(){
+  async getLatestRecipes() {
     const latestRecipes = await axios({
-      method: 'GET',
+      method: "GET",
       url: `/api/recipes/latest`
     })
-    await this.setState({latestRecipes})
+    await this.setState({ latestRecipes })
   }
 
   render() {
-    if(this.state.latestRecipes.data){
-    return (
-      <div className="start-page">
-        <h3 className="mb-5 mb-md-3">Yaddie rekommenderar</h3>
-        <ImageSlider />
-        <h3 className="mb-5 mb-md-3">Senast tillagda recept</h3>
-        <RecipeLister recipes={this.state.latestRecipes.data} />
-      </div>
-    )
-    }
-    else{
-      return(<div/>)
+    if (this.state.latestRecipes.data) {
+      return (
+        <div className="start-page">
+          <h3 className="mb-5 mb-md-3">Yaddie rekommenderar</h3>
+          <ImageSlider />
+          <h3 className="mb-5 mb-md-3">Senast tillagda recept</h3>
+          <RecipeLister recipes={this.state.latestRecipes.data} />
+        </div>
+      )
+    } else {
+      return <div />
     }
   }
 }

@@ -13,6 +13,7 @@ class Ingredients extends React.Component {
     }
   }
   componentDidMount() {
+    console.log(this.props)
     this.setState({
       initialPortions: this.props.portions,
       amount: this.props.portions,
@@ -53,10 +54,10 @@ class Ingredients extends React.Component {
                 return (
                   <tr key={"ingredient_" + i}>
                     <td width="100%">
-                      {ingredient.name}
+                      {ingredient.displayName ? ingredient.displayName : ingredient.ingredientType.name}
                     </td>
                     <td nowrap="true" className="text-right">
-                      {(ingredient.amount ? (ingredient.amount / this.state.initialPortions) * this.state.amount : '') + (ingredient.unit ? " " + ingredient.unit : '')}
+                      {(ingredient.quantity ? (ingredient.quantity / this.state.initialPortions) * this.state.amount : '') + (ingredient.unit ? " " + ingredient.unit : '')}
                     </td>
                   </tr>
                 )
@@ -64,7 +65,7 @@ class Ingredients extends React.Component {
             </tbody>
           </table>
         </div>
-      </section >
+      </section>
     )
   }
 }

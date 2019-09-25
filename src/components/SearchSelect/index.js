@@ -13,12 +13,17 @@ class SearchSelect extends React.Component {
   render() {
     const options = []
     if (this.props.results) {
-    this.props.results.map((result, i) => {      
-      return options.push({"name": result.name, "value": result._id})
-    })} else {
-      options.push({"name": "Laddar", "value": 'Laddar'})
+      this.props.results.map((result, i) => {
+        if (this.props.tag) {
+          return options.push({ "name": result.name, "value": result.name })
+        } else {
+          return options.push({ "name": result.name, "value": result._id })
+        }
+      })
+    } else {
+      options.push({ "name": "Laddar", "value": 'Laddar' })
     }
-    
+
     return (
       <SelectSearch options={options} value={this.props.value} onChange={this.changeSelect} placeholder={this.props.placeholder} />
     )

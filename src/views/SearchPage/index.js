@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Spinner } from 'reactstrap'
 import RecipeLister from '../../components/RecipeLister'
 
 
@@ -9,7 +9,8 @@ class SearchPage extends React.Component {
     super()
     this.state = {
       recipes: [],
-      tags: []
+      tags: [],
+      dataFetched: false
     }
   }
   async componentDidMount() {
@@ -21,7 +22,10 @@ class SearchPage extends React.Component {
     await axios({
       method: 'GET',
       url: `/api/recipes/search${search}`
-    }).then(data => this.setState({ recipes: data.data }))
+    }).then(data => this.setState({
+      recipes: data.data,
+      dataFetched: true
+    }))
   }
   tagHandler = () => {
     setTimeout(this.renderRecipes, 0)
@@ -32,8 +36,12 @@ class SearchPage extends React.Component {
         <Container>
           <Row>
             <Col xs="12">
-              <h3 className="mb-3" style={{fontFamily: 'Montserrat'}}>Sökresultat:</h3>
-              {this.state.recipes.length > 0 ? <RecipeLister recipes={this.state.recipes} /> : <p>Inga resultat hittades för din sökning</p>}
+              <h3 className="mb-3" style={{ fontFamily: 'Montserrat' }}>Sökresultat:</h3>
+              {this.state.dataFetched
+                ? (this.state.recipes.length > 0
+                  ? <RecipeLister recipes={this.state.recipes} />
+                  : <p>Inga resultat hittades för din sökning</p>)
+                : <Spinner color="primary" />}
             </Col>
           </Row>
         </Container>

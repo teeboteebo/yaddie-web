@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { Row, Col, Button, FormGroup, Label, Input, FormText, Spinner } from 'reactstrap'
+import { Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Spinner, Alert } from 'reactstrap'
 import './styles.scss'
 
 import TagSelector from '../../components/Form/TagSelector'
@@ -44,6 +44,13 @@ class NewRecipePage extends React.Component {
     this.setState({ ...this.state, ingredientsData })
   }
 
+  onIngredientDisplayNameChange = (str, id) => {
+    const { ingredientsData } = this.state
+    const foundObj = ingredientsData.find(tag => tag.id === id)
+    foundObj.displayName = str
+    this.setState({ ...this.state, ingredientsData })
+  }
+
   onIngredientQuantityChange = (str, id) => {
     const { ingredientsData } = this.state
     const foundObj = ingredientsData.find(tag => tag.id === id)
@@ -66,7 +73,7 @@ class NewRecipePage extends React.Component {
     // const tagsDataObj = tags.data.map(tag => tag)
 
     this.setState({
-      tags: [      
+      tags: [
         <TagSelector key={0} id={0} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
         <TagSelector key={1} id={1} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />,
         <TagSelector key={2} id={2} tagsData={tags} onTagChange={this.onTagChange} deleteTag={this.deleteTag} />
@@ -82,9 +89,9 @@ class NewRecipePage extends React.Component {
 
     this.setState({
       ingredients: [
-        <IngredientSelector key={0} id={0} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={1} id={1} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
-        <IngredientSelector key={2} id={2} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
+        <IngredientSelector key={0} id={0} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={1} id={1} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />,
+        <IngredientSelector key={2} id={2} ingredientsData={ingredients} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />
       ],
       ingredientsDataObj: ingredients
     })
@@ -100,7 +107,7 @@ class NewRecipePage extends React.Component {
   onStepTimeChange = (str, id) => {
     const { cookingStepsData } = this.state
     const foundObj = cookingStepsData.find(cookingStep => cookingStep.id === id)
-    foundObj.time = str
+    foundObj.timer = str
     this.setState({ ...this.state, cookingStepsData })
   }
 
@@ -116,24 +123,46 @@ class NewRecipePage extends React.Component {
     ],
     ingredientsIdx: 3,
     ingredientsData: [
-      { id: 0, ingredientType: '', quantity: 0, entity: '' },
-      { id: 1, ingredientType: '', quantity: 0, entity: '' },
-      { id: 2, ingredientType: '', quantity: 0, entity: '' }
+      { id: 0, ingredientType: '', displayName: '', quantity: 0, entity: '' },
+      { id: 1, ingredientType: '', displayName: '', quantity: 0, entity: '' },
+      { id: 2, ingredientType: '', displayName: '', quantity: 0, entity: '' }
     ],
     cookingSteps: [
       <CookingStep key={0} id={0} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />,
       <CookingStep key={1} id={1} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />
     ],
     cookingStepsData: [
-      { id: 0, text: '', time: '' },
-      { id: 1, text: '', time: '' }
+      { id: 0, text: '', timer: '' },
+      { id: 1, text: '', timer: '' }
     ],
-    cookingStepsIdx: 2
+    cookingStepsIdx: 2,
+    validation: {
+      heading: {
+        valid: true,
+        text: 'Vänligen fyll i en rubrik'
+      },
+      portions: {
+        valid: true,
+        text: 'Vänligen ange antal portioner (2-10)'
+      },
+      ingredients: {
+        valid: true,
+        text: 'Vänligen välj minst en ingrediens'
+      },
+      qtyAndEntity: {
+        valid: true,
+        text: 'Fyll i mängd och enhet för alla valda ingredienser'
+      },
+      instructions: {
+        valid: true,
+        text: 'Vänligen fyll i minst en instruktion'
+      }
+    }
   }
 
   handleTitle(evt) {
-    const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
-    this.setState({ heading: title });
+    // const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
+    this.setState({ heading: evt.target.value });
   }
 
   handleCookingTime(evt) {
@@ -142,8 +171,8 @@ class NewRecipePage extends React.Component {
   }
 
   handlePortions(evt) {
-    const portions = (evt.target.validity.valid) ? evt.target.value : this.state.portions;
-    this.setState({ portions });
+    // const portions = (evt.target.validity.valid) ? evt.target.value : this.state.portions;
+    this.setState({ portions: evt.target.value });
   }
 
   onSummaryChange = e => this.setState({ summary: e.target.value })
@@ -158,44 +187,111 @@ class NewRecipePage extends React.Component {
 
   addIngredient = () => {
     let { ingredients, ingredientsIdx, ingredientsDataObj, ingredientsData } = this.state
-    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientsData={ingredientsDataObj} onTextChange={this.onIngredientTextChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
+    ingredients.push(<IngredientSelector key={ingredientsIdx} id={ingredientsIdx} ingredientsData={ingredientsDataObj} onTextChange={this.onIngredientTextChange} onDisplayNameChange={this.onIngredientDisplayNameChange} onQuantityChange={this.onIngredientQuantityChange} onEntityChange={this.onIngredientEntityChange} deleteIngredient={this.deleteIngredient} />)
     ingredientsData.push({ id: ingredientsIdx, ingredientType: '', quantity: 0, entity: '' })
     ingredientsIdx++
     this.setState({ ...this.state, ingredients, ingredientsIdx, ingredientsData })
   }
-  
+
   addStep = () => {
     let { cookingSteps, cookingStepsIdx, cookingStepsData } = this.state
     cookingSteps.push(<CookingStep key={cookingStepsIdx} id={cookingStepsIdx} onTextChange={this.onStepTextChange} onTimeChange={this.onStepTimeChange} deleteCookingStep={this.deleteCookingStep} />)
-    cookingStepsData.push({ id: cookingStepsIdx, text: '', time: '' })
+    cookingStepsData.push({ id: cookingStepsIdx, text: '', timer: '' })
     cookingStepsIdx++
     this.setState({ ...this.state, cookingSteps, cookingStepsIdx, cookingStepsData })
   }
 
-  onSubmit = e => {
-    // e.preventDefault()
-    let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
-    tagsData = tagsData.map(tag => tag.tagType)
-    ingredientsData.forEach(ingredient => delete ingredient.id) // This must be after validation!!!
-    const data = { heading, cookingTime, portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
-    console.log(data)
+  validate() {
+    const { validation, heading, portions, ingredientsData, cookingStepsData } = this.state
+    if (!/\w+/.test(heading)) validation.heading.valid = false
+    else validation.heading.valid = true
+
+    if (!/\d+/.test(portions) || (+portions < 2 || +portions > 10)) validation.portions.valid = false
+    else validation.portions.valid = true
+
+    if (!ingredientsData.some(ingredient => ingredient.ingredientType)) validation.ingredients.valid = false
+    else validation.ingredients.valid = true
+
+    const chosenIngredients = ingredientsData.filter(ingredient => ingredient.ingredientType)
+    if (chosenIngredients.some(ingredient => ingredient.quantity <= 0 || !ingredient.entity)) validation.qtyAndEntity.valid = false
+    else validation.qtyAndEntity.valid = true
+
+    if (!cookingStepsData.some(cookingStep => cookingStep.text)) validation.instructions.valid = false
+    else validation.instructions.valid = true
+
+    this.setState({ ...this.state, validation })
+
+    if (!Object.keys(validation).some(key => !validation[key].valid)) return true
+
+    return false
+  }
+
+  onSubmit = async () => {
+    if (this.validate()) {
+      let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
+      
+      tagsData = tagsData.map(tag => tag.tagType).filter(tag => tag)
+
+      ingredientsData = ingredientsData.filter(ingredient => ingredient.ingredientType)
+      ingredientsData.forEach(ingredient => {
+        delete ingredient.id
+        ingredient.unit = ingredient.entity
+        delete ingredient.entity
+        ingredient.quantity = +ingredient.quantity
+      })
+
+      cookingStepsData = cookingStepsData.filter(cookingStep => cookingStep.text)
+      cookingStepsData.forEach(cookingStep => {
+        let timerToMin = cookingStep.timer.split(':')
+        timerToMin = timerToMin[0] = parseInt(timerToMin) * 60 + parseInt(timerToMin[1])
+        cookingStep.timer = timerToMin
+        delete cookingStep.id
+      })
+
+      const data = { heading, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
+      console.log(data)
+
+      await axios({
+        method: 'POST',
+        url: '/api/recipes',
+        data
+      })
+    }
   }
 
   render() {
     return (
       <div className="new-recipe-page">
-        <h2>Lägg till nytt recept</h2>
+        <h2 className="mb-3">Lägg till nytt recept</h2>
+        {!this.state.validation.heading.valid ||
+          !this.state.validation.portions.valid ||
+          !this.state.validation.ingredients.valid ||
+          !this.state.validation.qtyAndEntity.valid ||
+          !this.state.validation.instructions.valid ?
+          <Alert color="danger">
+            <p><strong>Fel! Var god åtgärda följande:</strong></p>
+            <p>{!this.state.validation.heading.valid ? this.state.validation.heading.text : ''}</p>
+            <p>{!this.state.validation.portions.valid ? this.state.validation.portions.text : ''}</p>
+            <p>{!this.state.validation.ingredients.valid ? this.state.validation.ingredients.text : ''}</p>
+            <p>{!this.state.validation.qtyAndEntity.valid ? this.state.validation.qtyAndEntity.text : ''}</p>
+            <p>{!this.state.validation.instructions.valid ? this.state.validation.instructions.text : ''}</p>
+          </Alert>
+          : ''
+        }
         <Row>
           <Col sm={6}>
             <FormGroup >
-              <Label for="heading">Rubrik</Label>
-              <Input type="heading" name="heading" id="heading" onChange={this.handleTitle.bind(this)} />
+              <Label for="heading">
+                {!this.state.validation.heading.valid ? <span style={{ 'color': '#dc3545' }}>Rubrik *</span> : 'Rubrik *'}
+              </Label>
+              <Input type="heading" name="heading" id="heading" onChange={this.handleTitle.bind(this)} invalid={!this.state.validation.heading.valid} />
+              {this.state.validation.heading.valid ? '' : <FormFeedback>{this.state.validation.heading.text}</FormFeedback>}
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
-              <Input type="file" name="picture" id="picture"/>
+              <Input type="file" name="picture" id="picture" />
               <FormText color="muted">
                 Välj en Yaddie upplösning!
               </FormText>
@@ -207,14 +303,17 @@ class NewRecipePage extends React.Component {
             <FormGroup>
               <Label for="cooking-time">Tillagningstid</Label>
               {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
-              <Input type="number" name="cookingTime" id="cooking-time"  min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} />
+              <Input type="number" name="cookingTime" id="cooking-time" min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} />
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
           <Col sm={6}>
             <FormGroup>
-              <Label for="portions">Antal portioner</Label>
-              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortions.bind(this)} />
+              <Label for="portions">
+                {!this.state.validation.portions.valid ? <span style={{ 'color': '#dc3545' }}>Antal portioner *</span> : 'Antal portioner *'}
+              </Label>
+              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortions.bind(this)} invalid={!this.state.validation.portions.valid} />
+              {!this.state.validation.portions.valid ? <FormFeedback>{this.state.validation.portions.text}</FormFeedback> : ''}
               <FormText color="muted">2-10 portioner</FormText>
             </FormGroup>
           </Col>
@@ -232,16 +331,27 @@ class NewRecipePage extends React.Component {
             </div>
           </Col>
           <Col sm={6}>
-            <Label>Ingredienser</Label>
+            <Label>{!this.state.validation.ingredients.valid || !this.state.validation.qtyAndEntity.valid ?
+              <span style={{ 'color': '#dc3545' }}>Ingredienser *&nbsp;</span>
+              :
+              <span>Ingredienser *&nbsp;</span>
+            }</Label>
+            <FormText color="muted" className="d-inline-block">(Minst 1)</FormText>
             {this.state.ingredients ? this.state.ingredients.map(ingredient => ingredient) : <div className="text-center p-5"><Spinner color="primary" /></div>}
             <div>
               <Button color="success" onClick={this.addIngredient}><i className="fas fa-plus" /> Ny ingrediens</Button>
+              {!this.state.validation.ingredients.valid ? <FormFeedback>{this.state.validation.ingredients.text}</FormFeedback> : ''}
+              {!this.state.validation.qtyAndEntity.valid ? <FormFeedback>{this.state.validation.qtyAndEntity.text}</FormFeedback> : ''}
             </div>
           </Col>
         </Row>
-        <h4 className="mt-4">Steg för steg instruktioner</h4>
+        <h4 className="mt-5">
+          {!this.state.validation.instructions.valid ? <span style={{ 'color': '#dc3545' }}>Steg för steg instruktioner *</span> : 'Steg för steg instruktioner *'}
+        </h4>
+        <FormText color="muted" className="d-inline-block">Minst 1 steg</FormText>
         {this.state.cookingSteps.map((cookingStep) => cookingStep)}
         <Button color="success" onClick={this.addStep}><i className="fas fa-plus" /> Lägg till steg</Button>
+        {!this.state.validation.instructions.valid ? <FormFeedback>{this.state.validation.instructions.text}</FormFeedback> : ''}
         <Row>
           <Col className="submit-section">
             <Button color="danger">Avbryt</Button><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>

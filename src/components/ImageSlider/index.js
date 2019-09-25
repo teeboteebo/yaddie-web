@@ -3,9 +3,20 @@ import { Link } from "react-router-dom"
 import AliceCarousel from "react-alice-carousel"
 import "react-alice-carousel/lib/alice-carousel.css"
 import "./styles.scss"
+import axios from "axios"
 //import { ArrowLeftCircle, ArrowRightCircle } from "react-feather"
 
 class ImageSlider extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      recipes: "",
+      currentIndex: 0,
+      itemsInSlide: 0,
+      responsive: { 0: { items: 1 }, 600: { items: 2 }, 900: { items: 3 } },
+      galleryItems: []
+    }
+  }
   sliderArray = [
     {
       name: "Pizza",
@@ -45,25 +56,29 @@ class ImageSlider extends React.Component {
     }
   ]
 
-  state = {
-    currentIndex: 0,
-    galleryItems: this.galleryItems(),
-    itemsInSlide: 0,
-    responsive: { 0: { items: 1 }, 600: { items: 2 }, 900: { items: 3 } }
+  async componentDidMount() {
+    const recipes = await axios({
+      method: "GET",
+      url: `/api/recipes/first`
+    })
+    console.log(recipes.data)
+    this.setState({ recipes: recipes.data })
+    this.setState({ galleryItems: this.galleryItems() })
   }
 
   thumbItem = (item, i) => <span onClick={() => this.slideTo(i)}>* </span>
 
   galleryItems() {
-    return this.sliderArray.map((slide, index) => (
-      <Link to={slide.link}>
+    return this.state.recipes.map((slide, index) => (
+      <Link to={"/recept/" + slide._id}>
         <div>
-          <img src={slide.image} className="slider-img" alt={slide.alt}></img>
-          <label className="img-label">{slide.name}</label>
+          <img src={slide.image} className="slider-img" alt={slide.desc}></img>
+          <label className="img-label">{slide.heading}</label>
         </div>
       </Link>
     ))
   }
+
   /*
   slideNext = () =>
     this.setState(
