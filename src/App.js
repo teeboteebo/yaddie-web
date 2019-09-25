@@ -1,5 +1,5 @@
-import React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Header from './components/Header'
 import StartPage from './views/StartPage'
@@ -32,4 +32,4 @@ class App extends React.Component {
   }
 }
 
-export default App
+export default App;
