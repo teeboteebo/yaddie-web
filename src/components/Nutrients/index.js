@@ -70,7 +70,6 @@ class Nutrients extends React.Component {
       nutrients["Kolhydrater"] += ingredient.ingredientType.nutrients['Kolhydrater'] * amountInGrams
       nutrients["Protein"] += ingredient.ingredientType.nutrients['Protein'] * amountInGrams
       nutrients["Salt"] += ingredient.ingredientType.nutrients['Salt'] * amountInGrams
-
     })
 
     this.setState({
