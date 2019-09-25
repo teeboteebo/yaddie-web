@@ -61,7 +61,6 @@ class ImageSlider extends React.Component {
       method: "GET",
       url: `/api/recipes/first`
     })
-    console.log(recipes.data)
     this.setState({ recipes: recipes.data })
     this.setState({ galleryItems: this.galleryItems() })
   }
@@ -70,7 +69,7 @@ class ImageSlider extends React.Component {
 
   galleryItems() {
     return this.state.recipes.map((slide, index) => (
-      <Link to={slide.link}>
+      <Link to={"/recept/" + slide._id}>
         <div>
           <img src={slide.image} className="slider-img" alt={slide.desc}></img>
           <label className="img-label">{slide.heading}</label>
