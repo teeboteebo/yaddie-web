@@ -61,7 +61,6 @@ class ImageSlider extends React.Component {
       method: "GET",
       url: `/api/recipes/first`
     })
-    console.log(recipes.data)
     this.setState({ recipes: recipes.data })
     this.setState({ galleryItems: this.galleryItems() })
   }
