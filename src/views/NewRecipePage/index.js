@@ -114,6 +114,7 @@ class NewRecipePage extends React.Component {
 
   state = {
     heading: '',
+    image: '',
     cookingTime: '',
     portions: '',
     summary: '',
@@ -174,6 +175,8 @@ class NewRecipePage extends React.Component {
     // const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
     this.setState({ heading: evt.target.value });
   }
+
+  onImageChange = e => this.setState({ image: e.target.value })
 
   handleCookingTime(evt) {
     const cookingTime = (evt.target.validity.valid) ? evt.target.value : this.state.cookingTime;
@@ -253,7 +256,7 @@ class NewRecipePage extends React.Component {
 
   onSubmit = async () => {
     if (this.validate()) {
-      let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
+      let { heading, image, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
       
       tagsData = tagsData.map(tag => tag.tagType).filter(tag => tag)
 
@@ -273,7 +276,7 @@ class NewRecipePage extends React.Component {
         delete cookingStep.id
       })
 
-      const data = { heading, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
+      const data = { heading, image, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
 
       const newRecipe = await axios({
         method: 'POST',
@@ -318,12 +321,21 @@ class NewRecipePage extends React.Component {
               {this.state.validation.heading.valid ? '' : <FormFeedback>{this.state.validation.heading.text}</FormFeedback>}
             </FormGroup>
           </Col>
-          <Col sm={6}>
+          {/* <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
               <Input type="file" name="picture" id="picture" />
               <FormText color="muted">
                 Välj en Yaddie upplösning!
+              </FormText>
+            </FormGroup>
+          </Col> */}
+          <Col sm={6}>
+            <FormGroup>
+              <Label for="image">Bild</Label>
+              <Input type="text" name="image" id="image" value={this.state.image} onChange={this.onImageChange} />
+              <FormText color="muted">
+                Välj en URL till en trevlig bild!
               </FormText>
             </FormGroup>
           </Col>
