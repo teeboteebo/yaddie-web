@@ -6,8 +6,9 @@ import {
   Col,
   Spinner
 } from 'reactstrap'
-import './styles.scss'
+import { ChevronLeft } from 'react-feather'
 
+import './styles.scss'
 import Rating from '../../components/Rating'
 import Tags from '../../components/Tags'
 import Ingredients from '../../components/Ingredients'
@@ -25,6 +26,9 @@ class RecipePage extends React.Component {
   }
 
   componentDidMount() {
+    const bodyTop = document.body.getBoundingClientRect().top * -1
+    const headerBottom = document.body.getElementsByTagName('header')[0].getBoundingClientRect().bottom * -1
+    const offset = bodyTop - headerBottom
     let recipeId = this.props.match.params.link
     this.findRecipeToRender(recipeId).then(data => {
       this.setState({
@@ -32,8 +36,11 @@ class RecipePage extends React.Component {
         recipe: data,
       })
       document.title = `Yaddie - ${data.heading ? data.heading : 'Sidan saknas'}`
+      window.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+      })
     })
-
   }
   async findRecipeToRender(id) {
     const recipe = await axios({
@@ -48,6 +55,7 @@ class RecipePage extends React.Component {
     const time = `${hoursRender ? hoursRender + ' h ' : ''}${minutesRender} min`
     return (
       <article className="recipe-page">
+        <Col xs="12" className="mb-4"><span className="fake-link" onClick={this.props.history.goBack}><ChevronLeft size="16" /> Tillbaka</span></Col>
         {this.state.loaded ?
           this.state.recipe === 'No match' ? 'Gått vilse? Här fanns inget recept...' :
             <div>
