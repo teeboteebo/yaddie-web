@@ -13,7 +13,6 @@ class Ingredients extends React.Component {
     }
   }
   componentDidMount() {
-    console.log(this.props)
     this.setState({
       initialPortions: this.props.portions,
       amount: this.props.portions,

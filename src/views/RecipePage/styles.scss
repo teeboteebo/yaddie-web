@@ -1,6 +1,17 @@
 @import "../../sass/variables.scss";
 
 .recipe-page {
+  .fake-link {
+    color: $primary;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
+      color: $primary-hover;
+    }
+    &:active {
+      color: $primary-hover;
+    }
+  }
   .recipe-header {
     .recipe-title {
       font-family: $big-text;
