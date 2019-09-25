@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Row, Col, Button, FormGroup, Label, Input, FormText, FormFeedback, Spinner, Alert } from 'reactstrap'
 import './styles.scss'
@@ -113,8 +114,10 @@ class NewRecipePage extends React.Component {
 
   state = {
     heading: '',
+    image: '',
     cookingTime: '',
     portions: '',
+    summary: '',
     tagsIdx: 3,
     tagsData: [
       { id: 0, tagType: '' },
@@ -141,9 +144,17 @@ class NewRecipePage extends React.Component {
         valid: true,
         text: 'Vänligen fyll i en rubrik'
       },
+      cookingTime: {
+        valid: true,
+        text: 'Vänligen ange tillagningstid i minuter'
+      },
       portions: {
         valid: true,
-        text: 'Vänligen ange antal portioner (2-10)'
+        text: 'Vänligen ange ett jämt antal portioner (2-12)'
+      },
+      summary: {
+        valid: true,
+        text: 'Vänligen skriv en kort sammanfattning om rätten'
       },
       ingredients: {
         valid: true,
@@ -164,6 +175,8 @@ class NewRecipePage extends React.Component {
     // const title = (evt.target.validity.valid) ? evt.target.value : this.state.title;
     this.setState({ heading: evt.target.value });
   }
+
+  onImageChange = e => this.setState({ image: e.target.value })
 
   handleCookingTime(evt) {
     const cookingTime = (evt.target.validity.valid) ? evt.target.value : this.state.cookingTime;
@@ -202,12 +215,18 @@ class NewRecipePage extends React.Component {
   }
 
   validate() {
-    const { validation, heading, portions, ingredientsData, cookingStepsData } = this.state
+    const { validation, heading, cookingTime, portions, summary, ingredientsData, cookingStepsData } = this.state
     if (!/\w+/.test(heading)) validation.heading.valid = false
     else validation.heading.valid = true
 
-    if (!/\d+/.test(portions) || (+portions < 2 || +portions > 10)) validation.portions.valid = false
+    if (!/\d+/.test(cookingTime)) validation.cookingTime.valid = false
+    else validation.cookingTime.valid = true
+
+    if (!/\d+/.test(portions) || (+portions < 2 || +portions > 12 || (+portions % 2))) validation.portions.valid = false
     else validation.portions.valid = true
+
+    if (!/\w+/.test(summary)) validation.summary.valid = false
+    else validation.summary.valid = true
 
     if (!ingredientsData.some(ingredient => ingredient.ingredientType)) validation.ingredients.valid = false
     else validation.ingredients.valid = true
@@ -223,12 +242,21 @@ class NewRecipePage extends React.Component {
 
     if (!Object.keys(validation).some(key => !validation[key].valid)) return true
 
+    const bodyTop = document.body.getBoundingClientRect().top * -1
+    const elemTop = document.getElementById('scrollRef').getBoundingClientRect().top * -1
+    const offset = bodyTop - elemTop
+
+    window.scrollTo({
+      top: offset,
+      behavior: 'smooth'
+    })
+
     return false
   }
 
   onSubmit = async () => {
     if (this.validate()) {
-      let { heading, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
+      let { heading, image, cookingTime, portions, summary, tagsData, ingredientsData, cookingStepsData } = this.state
       
       tagsData = tagsData.map(tag => tag.tagType).filter(tag => tag)
 
@@ -248,30 +276,35 @@ class NewRecipePage extends React.Component {
         delete cookingStep.id
       })
 
-      const data = { heading, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
-      console.log(data)
+      const data = { heading, image, cookingTime: +cookingTime, portions: +portions, summary, tags: tagsData, ingredients: ingredientsData, instructions: cookingStepsData }
 
-      await axios({
+      const newRecipe = await axios({
         method: 'POST',
         url: '/api/recipes',
         data
       })
+
+      if (newRecipe) this.props.history.push(`/recept/${newRecipe.data._id}`)
     }
   }
 
   render() {
     return (
       <div className="new-recipe-page">
-        <h2 className="mb-3">Lägg till nytt recept</h2>
-        {!this.state.validation.heading.valid ||
+        <h2 className="mb-3" id="scrollRef">Lägg till nytt recept</h2>
+        { !this.state.validation.heading.valid ||
+          !this.state.validation.cookingTime.valid ||
           !this.state.validation.portions.valid ||
+          !this.state.validation.summary.valid ||
           !this.state.validation.ingredients.valid ||
           !this.state.validation.qtyAndEntity.valid ||
           !this.state.validation.instructions.valid ?
-          <Alert color="danger">
-            <p><strong>Fel! Var god åtgärda följande:</strong></p>
+          <Alert color="danger" className="pl-4">
+            <p className="mt-3"><strong>Fel! Var god åtgärda följande:</strong></p>
             <p>{!this.state.validation.heading.valid ? this.state.validation.heading.text : ''}</p>
+            <p>{!this.state.validation.cookingTime.valid ? this.state.validation.cookingTime.text : ''}</p>
             <p>{!this.state.validation.portions.valid ? this.state.validation.portions.text : ''}</p>
+            <p>{!this.state.validation.summary.valid ? this.state.validation.summary.text : ''}</p>
             <p>{!this.state.validation.ingredients.valid ? this.state.validation.ingredients.text : ''}</p>
             <p>{!this.state.validation.qtyAndEntity.valid ? this.state.validation.qtyAndEntity.text : ''}</p>
             <p>{!this.state.validation.instructions.valid ? this.state.validation.instructions.text : ''}</p>
@@ -288,7 +321,7 @@ class NewRecipePage extends React.Component {
               {this.state.validation.heading.valid ? '' : <FormFeedback>{this.state.validation.heading.text}</FormFeedback>}
             </FormGroup>
           </Col>
-          <Col sm={6}>
+          {/* <Col sm={6}>
             <FormGroup>
               <Label for="picture">Bild</Label>
               <Input type="file" name="picture" id="picture" />
@@ -296,14 +329,25 @@ class NewRecipePage extends React.Component {
                 Välj en Yaddie upplösning!
               </FormText>
             </FormGroup>
+          </Col> */}
+          <Col sm={6}>
+            <FormGroup>
+              <Label for="image">Bild</Label>
+              <Input type="text" name="image" id="image" value={this.state.image} onChange={this.onImageChange} />
+              <FormText color="muted">
+                Välj en URL till en trevlig bild!
+              </FormText>
+            </FormGroup>
           </Col>
         </Row>
         <Row>
           <Col sm={6}>
             <FormGroup>
-              <Label for="cooking-time">Tillagningstid</Label>
-              {/* <Input type="number"  name="cookingTime" id="cooking-time" /> */}
-              <Input type="number" name="cookingTime" id="cooking-time" min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} />
+              <Label for="cooking-time">
+                {!this.state.validation.cookingTime.valid ? <span style={{ 'color': '#dc3545' }}>Tillagningstid *</span> : 'Tillagningstid *'}
+              </Label>
+              <Input type="number" name="cookingTime" id="cooking-time" min="1" max="1000" pattern="[0-9]*" onChange={this.handleCookingTime.bind(this)} invalid={!this.state.validation.cookingTime.valid} />
+              {!this.state.validation.cookingTime.valid ? <FormFeedback>{this.state.validation.cookingTime.text}</FormFeedback> : ''}
               <FormText color="muted">Ange i minuter</FormText>
             </FormGroup>
           </Col>
@@ -312,15 +356,18 @@ class NewRecipePage extends React.Component {
               <Label for="portions">
                 {!this.state.validation.portions.valid ? <span style={{ 'color': '#dc3545' }}>Antal portioner *</span> : 'Antal portioner *'}
               </Label>
-              <Input type="number" name="portions" id="portions" min="2" max="10" onChange={this.handlePortions.bind(this)} invalid={!this.state.validation.portions.valid} />
+              <Input type="number" name="portions" id="portions" min="2" max="12" onChange={this.handlePortions.bind(this)} invalid={!this.state.validation.portions.valid} />
               {!this.state.validation.portions.valid ? <FormFeedback>{this.state.validation.portions.text}</FormFeedback> : ''}
-              <FormText color="muted">2-10 portioner</FormText>
+              <FormText color="muted">2-12 portioner (jämt antal)</FormText>
             </FormGroup>
           </Col>
         </Row>
         <FormGroup>
-          <Label for="summary">Sammanfattning</Label>
+          <Label for="summary">
+            {!this.state.validation.summary.valid ? <span style={{ 'color': '#dc3545' }}>Sammanfattning *</span> : 'Sammanfattning *'}
+          </Label>
           <Input type="textarea" name="summary" id="summary" value={this.state.summary} onChange={this.onSummaryChange} />
+          {!this.state.validation.summary.valid ? <FormFeedback>{this.state.validation.summary.text}</FormFeedback> : ''}
         </FormGroup>
         <Row>
           <Col sm={6}>
@@ -354,7 +401,7 @@ class NewRecipePage extends React.Component {
         {!this.state.validation.instructions.valid ? <FormFeedback>{this.state.validation.instructions.text}</FormFeedback> : ''}
         <Row>
           <Col className="submit-section">
-            <Button color="danger">Avbryt</Button><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>
+            <Link to="/"><Button color="danger">Avbryt</Button></Link><Button type="submit" color="success" onClick={this.onSubmit}>Publicera</Button>
           </Col>
         </Row>
       </div>
