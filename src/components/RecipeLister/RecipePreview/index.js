@@ -28,7 +28,7 @@ class RecipePreview extends React.Component {
         <Link to={'/recept/' + recipe._id}>
           <Container fluid>
             <Row>
-              <Col xs='12' md='4' className='px-0'>
+              <Col xs='12' md='4' className='px-0 img-container'>
                 <CardImg
                   src={recipe.image}
                   className='recipe-img'

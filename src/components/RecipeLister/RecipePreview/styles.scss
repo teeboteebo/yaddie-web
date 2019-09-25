@@ -1,6 +1,11 @@
-@import '../../../sass/variables';
+@import "../../../sass/variables";
 
 .latest-added-recipe {
+  .img-container {
+    height: 200px;
+    max-height: 200px;
+  }
+
   & > a {
     color: $text !important;
     text-decoration: none;
