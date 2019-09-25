@@ -126,7 +126,7 @@ class SearchSection extends React.Component {
                           }
                         >
                           <td>
-                            <Link to={"/sök?kategori=" + item.name}>
+                            <Link to={"/sök?kategori=" + item.name }>
                               <div>{item.name}</div>
                             </Link>
                           </td>
